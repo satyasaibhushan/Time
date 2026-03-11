@@ -9,10 +9,12 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@time/shared": "workspace:*",
+    "@auth0/nextjs-auth0": "^4.16.0",
     "@base-ui/react": "^1.2.0",
+    "@time/shared": "workspace:*",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "convex": "^1.32.0",
     "lucide-react": "^0.577.0",
     "next": "16.1.6",
     "react": "19.2.3",

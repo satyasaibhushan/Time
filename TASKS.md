@@ -55,14 +55,14 @@
 - [x] `[Medium]` Add shared formatting helpers used by the web app
 
 ### 1.4 Authentication Foundation
-- [ ] `[Medium]` Configure Auth0 for the web app
-- [ ] `[Medium]` Enable Google social login in Auth0
-- [ ] `[Medium]` Keep email/password login available as a fallback
-- [ ] `[Medium]` Connect Auth0 identity to Convex user records
-- [ ] `[Medium]` Implement login and sign-up flows
-- [ ] `[Easy]` Add protected routes and redirect handling
-- [ ] `[Easy]` Add logout flow
-- [ ] `[Easy]` Create first-run user provisioning in Convex
+- [x] `[Medium]` Configure Auth0 for the web app
+- [x] `[Medium]` Enable Google social login in Auth0
+- [x] `[Medium]` Keep email/password login available as a fallback
+- [x] `[Medium]` Connect Auth0 identity to Convex user records
+- [x] `[Medium]` Implement login and sign-up flows
+- [x] `[Easy]` Add protected routes and redirect handling
+- [x] `[Easy]` Add logout flow
+- [x] `[Easy]` Create first-run user provisioning in Convex
 
 ### 1.5 Convex Schema
 - [x] `[Hard]` Create `convex/schema.ts`
@@ -84,7 +84,7 @@
   - Root folders use missing `parentFolderId`
 
 ### 1.6 User Queries and Mutations
-- [ ] `[Easy]` Add query to fetch current user
+- [x] `[Easy]` Add query to fetch current user
 - [ ] `[Medium]` Add mutation to update user profile
 - [ ] `[Easy]` Add mutation to update user preferences
   - Timezone

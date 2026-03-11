@@ -12,7 +12,7 @@ Planned Convex environment variables:
 
 ```bash
 AUTH0_DOMAIN=
-AUTH0_APPLICATION_ID=
+AUTH0_CLIENT_ID=
 ```
 
 Notes:

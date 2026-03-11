@@ -55,8 +55,19 @@ const navigation: NavItem[] = [
   },
 ];
 
-export function AppShell({ children }: { children: React.ReactNode }) {
+export function AppShell({
+  children,
+  user,
+}: {
+  children: React.ReactNode;
+  user: {
+    email?: string;
+    imageUrl?: string;
+    name: string;
+  };
+}) {
   const pathname = usePathname();
+  const userInitial = user.name.charAt(0).toUpperCase();
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(210,166,95,0.18),_transparent_28%),radial-gradient(circle_at_top_right,_rgba(122,161,255,0.12),_transparent_24%),linear-gradient(180deg,_#17120d_0%,_#0e0b08_100%)] text-stone-100">
@@ -158,6 +169,38 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               >
                 Timer Flow Next
               </Button>
+            </div>
+
+            <div className="mt-4 rounded-[1.8rem] border border-stone-800/70 bg-stone-950/80 p-4">
+              <div className="flex items-center gap-3">
+                {user.imageUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    alt={user.name}
+                    className="size-11 rounded-2xl border border-stone-800 object-cover"
+                    src={user.imageUrl}
+                  />
+                ) : (
+                  <div className="flex size-11 items-center justify-center rounded-2xl bg-stone-800 text-sm font-semibold text-stone-100">
+                    {userInitial}
+                  </div>
+                )}
+                <div className="min-w-0">
+                  <div className="truncate text-sm font-medium text-stone-100">
+                    {user.name}
+                  </div>
+                  <div className="truncate text-xs text-stone-500">
+                    {user.email ?? "Authenticated session"}
+                  </div>
+                </div>
+              </div>
+
+              <a
+                className="mt-4 inline-flex w-full items-center justify-center rounded-2xl border border-stone-700 bg-stone-900/75 px-4 py-2.5 text-sm font-medium text-stone-100 transition hover:border-stone-600 hover:bg-stone-900"
+                href="/auth/logout"
+              >
+                Log out
+              </a>
             </div>
           </div>
         </aside>

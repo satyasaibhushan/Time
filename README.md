@@ -29,3 +29,11 @@ Setup flow:
 ```bash
 cp apps/web/.env.example apps/web/.env.local
 ```
+
+Then copy `CONVEX_URL` from the repo root `.env.local` into
+`apps/web/.env.local` as `NEXT_PUBLIC_CONVEX_URL`.
+
+For local Auth0 setup, register these URLs in your Auth0 application:
+
+- Allowed Callback URL: `http://localhost:3003/auth/callback`
+- Allowed Logout URL: `http://localhost:3003`
