@@ -1,14 +1,6 @@
+import { LABEL_COLOR_TOKENS } from "@time/shared";
 import { ShellCard } from "@/components/shell-card";
 import { SectionPage } from "@/components/section-page";
-
-const swatches = [
-  "bg-amber-300",
-  "bg-red-300",
-  "bg-emerald-300",
-  "bg-sky-300",
-  "bg-fuchsia-300",
-  "bg-lime-300",
-];
 
 export default function LabelsPage() {
   return (
@@ -18,7 +10,7 @@ export default function LabelsPage() {
       description="Labels are lightweight, but the rules are important: folder defaults cascade downward, while timers may still add extra labels directly."
       stats={[
         { label: "Inheritance", value: "On" },
-        { label: "Mode", value: "Hybrid" },
+        { label: "Palette", value: String(LABEL_COLOR_TOKENS.length) },
       ]}
     >
       <ShellCard
@@ -31,7 +23,10 @@ export default function LabelsPage() {
               key={label}
               className="flex items-center gap-3 rounded-2xl border border-stone-800 bg-stone-900/65 px-4 py-4 text-sm text-stone-200"
             >
-              <span className={`size-3 rounded-full ${swatches[index]}`} />
+              <span
+                className="size-3 rounded-full"
+                style={{ backgroundColor: LABEL_COLOR_TOKENS[index].value }}
+              />
               {label}
             </div>
           ))}

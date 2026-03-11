@@ -1,3 +1,4 @@
+import { formatDurationClock } from "@time/shared";
 import { ShellCard } from "@/components/shell-card";
 import { SectionPage } from "@/components/section-page";
 
@@ -9,7 +10,7 @@ export default function DashboardPage() {
       description="This screen is the future home of the active timer, today totals, and the fast actions that should stay visible across the web app."
       stats={[
         { label: "Active Timer", value: "0" },
-        { label: "Today's Hours", value: "00:00" },
+        { label: "Today's Hours", value: formatDurationClock(0) },
       ]}
     >
       <ShellCard

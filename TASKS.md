@@ -49,10 +49,10 @@
   - Time formats
   - Week start options
   - Timer states
-- [ ] `[Easy]` Add shared default color tokens
+- [x] `[Easy]` Add shared default color tokens
   - Folder colors
   - Label colors
-- [ ] `[Medium]` Add shared formatting helpers used by the web app
+- [x] `[Medium]` Add shared formatting helpers used by the web app
 
 ### 1.4 Authentication Foundation
 - [ ] `[Medium]` Configure Auth0 for the web app

@@ -1,3 +1,7 @@
+import {
+  formatTimeFormatLabel,
+  formatWeekStartLabel,
+} from "@time/shared";
 import { ShellCard } from "@/components/shell-card";
 import { SectionPage } from "@/components/section-page";
 
@@ -8,8 +12,8 @@ export default function SettingsPage() {
       title="Personal preferences, auth identity, and the defaults that shape the rest of the app."
       description="This area will stay compact: timezone, week start, time format, and account controls. Personal software should keep settings sharp, not sprawling."
       stats={[
-        { label: "Time Format", value: "24h" },
-        { label: "Week Start", value: "Mon" },
+        { label: "Time Format", value: formatTimeFormatLabel("24h") },
+        { label: "Week Start", value: formatWeekStartLabel("monday") },
       ]}
     >
       <ShellCard
