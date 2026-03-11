@@ -1,6 +1,7 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "baseUrl": ".",
     "isolatedModules": true,
     "jsx": "react-jsx",
     "incremental": true,

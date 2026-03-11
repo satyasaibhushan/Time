@@ -31,8 +31,8 @@
   - `clsx`
   - `tailwind-merge`
   - `date-fns`
-- [ ] `[Easy]` Initialize shadcn/ui
-- [ ] `[Easy]` Create the initial app shell
+- [x] `[Easy]` Initialize shadcn/ui
+- [x] `[Easy]` Create the initial app shell
   - Auth layout
   - Protected app layout
   - Global navigation
@@ -151,15 +151,15 @@
   - Popover
   - Calendar
   - Command
-- [ ] `[Medium]` Define a consistent app layout and navigation model
+- [x] `[Medium]` Define a consistent app layout and navigation model
 - [ ] `[Medium]` Add reusable empty, loading, and error states
 
 ### 1.12 Web Pages
-- [ ] `[Medium]` Create dashboard page
-- [ ] `[Medium]` Create entries page
-- [ ] `[Medium]` Create folders page
-- [ ] `[Medium]` Create labels page
-- [ ] `[Easy]` Create settings page
+- [x] `[Medium]` Create dashboard page
+- [x] `[Medium]` Create entries page
+- [x] `[Medium]` Create folders page
+- [x] `[Medium]` Create labels page
+- [x] `[Easy]` Create settings page
 
 ### 1.13 Timer UI
 - [ ] `[Hard]` Build the primary timer component
