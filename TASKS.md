@@ -38,17 +38,20 @@
   - Global navigation
 
 ### 1.3 Shared Domain Contracts
-- [ ] `[Medium]` Create shared TypeScript domain types in `packages/shared`
+- [x] `[Medium]` Create shared TypeScript domain types in `packages/shared`
   - User
   - Folder
   - Label
   - TimeEntry
   - Timer status and segment types
-- [ ] `[Medium]` Add shared constants and enums
-  - Default colors
+- [x] `[Easy]` Add shared domain constants and enums
+  - Auth providers
   - Time formats
   - Week start options
   - Timer states
+- [ ] `[Easy]` Add shared default color tokens
+  - Folder colors
+  - Label colors
 - [ ] `[Medium]` Add shared formatting helpers used by the web app
 
 ### 1.4 Authentication Foundation
@@ -62,23 +65,23 @@
 - [ ] `[Easy]` Create first-run user provisioning in Convex
 
 ### 1.5 Convex Schema
-- [ ] `[Hard]` Create `convex/schema.ts`
+- [x] `[Hard]` Create `convex/schema.ts`
   - Users table
   - Folders table with `parentFolderId`
-  - `Inbox` folder rule
+  - Abstract `Inbox` rule via missing `folderId`
   - Folder `defaultLabelIds`
   - Labels table
   - TimeEntries table with `segments` and timer `status`
-- [ ] `[Medium]` Add indexes for common queries
+- [x] `[Medium]` Add indexes for common queries
   - By user
   - By folder parent
-  - By time range
+  - By `startedAt`
   - By running or paused timer state
-- [ ] `[Medium]` Document invariants in code comments
+- [x] `[Medium]` Document invariants in code comments
   - One active timer per user
   - No organization scope
-  - Every timer belongs to one folder
-  - Every user has one `Inbox` folder
+  - `Inbox` is abstract and represented by missing `folderId`
+  - Root folders use missing `parentFolderId`
 
 ### 1.6 User Queries and Mutations
 - [ ] `[Easy]` Add query to fetch current user
@@ -97,7 +100,7 @@
 - [ ] `[Medium]` Add logic to resolve inherited labels from the full folder ancestry
 - [ ] `[Medium]` Add mutation to archive and unarchive folder
 - [ ] `[Hard]` Add folder deletion behavior
-  - Move direct child folders to `Inbox`
+  - Move direct child folders to root
   - Move timers in the deleted folder to `Inbox`
   - Preserve history
 

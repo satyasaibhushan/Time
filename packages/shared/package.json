@@ -3,6 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "dependencies": {
+    "convex": "^1.32.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.2"
+  },
   "exports": {
     ".": "./src/index.ts"
   }

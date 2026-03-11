@@ -18,8 +18,9 @@ The web app runs on `http://localhost:3003`.
 
 ## Environment Conventions
 
-- Web app local env file: `apps/web/.env.local`
+- Web app auth and browser runtime env file: `apps/web/.env.local`
 - Web app example env file: `apps/web/.env.example`
+- Convex CLI writes deployment metadata to the repo root `.env.local`
 - Convex secrets are managed in Convex, not in a committed env file
 - Convex env notes live in `convex/README.md`
 
