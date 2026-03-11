@@ -14,20 +14,20 @@
 **Goal**: Ship a reliable web app first while keeping the backend and data model stable for future iOS and macOS apps.
 
 ### 1.1 Repository Foundation
-- [ ] `[Easy]` Set up the repo as a monorepo
+- [x] `[Easy]` Set up the repo as a monorepo
   - `apps/web`
   - `apps/apple` placeholder for future native app work
   - `convex`
   - `packages/shared`
-- [ ] `[Easy]` Choose and configure the workspace package manager
+- [x] `[Easy]` Choose and configure the workspace package manager
   - Prefer `pnpm` workspaces for the monorepo
-- [ ] `[Easy]` Set up TypeScript, ESLint, Prettier, and shared path aliases
-- [ ] `[Easy]` Create environment variable conventions for web and Convex
-- [ ] `[Easy]` Create a starter README with setup steps after the first working app shell exists
+- [x] `[Easy]` Set up TypeScript, ESLint, Prettier, and shared path aliases
+- [x] `[Easy]` Create environment variable conventions for web and Convex
+- [x] `[Easy]` Create a starter README with setup steps after the first working app shell exists
 
 ### 1.2 Web App Setup
-- [ ] `[Easy]` Initialize Next.js App Router app in `apps/web`
-- [ ] `[Easy]` Install Tailwind CSS and core utility packages
+- [x] `[Easy]` Initialize Next.js App Router app in `apps/web`
+- [x] `[Easy]` Install Tailwind CSS and core utility packages
   - `clsx`
   - `tailwind-merge`
   - `date-fns`
