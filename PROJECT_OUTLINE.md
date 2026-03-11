@@ -1,174 +1,157 @@
 # Time Tracking App - Project Outline
 
 ## Project Overview
-A full-stack time tracking application inspired by Timery, with real-time sync across web, iOS, and macOS platforms. Features automatic time tracking via iOS Focus modes, comprehensive reporting, and native widgets.
+A personal-use time tracking application with a web-first MVP and a backend designed from day one for future iOS and macOS apps. The product should feel like a focused Timery/Toggl-style tracker for one user, with reliable timers, tags, folders and sub-folders, and real-time sync across platforms once the Apple apps are added.
 
-## Core Goals
-- Track time spent on different projects and tasks
-- Automatic tracking via iOS Shortcuts + Focus mode integration
-- Real-time sync across all devices
-- Native widgets showing current running timer
-- Comprehensive reporting (weekly, monthly, yearly, custom ranges)
-- Full Toggl-like functionality (projects, labels, time entries)
+## Product Direction
+- Build the web app first and treat it as the MVP
+- Keep the backend, schema, and domain model stable so iOS and macOS apps can reuse them later
+- Optimize for personal productivity, not for invoicing, billing, client work, or team collaboration
+- Do not introduce organizations or workspaces; each user account owns its own data directly
+- Support real-time sync across platforms through Convex
+- Defer offline support on the web; require connectivity for the web MVP
 
 ---
 
 ## Technology Stack
 
 ### Frontend
-- **Web Application**: Next.js 14+ (App Router) + React + TypeScript
-  - TailwindCSS for styling
-  - Shadcn/ui for component library
-  - Recharts for analytics/graphs
+- **Web Application**: Next.js (App Router) + React + TypeScript
+  - Tailwind CSS for styling
+  - shadcn/ui for foundational components
+  - date-fns for date and duration handling
 
 - **iOS Application**: Swift + SwiftUI
-  - WidgetKit for home/lock screen widgets
-  - App Intents for Shortcuts integration
-  - Focus Filter for automatic tracking
+  - WidgetKit for widgets
+  - App Intents for Shortcuts
+  - Shared domain contracts aligned with the web app and Convex schema
 
-- **macOS Application**: Swift + SwiftUI (shared codebase with iOS)
-  - WidgetKit for menu bar/notification center widgets
-  - SwiftUI for native macOS experience
+- **macOS Application**: Swift + SwiftUI
+  - Shared codebase with iOS where possible
+  - WidgetKit for widgets
+  - Native macOS adaptations for navigation and menu bar access
 
 ### Backend
-- **Convex**: TypeScript-based backend
-  - Real-time database with automatic subscriptions
-  - Built-in authentication
-  - Serverless functions
-  - File storage (for exports, avatars, etc.)
+- **Convex**: primary backend across all platforms
+  - Real-time database with subscriptions
+  - TypeScript queries, mutations, and actions
+  - Stable API surface for web and future Apple apps
 
-### Development Tools
-- **Version Control**: Git + GitHub
-- **Package Managers**: npm/pnpm (web), Swift Package Manager (iOS/macOS)
-- **Development Environment**: VS Code (web), Xcode (iOS/macOS)
+### Authentication
+- **Selected: Auth0 + Convex**
+  - Use Auth0 as the shared auth provider across web, iOS, and macOS
+  - Enable Google login through Auth0 Social Connections
+  - Keep email/password available as a fallback option
+  - Auth0's free plan is sufficient for this personal app unless usage grows far beyond personal scale
+
+### Workspace / Repo Layout
+- **Monorepo from the start**
+  - `apps/web` for Next.js
+  - `apps/apple` reserved for future Swift app workspace/project
+  - `convex` for backend functions and schema
+  - `packages/shared` for shared TypeScript types, constants, and business rules used by the web app
+
+---
+
+## Why Convex Stays
+- Convex is still a good fit for this project because real-time sync is a core requirement
+- The backend logic stays in TypeScript, which keeps the web app and backend aligned
+- Future iOS/macOS apps can consume the same data model without replacing the backend
+- Simpler alternatives like Supabase are viable, but they would require more custom real-time orchestration and backend logic for a timer-heavy app
+
+## Cost Strategy
+- Aim to stay on hosted free tiers for as long as possible
+- Convex's free/starter limits are likely sufficient for a personal tracker
+- Auth0's free tier is sufficient for cross-device login plus Google auth for this project
+- Avoid introducing paid-only infrastructure for the MVP
 
 ---
 
 ## Core Features
 
-### 1. Time Tracking
-- **Start/Stop Timer**
-  - One-click start from any device
-  - Real-time running timer display
-  - Pause and resume capability
-  - Description/notes field
+### 1. Web MVP
 
-- **Manual Time Entry**
-  - Add past time entries
-  - Edit start/end times
-  - Bulk edit multiple entries
+#### Timer Tracking
+- Start, stop, pause, and resume a timer
+- Keep one active timer per user
+- Show live running time on the dashboard
+- Allow a timer title and optional notes
+- Continue a previous timer with the same setup
+- Timers may start with no title
 
-- **Timer Management**
-  - Delete entries
-  - Duplicate entries
-  - Continue previous timer
+#### Manual Entries
+- Add past entries manually
+- Edit title, notes, folder, labels, and timestamps
+- Delete entries
 
-### 2. Organization
+#### Organization
+- A single hierarchy of folders only
+- Folders can contain child folders recursively
+- A built-in `Inbox` folder exists as the default uncategorized location
+- Labels can be attached to folders as defaults
+- Default labels cascade down through descendant folders
+- Labels can also be attached directly to individual timers
+- Archive folders without deleting history
 
-#### Projects
-- Create/edit/delete projects
-- Color coding (16+ colors)
-- Project archiving
-- Client assignment (optional)
-- Billable/non-billable flag
-- Project-level hourly rates
+#### Views
+- Dashboard with current timer and recent entries
+- Entries page grouped by date
+- Folder management
+- Labels management
+- Basic personal reports: today, this week, this month
 
-#### Labels/Tags
-- Multiple labels per time entry
-- Color-coded labels
-- Quick filter by labels
-- Label management
-
-### 3. iOS Shortcuts & Automation
-
-#### Shortcuts Actions
-- **Start Timer**: Start timer for specific project
-- **Stop Timer**: Stop currently running timer
-- **Get Current Timer**: Retrieve running timer info
-- **Today's Total**: Get total time tracked today
-
-#### Focus Mode Integration
-- Work Focus → Auto-start "Work" project timer
-- Focus Off → Auto-stop running timer
-- Custom focus modes for different projects
-- Background time tracking
-
-### 4. Widgets
-
-#### iOS Widgets
-- **Small Widget**: Current timer or "Start Timer" button
-- **Medium Widget**: Current timer + today's total + quick actions
-- **Large Widget**: Current timer + today's breakdown by project
-- Lock screen widgets (circular/rectangular)
-
-#### macOS Widgets
-- **Menu Bar Widget**: Always-visible timer
-- **Notification Center Widget**: Detailed view with controls
-- Widget refresh every 30 seconds for live updates
-
-### 5. Reporting & Analytics
-
-#### Time Views
-- **Daily View**: List of entries by date
-- **Weekly View**: 7-day breakdown
-- **Monthly View**: Calendar view + summary
-- **Yearly View**: Monthly totals
-- **Custom Range**: Any date range
-
-#### Reports
-- **Summary Reports**
-  - Total hours tracked
-  - Breakdown by project
-  - Breakdown by label
-  - Billable vs non-billable
-
-- **Visual Analytics**
-  - Bar charts (time per project)
-  - Pie charts (project distribution)
-  - Timeline view (daily activity)
-  - Trends over time
-
-#### Export
-- CSV export (all entries or filtered)
-- PDF reports (formatted summaries)
-- JSON export (backup/migration)
-
-### 6. User Management
-- Email/password authentication
-- Google OAuth (optional)
-- Apple Sign-In (for iOS)
-- Profile management
-- Settings sync across devices
+### 2. Future Apple Apps
+- Native iOS and macOS apps using the same backend model
+- Real-time sync with the web app
+- Widgets for the active timer and daily totals
+- Shortcuts integration for starting/stopping timers
+- Focus mode automation after the core apps are stable
 
 ---
 
-## Database Schema (Convex)
+## Domain Model
+
+### Design Principles
+- Keep the backend authoritative for timer state
+- Model pause and resume explicitly so the same logic works on web and native apps
+- Use a single hierarchical folder model instead of separate folders and projects
+- Labels are reusable user-owned entities that can be applied by folder defaults and by individual timers
+- Folder label inheritance should be deterministic and easy to compute for any selected folder
 
 ### Users
 ```typescript
 {
   _id: Id<"users">,
-  email: string,
-  name: string,
+  authProvider: "auth0",
+  authSubject: string,
+  email?: string,
+  name?: string,
   avatarUrl?: string,
   timezone: string,
   weekStart: "monday" | "sunday",
   timeFormat: "12h" | "24h",
   createdAt: number,
+  updatedAt: number,
 }
 ```
 
-### Projects
+### Tenancy Model
+- There is no organization or workspace table
+- Every folder, label, and time entry belongs directly to a single user
+- If multi-user support is ever added, it should be treated as a separate product change rather than something implied by the MVP schema
+
+### Folders
 ```typescript
 {
-  _id: Id<"projects">,
+  _id: Id<"folders">,
   userId: Id<"users">,
   name: string,
-  color: string,
-  clientId?: Id<"clients">,
-  billable: boolean,
-  hourlyRate?: number,
+  color?: string,
+  parentFolderId?: Id<"folders">,
+  defaultLabelIds: Id<"labels">[],
+  isInbox: boolean,
   archived: boolean,
+  sortOrder: number,
   createdAt: number,
   updatedAt: number,
 }
@@ -182,6 +165,7 @@ A full-stack time tracking application inspired by Timery, with real-time sync a
   name: string,
   color: string,
   createdAt: number,
+  updatedAt: number,
 }
 ```
 
@@ -190,264 +174,191 @@ A full-stack time tracking application inspired by Timery, with real-time sync a
 {
   _id: Id<"timeEntries">,
   userId: Id<"users">,
-  projectId?: Id<"projects">,
-  description?: string,
-  startTime: number, // Unix timestamp
-  endTime?: number,  // null if running
-  duration?: number, // in seconds, calculated when stopped
+  folderId: Id<"folders">,
+  title: string,
+  notes?: string,
   labelIds: Id<"labels">[],
-  billable: boolean,
+  inheritedLabelIds: Id<"labels">[],
+  manualLabelIds: Id<"labels">[],
+  status: "running" | "paused" | "completed",
+  segments: Array<{
+    startTime: number,
+    endTime?: number,
+  }>,
+  startedAt: number,
+  endedAt?: number,
+  durationSeconds?: number,
   createdAt: number,
   updatedAt: number,
 }
 ```
 
-### Clients (Phase 2)
-```typescript
-{
-  _id: Id<"clients">,
-  userId: Id<"users">,
-  name: string,
-  email?: string,
-  notes?: string,
-  createdAt: number,
-}
-```
+### Timer Rules
+- Only one entry can be in `running` or `paused` state for a user at a time
+- `segments` is the source of truth for pause and resume
+- `durationSeconds` is derived and stored when needed for fast reporting
+- Timer calculations should use server time where possible, with client-side live updates for display only
+- Every timer belongs to one folder
+- The `Inbox` folder is used when a folder is missing or content is moved out of a deleted folder
+- Folder default labels are applied automatically when creating a timer
+- Folder default labels are inherited from all ancestor folders up to the selected folder
+- Individual timers may add extra labels beyond inherited defaults
 
 ---
 
 ## Application Architecture
 
-### Web App (Next.js)
+### Repository Structure
+```text
+/apps
+  /web
+    /app
+    /components
+    /lib
+    /types
+  /apple            # reserved for future Xcode workspace/project
+
+/convex
+  /queries
+  /mutations
+  /actions
+  schema.ts
+
+/packages
+  /shared
+    /src
+      /domain
+      /constants
+      /formatters
 ```
+
+### Web App Areas
+```text
 /app
-  /dashboard          # Main dashboard with running timer
-  /entries            # Time entries list/calendar view
-  /projects           # Project management
-  /labels             # Label management
-  /reports            # Analytics and reporting
-  /settings           # User settings
-  /api                # API routes (if needed)
-
-/components
-  /timer              # Timer components
-  /entries            # Time entry components
-  /reports            # Chart and report components
-  /ui                 # Shared UI components
-
-/convex               # Convex backend functions
-  /functions          # Queries, mutations, actions
-  /schema.ts          # Database schema
+  /(auth)
+  /dashboard
+  /entries
+  /folders
+  /labels
+  /settings
 ```
 
-### iOS/macOS App (Swift)
-```
+### Future Apple App Areas
+```text
 /Time
-  /Models             # Data models
-  /Views              # SwiftUI views
-    /Timer            # Timer interface
-    /Entries          # Time entries list
-    /Projects         # Project management
-    /Reports          # Reports view
-  /ViewModels         # View models
-  /Services           # API service, Convex client
-  /Widgets            # WidgetKit extensions
-  /Shortcuts          # App Intents for Shortcuts
-  /Shared             # Shared code between iOS/macOS
+  /Models
+  /Views
+  /ViewModels
+  /Services
+  /Widgets
+  /Shortcuts
+  /Shared
 ```
 
 ---
 
 ## Development Phases
 
-### Phase 1: Foundation (MVP)
-**Goal**: Basic time tracking on web with Convex backend
+### Phase 1: Web MVP + Stable Foundation
+**Goal**: Ship a reliable personal time tracker on the web without painting the backend into a corner for future native apps.
 
-- [ ] Setup project structure
-- [ ] Convex setup and authentication
-- [ ] Database schema implementation
-- [ ] Web app basic UI
-- [ ] Timer start/stop/pause
-- [ ] Manual time entry
-- [ ] Project CRUD operations
-- [ ] Basic time entry list view
+- Monorepo setup
+- Convex schema and backend functions
+- Auth0 authentication with Google login integrated
+- Users, folders, labels, and time entries
+- Running timer with pause and resume
+- Manual entries and editing
+- Dashboard and entries list
+- Basic personal reports and filters
 
 ### Phase 2: iOS App Core
-**Goal**: Native iOS app with timer and sync
+**Goal**: Reuse the same backend and domain model in a native iPhone app.
 
-- [ ] iOS app setup with SwiftUI
-- [ ] Convex iOS SDK integration
-- [ ] Real-time sync implementation
-- [ ] Timer interface
-- [ ] Time entries list
-- [ ] Project management
-- [ ] Authentication flow
+- SwiftUI app foundation
+- Shared auth strategy
+- Timer interface
+- Entries and folder browsing
+- Real-time sync with the web app
 
-### Phase 3: Automation & Widgets
-**Goal**: iOS Shortcuts and widgets
+### Phase 3: macOS App + Apple Automation
+**Goal**: Extend the same model to desktop Apple workflows.
 
-- [ ] App Intents implementation
-- [ ] Shortcuts actions (start, stop, get status)
-- [ ] iOS widgets (small, medium, large)
-- [ ] Lock screen widgets
-- [ ] Focus mode integration testing
+- macOS app target
+- Widgets
+- App Intents and Shortcuts
+- Focus mode automation
 
-### Phase 4: macOS App
-**Goal**: Native macOS app with widgets
+### Phase 4: Personal Reporting and Refinement
+**Goal**: Better visibility and polish for long-term personal use.
 
-- [ ] macOS app (shared code with iOS)
-- [ ] Menu bar widget
-- [ ] macOS widgets
-- [ ] Keyboard shortcuts
-- [ ] Native macOS UI adaptations
-
-### Phase 5: Reporting & Analytics
-**Goal**: Comprehensive reporting
-
-- [ ] Labels implementation
-- [ ] Daily/weekly/monthly views
-- [ ] Charts and visualizations
-- [ ] Custom date range reports
-- [ ] Export functionality (CSV, PDF)
-
-### Phase 6: Polish & Advanced Features
-**Goal**: Production-ready app
-
-- [ ] Client management
-- [ ] Billable hours tracking
-- [ ] Invoice generation
-- [ ] Team features (optional)
-- [ ] Dark mode
-- [ ] Accessibility improvements
-- [ ] Performance optimization
-- [ ] App Store preparation
+- Improved reporting views
+- CSV and JSON export
+- Accessibility and performance
+- Optional native offline queueing later if needed
 
 ---
 
-## Key Technical Considerations
+## Key Technical Decisions
+
+### Authentication
+- Use Auth0 as the long-term auth provider
+- Enable Google login in Auth0 from the beginning
+- Keep the integration aligned across web and future Apple apps
+- Avoid choosing a web-only auth path that will complicate future native apps
 
 ### Real-time Sync
-- Convex handles real-time subscriptions automatically
-- Web: React hooks for live queries
-- iOS/macOS: Combine publishers for reactive updates
-- Offline support: Queue mutations when offline, sync when online
+- Convex subscriptions are the default sync mechanism
+- The same schema and backend functions must serve web and native apps
 
-### Timer Precision
-- Use server timestamps for accuracy
-- Local timer UI updates every second
-- Reconcile with server on stop
-- Handle timezone differences properly
+### Web Offline Support
+- The web MVP is online-only
+- Basic optimistic UI is fine, but there is no requirement to work without connectivity
+- Offline queueing can be considered later for native apps, where it is more useful
 
-### iOS Background Execution
-- Focus Filter API for background triggers
-- Background tasks for updating widgets
-- Push notifications for timer reminders (optional)
+### Timer Accuracy
+- Server timestamps should be authoritative for mutations
+- The client updates the displayed timer every second
+- On stop or pause, the client reconciles with the backend response
 
-### Widget Updates
-- Timeline entries for widget refresh
-- Deep links from widgets to app
-- Widget configuration (select default project)
+### Organization Model
+- There is only one hierarchy type: folders
+- Folders are hierarchical and recursive
+- Labels can be set as defaults on folders
+- Default labels cascade from parent folders to descendant folders
+- Labels can also be added directly on time entries
+- The system should always maintain an `Inbox` folder for fallback placement
 
-### Security
-- Convex authentication tokens
-- Secure API key storage (Keychain on iOS)
-- Row-level security in Convex functions
-
-### Performance
-- Pagination for large time entry lists
-- Efficient queries with proper indexing
-- Image optimization for web
-- Lazy loading and code splitting
-
----
-
-## Development Environment Setup
-
-### Web Setup
-```bash
-# Initialize Next.js project
-npx create-next-app@latest time-web --typescript --tailwind --app
-
-# Install dependencies
-npm install convex @clerk/nextjs recharts date-fns
-
-# Install UI components
-npx shadcn-ui@latest init
-```
-
-### iOS/macOS Setup
-```bash
-# Create Xcode project
-# File > New > Project > Multiplatform App
-# Name: Time
-# Interface: SwiftUI
-# Language: Swift
-
-# Add Convex Swift SDK via SPM
-# https://github.com/get-convex/convex-swift
-```
-
-### Convex Setup
-```bash
-# Initialize Convex
-npx convex dev
-
-# Deploy
-npx convex deploy
-```
+### Personal-Use Scope
+- No billable hours
+- No invoicing
+- No clients
+- No team, workspace, or organization features
 
 ---
 
 ## Success Metrics
 
-### Functionality
-- ✅ Timer starts/stops reliably across all devices
-- ✅ Real-time sync < 1 second delay
-- ✅ Shortcuts integration works with Focus modes
-- ✅ Widgets update within 30 seconds
-- ✅ Reports generate accurately for any date range
+### MVP Functionality
+- Timer start, stop, pause, and resume are reliable
+- One running timer rule is always enforced
+- Folders and labels are easy to manage
+- Entries can be added manually and edited later
+- The web app feels fast and stable for daily personal use
 
-### User Experience
-- ✅ Web app loads in < 2 seconds
-- ✅ iOS app launches instantly
-- ✅ Timer is visible in < 3 taps from any screen
-- ✅ Offline mode handles gracefully
-- ✅ UI is intuitive without documentation
-
-### Technical
-- ✅ 99.9% uptime
-- ✅ All data encrypted in transit and at rest
-- ✅ No data loss scenarios
-- ✅ Scalable to 10,000+ time entries per user
-- ✅ Works on iOS 17+, macOS 14+
-
----
-
-## Resources & References
-
-### Documentation
-- [Convex Docs](https://docs.convex.dev)
-- [Next.js Docs](https://nextjs.org/docs)
-- [SwiftUI Tutorials](https://developer.apple.com/tutorials/swiftui)
-- [WidgetKit Documentation](https://developer.apple.com/documentation/widgetkit)
-- [App Intents Documentation](https://developer.apple.com/documentation/appintents)
-
-### Inspiration
-- Timery app
-- Toggl Track
-- Clockify
-- Hours
+### Cross-Platform Foundation
+- The backend schema does not need redesign before iOS/macOS work begins
+- Auth, sync, and timer logic can be reused by future Apple apps
+- Shared naming and domain concepts stay consistent across platforms
 
 ---
 
 ## Next Steps
-
-1. **Review and Approve Outline**: Make any adjustments to features or tech stack
-2. **Setup Development Environment**: Install tools and create projects
-3. **Start with Phase 1**: Build web app foundation
-4. **Iterate**: Add features incrementally and test on real devices
+1. Approve the revised scope and data model
+2. Start the monorepo and web app foundation
+3. Implement Convex schema, Auth0 + Google authentication, and core timer flows
+4. Build folders, labels, and entries UI
 
 ---
 
-**Last Updated**: January 23, 2026
-**Status**: Planning Phase
+**Last Updated**: March 11, 2026
+**Status**: Planning Phase - Web MVP first
