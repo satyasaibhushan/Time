@@ -1,30 +1,11 @@
 import { v } from "convex/values";
 
-import type { Doc } from "./_generated/dataModel";
-import type { MutationCtx, QueryCtx } from "./_generated/server";
 import { mutation, query } from "./_generated/server";
-
-type UserContext = MutationCtx | QueryCtx;
-
-async function getCurrentIdentityOrThrow(ctx: UserContext) {
-  const identity = await ctx.auth.getUserIdentity();
-
-  if (!identity) {
-    throw new Error("Unauthorized");
-  }
-
-  return identity;
-}
-
-async function findUserByAuthSubject(
-  ctx: UserContext,
-  authSubject: string,
-): Promise<Doc<"users"> | null> {
-  return await ctx.db
-    .query("users")
-    .withIndex("by_auth_subject", (q) => q.eq("authSubject", authSubject))
-    .unique();
-}
+import {
+  getCurrentIdentityOrThrow,
+  getCurrentUserOrThrow,
+  findUserByAuthSubject,
+} from "./helpers";
 
 export const current = query({
   args: {},
@@ -46,22 +27,14 @@ export const updateProfile = mutation({
     avatarUrl: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
-    const identity = await getCurrentIdentityOrThrow(ctx);
-    const user = await findUserByAuthSubject(ctx, identity.subject);
+    const user = await getCurrentUserOrThrow(ctx);
 
-    if (!user) {
-      throw new Error("User not found");
-    }
-
-    const updates: Partial<Doc<"users">> = {
+    await ctx.db.patch(user._id, {
+      ...(args.name !== undefined && { name: args.name }),
+      ...(args.email !== undefined && { email: args.email }),
+      ...(args.avatarUrl !== undefined && { avatarUrl: args.avatarUrl }),
       updatedAt: Date.now(),
-    };
-
-    if (args.name !== undefined) updates.name = args.name;
-    if (args.email !== undefined) updates.email = args.email;
-    if (args.avatarUrl !== undefined) updates.avatarUrl = args.avatarUrl;
-
-    await ctx.db.patch(user._id, updates);
+    });
 
     return user._id;
   },
@@ -74,22 +47,14 @@ export const updatePreferences = mutation({
     weekStart: v.optional(v.union(v.literal("monday"), v.literal("sunday"))),
   },
   handler: async (ctx, args) => {
-    const identity = await getCurrentIdentityOrThrow(ctx);
-    const user = await findUserByAuthSubject(ctx, identity.subject);
+    const user = await getCurrentUserOrThrow(ctx);
 
-    if (!user) {
-      throw new Error("User not found");
-    }
-
-    const updates: Partial<Doc<"users">> = {
+    await ctx.db.patch(user._id, {
+      ...(args.timezone !== undefined && { timezone: args.timezone }),
+      ...(args.timeFormat !== undefined && { timeFormat: args.timeFormat }),
+      ...(args.weekStart !== undefined && { weekStart: args.weekStart }),
       updatedAt: Date.now(),
-    };
-
-    if (args.timezone !== undefined) updates.timezone = args.timezone;
-    if (args.timeFormat !== undefined) updates.timeFormat = args.timeFormat;
-    if (args.weekStart !== undefined) updates.weekStart = args.weekStart;
-
-    await ctx.db.patch(user._id, updates);
+    });
 
     return user._id;
   },
