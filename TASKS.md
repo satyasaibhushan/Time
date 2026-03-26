@@ -85,30 +85,30 @@
 
 ### 1.6 User Queries and Mutations
 - [x] `[Easy]` Add query to fetch current user
-- [ ] `[Medium]` Add mutation to update user profile
-- [ ] `[Easy]` Add mutation to update user preferences
+- [x] `[Medium]` Add mutation to update user profile
+- [x] `[Easy]` Add mutation to update user preferences
   - Timezone
   - Time format
   - Week start
 
 ### 1.7 Folder Management
-- [ ] `[Medium]` Add queries to list root folders and nested folders
-- [ ] `[Medium]` Add mutation to create folder
-- [ ] `[Medium]` Add mutation to rename folder
-- [ ] `[Medium]` Add mutation to move folder under another parent
-- [ ] `[Medium]` Add mutation to manage folder default labels
-- [ ] `[Medium]` Add logic to resolve inherited labels from the full folder ancestry
-- [ ] `[Medium]` Add mutation to archive and unarchive folder
-- [ ] `[Hard]` Add folder deletion behavior
+- [x] `[Medium]` Add queries to list root folders and nested folders
+- [x] `[Medium]` Add mutation to create folder
+- [x] `[Medium]` Add mutation to rename folder
+- [x] `[Medium]` Add mutation to move folder under another parent
+- [x] `[Medium]` Add mutation to manage folder default labels
+- [x] `[Medium]` Add logic to resolve inherited labels from the full folder ancestry
+- [x] `[Medium]` Add mutation to archive and unarchive folder
+- [x] `[Hard]` Add folder deletion behavior
   - Move direct child folders to root
   - Move timers in the deleted folder to `Inbox`
   - Preserve history
 
 ### 1.8 Label Management
-- [ ] `[Easy]` Add query to list labels
-- [ ] `[Medium]` Add mutation to create label
-- [ ] `[Easy]` Add mutation to update label
-- [ ] `[Easy]` Add mutation to delete label
+- [x] `[Easy]` Add query to list labels
+- [x] `[Medium]` Add mutation to create label
+- [x] `[Easy]` Add mutation to update label
+- [x] `[Easy]` Add mutation to delete label
 
 ### 1.9 Timer Engine
 - [ ] `[Hard]` Add query to fetch the current active timer
@@ -309,5 +309,5 @@
 
 ---
 
-**Last Updated**: March 11, 2026
-**Status**: Planning Phase - Revised for personal-use web MVP
+**Last Updated**: March 27, 2026
+**Status**: Phase 1 In Progress - Sections 1.1–1.8 complete, starting 1.9 Timer Engine
