@@ -17,7 +17,6 @@ async function findActiveTimer(
   ctx: MutationCtx,
   userId: Id<"users">,
 ): Promise<Doc<"timeEntries"> | null> {
-  // Check running first
   const running = await ctx.db
     .query("timeEntries")
     .withIndex("by_user_status", (q) => q.eq("userId", userId).eq("status", "running"))
@@ -25,7 +24,6 @@ async function findActiveTimer(
 
   if (running) return running;
 
-  // Then check paused
   const paused = await ctx.db
     .query("timeEntries")
     .withIndex("by_user_status", (q) => q.eq("userId", userId).eq("status", "paused"))
@@ -78,8 +76,123 @@ export const getActiveTimer = query({
   },
 });
 
+/** List entries within a date range (by startedAt). */
+export const listByDateRange = query({
+  args: {
+    startDate: v.number(),
+    endDate: v.number(),
+  },
+  handler: async (ctx, args) => {
+    const user = await getCurrentUserOrThrow(ctx);
+
+    return await ctx.db
+      .query("timeEntries")
+      .withIndex("by_user_started_at", (q) =>
+        q
+          .eq("userId", user._id)
+          .gte("startedAt", args.startDate)
+          .lte("startedAt", args.endDate),
+      )
+      .collect();
+  },
+});
+
+/** List recent completed entries (most recent first). */
+export const listRecent = query({
+  args: {
+    limit: v.optional(v.number()),
+  },
+  handler: async (ctx, args) => {
+    const user = await getCurrentUserOrThrow(ctx);
+    const max = args.limit ?? 20;
+
+    return await ctx.db
+      .query("timeEntries")
+      .withIndex("by_user_status", (q) =>
+        q.eq("userId", user._id).eq("status", "completed"),
+      )
+      .order("desc")
+      .take(max);
+  },
+});
+
+/**
+ * List entries with optional filters.
+ * Supports filtering by folder, label, date range, and status.
+ */
+export const listWithFilters = query({
+  args: {
+    folderId: v.optional(v.id("folders")),
+    inbox: v.optional(v.boolean()),
+    labelId: v.optional(v.id("labels")),
+    startDate: v.optional(v.number()),
+    endDate: v.optional(v.number()),
+    status: v.optional(
+      v.union(v.literal("running"), v.literal("paused"), v.literal("completed")),
+    ),
+    limit: v.optional(v.number()),
+  },
+  handler: async (ctx, args) => {
+    const user = await getCurrentUserOrThrow(ctx);
+    const max = args.limit ?? 50;
+
+    let entries: Doc<"timeEntries">[];
+
+    // Use the most selective index available
+    if (args.folderId !== undefined) {
+      entries = await ctx.db
+        .query("timeEntries")
+        .withIndex("by_user_folder", (q) =>
+          q.eq("userId", user._id).eq("folderId", args.folderId),
+        )
+        .collect();
+    } else if (args.inbox) {
+      entries = await ctx.db
+        .query("timeEntries")
+        .withIndex("by_user_folder", (q) =>
+          q.eq("userId", user._id).eq("folderId", undefined),
+        )
+        .collect();
+    } else if (args.status !== undefined) {
+      entries = await ctx.db
+        .query("timeEntries")
+        .withIndex("by_user_status", (q) =>
+          q.eq("userId", user._id).eq("status", args.status!),
+        )
+        .collect();
+    } else {
+      entries = await ctx.db
+        .query("timeEntries")
+        .withIndex("by_user_started_at", (q) => q.eq("userId", user._id))
+        .order("desc")
+        .collect();
+    }
+
+    // Apply remaining filters in memory
+    let filtered = entries;
+
+    if (args.startDate !== undefined) {
+      filtered = filtered.filter((e) => e.startedAt >= args.startDate!);
+    }
+    if (args.endDate !== undefined) {
+      filtered = filtered.filter((e) => e.startedAt <= args.endDate!);
+    }
+    if (args.status !== undefined && args.folderId !== undefined) {
+      filtered = filtered.filter((e) => e.status === args.status);
+    }
+    if (args.labelId !== undefined) {
+      filtered = filtered.filter((e) => e.manualLabelIds.includes(args.labelId!));
+    }
+
+    // Sort by startedAt descending and apply limit
+    filtered.sort((a, b) => b.startedAt - a.startedAt);
+
+    return filtered.slice(0, max);
+  },
+});
+
 // ---------------------------------------------------------------------------
-// Mutations
+// Mutations — Timer lifecycle
 // ---------------------------------------------------------------------------
 
 /**
@@ -87,7 +200,6 @@ export const getActiveTimer = query({
  * - Enforces one active timer per user (throws if one exists)
  * - Creates the first segment
  * - Defaults to Inbox if no folder is selected
- * - Applies inherited folder labels automatically
  */
 export const startTimer = mutation({
   args: {
@@ -99,7 +211,6 @@ export const startTimer = mutation({
   handler: async (ctx, args) => {
     const user = await getCurrentUserOrThrow(ctx);
 
-    // Enforce one active timer per user
     const existing = await findActiveTimer(ctx, user._id);
     if (existing) {
       throw new Error(
@@ -107,7 +218,6 @@ export const startTimer = mutation({
       );
     }
 
-    // Validate folder belongs to user
     if (args.folderId) {
       const folder = await ctx.db.get(args.folderId);
       if (!folder || folder.userId !== user._id) {
@@ -132,11 +242,7 @@ export const startTimer = mutation({
   },
 });
 
-/**
- * Pause the current running timer.
- * - Closes the current open segment
- * - Marks status as "paused"
- */
+/** Pause the current running timer. */
 export const pauseTimer = mutation({
   args: {
     entryId: v.id("timeEntries"),
@@ -155,7 +261,6 @@ export const pauseTimer = mutation({
 
     const now = Date.now();
 
-    // Close the last open segment
     const segments = entry.segments.map((seg, i) => {
       if (i === entry.segments.length - 1 && seg.endTime === undefined) {
         return { ...seg, endTime: now };
@@ -173,11 +278,7 @@ export const pauseTimer = mutation({
   },
 });
 
-/**
- * Resume a paused timer.
- * - Opens a new segment
- * - Marks status as "running"
- */
+/** Resume a paused timer. */
 export const resumeTimer = mutation({
   args: {
     entryId: v.id("timeEntries"),
@@ -206,12 +307,7 @@ export const resumeTimer = mutation({
   },
 });
 
-/**
- * Stop a running or paused timer.
- * - Closes the current open segment (if running)
- * - Marks status as "completed"
- * - Computes and stores durationSeconds
- */
+/** Stop a running or paused timer. Computes and stores durationSeconds. */
 export const stopTimer = mutation({
   args: {
     entryId: v.id("timeEntries"),
@@ -230,7 +326,6 @@ export const stopTimer = mutation({
 
     const now = Date.now();
 
-    // Close the last open segment if running
     const segments = entry.segments.map((seg, i) => {
       if (i === entry.segments.length - 1 && seg.endTime === undefined) {
         return { ...seg, endTime: now };
@@ -275,10 +370,7 @@ export const discardTimer = mutation({
   },
 });
 
-/**
- * Continue a previous entry as a new running timer.
- * Copies the title, notes, folder, and manual labels from the source entry.
- */
+/** Continue a previous entry as a new running timer. */
 export const continueEntry = mutation({
   args: {
     sourceEntryId: v.id("timeEntries"),
@@ -286,7 +378,6 @@ export const continueEntry = mutation({
   handler: async (ctx, args) => {
     const user = await getCurrentUserOrThrow(ctx);
 
-    // Enforce one active timer per user
     const existing = await findActiveTimer(ctx, user._id);
     if (existing) {
       throw new Error(
@@ -314,5 +405,151 @@ export const continueEntry = mutation({
       createdAt: now,
       updatedAt: now,
     });
+  },
+});
+
+// ---------------------------------------------------------------------------
+// Mutations — Manual entries & CRUD
+// ---------------------------------------------------------------------------
+
+/**
+ * Create a manual (completed) time entry.
+ * The caller provides explicit start and end times.
+ * Duration is computed automatically from the single segment.
+ */
+export const createManualEntry = mutation({
+  args: {
+    title: v.string(),
+    notes: v.optional(v.string()),
+    folderId: v.optional(v.id("folders")),
+    manualLabelIds: v.optional(v.array(v.id("labels"))),
+    startTime: v.number(),
+    endTime: v.number(),
+  },
+  handler: async (ctx, args) => {
+    const user = await getCurrentUserOrThrow(ctx);
+
+    if (args.endTime <= args.startTime) {
+      throw new Error("End time must be after start time");
+    }
+
+    // Validate folder
+    if (args.folderId) {
+      const folder = await ctx.db.get(args.folderId);
+      if (!folder || folder.userId !== user._id) {
+        throw new Error("Folder not found");
+      }
+    }
+
+    const segments = [{ startTime: args.startTime, endTime: args.endTime }];
+    const durationSeconds = computeDurationSeconds(segments);
+    const now = Date.now();
+
+    return await ctx.db.insert("timeEntries", {
+      userId: user._id,
+      folderId: args.folderId,
+      title: args.title,
+      notes: args.notes,
+      manualLabelIds: args.manualLabelIds ?? [],
+      status: "completed",
+      segments,
+      startedAt: args.startTime,
+      endedAt: args.endTime,
+      durationSeconds,
+      createdAt: now,
+      updatedAt: now,
+    });
+  },
+});
+
+/**
+ * Edit an existing completed entry.
+ * Allows updating title, notes, folder, labels, and time range.
+ * Recomputes durationSeconds if times change.
+ */
+export const editEntry = mutation({
+  args: {
+    entryId: v.id("timeEntries"),
+    title: v.optional(v.string()),
+    notes: v.optional(v.string()),
+    folderId: v.optional(v.id("folders")),
+    clearFolder: v.optional(v.boolean()),
+    manualLabelIds: v.optional(v.array(v.id("labels"))),
+    startTime: v.optional(v.number()),
+    endTime: v.optional(v.number()),
+  },
+  handler: async (ctx, args) => {
+    const user = await getCurrentUserOrThrow(ctx);
+    const entry = await ctx.db.get(args.entryId);
+
+    if (!entry || entry.userId !== user._id) {
+      throw new Error("Time entry not found");
+    }
+
+    if (entry.status !== "completed") {
+      throw new Error("Can only edit completed entries. Stop the timer first.");
+    }
+
+    // Validate folder if changing
+    if (args.folderId) {
+      const folder = await ctx.db.get(args.folderId);
+      if (!folder || folder.userId !== user._id) {
+        throw new Error("Folder not found");
+      }
+    }
+
+    const updates: Record<string, unknown> = {
+      updatedAt: Date.now(),
+    };
+
+    if (args.title !== undefined) updates.title = args.title;
+    if (args.notes !== undefined) updates.notes = args.notes;
+    if (args.manualLabelIds !== undefined) updates.manualLabelIds = args.manualLabelIds;
+
+    // Handle folder: explicit folderId sets it, clearFolder moves to Inbox
+    if (args.folderId !== undefined) {
+      updates.folderId = args.folderId;
+    } else if (args.clearFolder) {
+      updates.folderId = undefined;
+    }
+
+    // Handle time changes — recompute segments and duration
+    const newStart = args.startTime ?? entry.startedAt;
+    const newEnd = args.endTime ?? entry.endedAt;
+
+    if (args.startTime !== undefined || args.endTime !== undefined) {
+      if (!newEnd || newEnd <= newStart) {
+        throw new Error("End time must be after start time");
+      }
+
+      const segments = [{ startTime: newStart, endTime: newEnd }];
+      updates.segments = segments;
+      updates.startedAt = newStart;
+      updates.endedAt = newEnd;
+      updates.durationSeconds = computeDurationSeconds(segments);
+    }
+
+    await ctx.db.patch(args.entryId, updates);
+
+    return args.entryId;
+  },
+});
+
+/** Delete an entry. */
+export const deleteEntry = mutation({
+  args: {
+    entryId: v.id("timeEntries"),
+  },
+  handler: async (ctx, args) => {
+    const user = await getCurrentUserOrThrow(ctx);
+    const entry = await ctx.db.get(args.entryId);
+
+    if (!entry || entry.userId !== user._id) {
+      throw new Error("Time entry not found");
+    }
+
+    await ctx.db.delete(args.entryId);
+
+    return args.entryId;
   },
 });

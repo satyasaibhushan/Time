@@ -132,15 +132,15 @@
 - [x] `[Medium]` Add mutation to continue a previous entry as a new running timer
 
 ### 1.10 Manual Entries and Entry CRUD
-- [ ] `[Medium]` Add query to list entries by date range
-- [ ] `[Medium]` Add query to list recent entries
-- [ ] `[Medium]` Add query to list entries with filters
+- [x] `[Medium]` Add query to list entries by date range
+- [x] `[Medium]` Add query to list recent entries
+- [x] `[Medium]` Add query to list entries with filters
   - Folder
   - Label
   - Date range
-- [ ] `[Hard]` Add mutation to create a manual entry with computed duration
-- [ ] `[Hard]` Add mutation to edit an existing completed entry
-- [ ] `[Easy]` Add mutation to delete an entry
+- [x] `[Hard]` Add mutation to create a manual entry with computed duration
+- [x] `[Hard]` Add mutation to edit an existing completed entry
+- [x] `[Easy]` Add mutation to delete an entry
 
 ### 1.11 Web UI Foundation
 - [ ] `[Easy]` Add core shadcn/ui components
@@ -310,4 +310,4 @@
 ---
 
 **Last Updated**: March 27, 2026
-**Status**: Phase 1 In Progress - Sections 1.1–1.9 complete, next is 1.10 Manual Entries
+**Status**: Phase 1 In Progress - Sections 1.1–1.10 complete (all backend done), next is 1.11 Web UI Foundation
