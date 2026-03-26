@@ -1,50 +1,52 @@
-import { ShellCard } from "@/components/shell-card";
-import { SectionPage } from "@/components/section-page";
+"use client";
+
+import { useState } from "react";
+import { FolderTree } from "@/components/folders/folder-tree";
+import { FolderDialog } from "@/components/folders/folder-dialog";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
 
 export default function FoldersPage() {
-  return (
-    <SectionPage
-      eyebrow="Folders"
-      title="One recursive hierarchy. Inbox at the root. No split between folders and projects."
-      description="This section will manage the full tree, inherited labels, archive state, and the move-to-Inbox behavior when a folder disappears."
-      stats={[
-        { label: "Hierarchy", value: "1" },
-        { label: "Fallback", value: "Inbox" },
-      ]}
-    >
-      <ShellCard
-        title="Hierarchy canvas"
-        description="The eventual tree should be easy to scan and move through, with room for nesting without feeling enterprise-heavy."
-      >
-        <div className="space-y-3 text-sm text-stone-300">
-          <div className="rounded-2xl border border-amber-300/20 bg-amber-300/8 px-4 py-4">
-            Inbox
-          </div>
-          <div className="ml-4 rounded-2xl border border-stone-800 bg-stone-900/65 px-4 py-4">
-            Work
-          </div>
-          <div className="ml-8 rounded-2xl border border-stone-800 bg-stone-900/65 px-4 py-4">
-            Product
-          </div>
-        </div>
-      </ShellCard>
+  const [createOpen, setCreateOpen] = useState(false);
 
-      <ShellCard
-        title="Folder rules"
-        description="The shell reserves space for folder defaults and operational rules before we wire the backend."
-      >
-        <ul className="space-y-3 text-sm text-stone-400">
-          <li className="rounded-2xl border border-stone-800 bg-stone-900/65 px-4 py-4">
-            Default labels inherit through all ancestors
-          </li>
-          <li className="rounded-2xl border border-stone-800 bg-stone-900/65 px-4 py-4">
-            Deleted folder content moves to Inbox
-          </li>
-          <li className="rounded-2xl border border-stone-800 bg-stone-900/65 px-4 py-4">
-            Archive should preserve history, not hide data forever
-          </li>
-        </ul>
-      </ShellCard>
-    </SectionPage>
+  return (
+    <section className="grid gap-6">
+      {/* Header */}
+      <div className="rounded-[2rem] border border-stone-800/70 bg-[linear-gradient(145deg,rgba(38,29,23,0.96),rgba(16,13,10,0.92))] p-6 shadow-[0_24px_70px_rgba(0,0,0,0.32)] md:p-8">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <p className="text-[11px] uppercase tracking-[0.32em] text-amber-200/70">
+              Folders
+            </p>
+            <h1 className="mt-4 max-w-3xl font-serif text-4xl tracking-tight text-stone-50 md:text-5xl">
+              Organize your time
+            </h1>
+            <p className="mt-4 max-w-2xl text-sm leading-7 text-stone-400">
+              One recursive hierarchy. Inbox at the root for uncategorized
+              entries. Folders can have default labels that cascade to children.
+            </p>
+          </div>
+          <Button
+            onClick={() => setCreateOpen(true)}
+            className="shrink-0 gap-2 rounded-xl bg-amber-300 text-stone-950 hover:bg-amber-200"
+          >
+            <Plus className="size-4" />
+            New Folder
+          </Button>
+        </div>
+      </div>
+
+      {/* Folder tree */}
+      <div className="rounded-[1.8rem] border border-stone-800/70 bg-stone-950/72 p-5 shadow-[0_20px_50px_rgba(0,0,0,0.22)]">
+        <FolderTree />
+      </div>
+
+      {/* Create dialog */}
+      <FolderDialog
+        open={createOpen}
+        onOpenChange={setCreateOpen}
+        mode="create"
+      />
+    </section>
   );
 }

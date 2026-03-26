@@ -165,37 +165,37 @@
 - [x] `[Easy]` Create settings page
 
 ### 1.13 Timer UI
-- [ ] `[Hard]` Build the primary timer component
+- [x] `[Hard]` Build the primary timer component
   - Title input
   - Notes input
   - Folder picker
   - Label multi-select
   - Show inherited labels from the selected folder
   - Start, pause, resume, stop, discard controls
-- [ ] `[Medium]` Implement live second-by-second timer display
-- [ ] `[Medium]` Handle optimistic UI for timer actions
-- [ ] `[Medium]` Reconcile timer state with server responses
-- [ ] `[Medium]` Add clear error handling for invalid state transitions
+- [x] `[Medium]` Implement live second-by-second timer display
+- [x] `[Medium]` Handle optimistic UI for timer actions
+- [x] `[Medium]` Reconcile timer state with server responses
+- [x] `[Medium]` Add clear error handling for invalid state transitions
 
 ### 1.14 Folders UI
-- [ ] `[Hard]` Build folder tree UI with nested display
-- [ ] `[Easy]` Show the built-in `Inbox` folder clearly
-- [ ] `[Medium]` Build folder create and rename dialog
-- [ ] `[Medium]` Build folder move flow
-- [ ] `[Medium]` Build folder default label management
-- [ ] `[Easy]` Add archive filters
+- [x] `[Hard]` Build folder tree UI with nested display
+- [x] `[Easy]` Show the built-in `Inbox` folder clearly
+- [x] `[Medium]` Build folder create and rename dialog
+- [x] `[Medium]` Build folder move flow
+- [x] `[Medium]` Build folder default label management
+- [x] `[Easy]` Add archive filters
 
 ### 1.15 Labels UI
-- [ ] `[Medium]` Build labels management page
-- [ ] `[Medium]` Build label create and edit dialog
-- [ ] `[Easy]` Add color picker for labels
+- [x] `[Medium]` Build labels management page
+- [x] `[Medium]` Build label create and edit dialog
+- [x] `[Easy]` Add color picker for labels
 
 ### 1.16 Entries UI
-- [ ] `[Hard]` Build entries list grouped by date
-- [ ] `[Medium]` Build manual entry dialog
-- [ ] `[Medium]` Build edit entry dialog
-- [ ] `[Medium]` Add filters for folder, label, and date
-- [ ] `[Easy]` Add continue action on previous entries
+- [x] `[Hard]` Build entries list grouped by date
+- [x] `[Medium]` Build manual entry dialog
+- [x] `[Medium]` Build edit entry dialog
+- [x] `[Medium]` Add filters for folder, label, and date
+- [x] `[Easy]` Add continue action on previous entries
 - [ ] `[Medium]` Add pagination or infinite scroll
 
 ### 1.17 Basic Personal Reporting
@@ -310,4 +310,4 @@
 ---
 
 **Last Updated**: March 27, 2026
-**Status**: Phase 1 In Progress - Sections 1.1–1.11 complete, next is 1.12+ (page UIs)
+**Status**: Phase 1 In Progress - Sections 1.1–1.16 complete (backend + all UI), remaining: pagination, reporting, testing, deployment

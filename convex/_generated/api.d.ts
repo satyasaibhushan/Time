@@ -8,6 +8,10 @@
  * @module
  */
 
+import type * as folders from "../folders.js";
+import type * as helpers from "../helpers.js";
+import type * as labels from "../labels.js";
+import type * as timeEntries from "../timeEntries.js";
 import type * as users from "../users.js";
 
 import type {
@@ -17,6 +21,10 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  folders: typeof folders;
+  helpers: typeof helpers;
+  labels: typeof labels;
+  timeEntries: typeof timeEntries;
   users: typeof users;
 }>;
 
