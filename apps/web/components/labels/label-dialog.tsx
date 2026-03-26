@@ -79,12 +79,12 @@ export function LabelDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="rounded-[1.8rem] border-stone-800/70 bg-stone-950 sm:max-w-md">
+      <DialogContent className="rounded-[1.8rem] border-stone-800/70 bg-stone-950 text-stone-100 sm:max-w-md">
         <DialogHeader>
           <DialogTitle>
             {mode === "create" ? "Create label" : "Edit label"}
           </DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="text-stone-400">
             {mode === "create"
               ? "Add a new label to your library."
               : "Update this label's name or color."}
@@ -106,7 +106,7 @@ export function LabelDialog({
               value={name}
               onChange={(e) => setName(e.target.value)}
               autoFocus
-              className="rounded-xl border-stone-800 bg-stone-900/60"
+              className="rounded-xl border-stone-800 bg-stone-900/60 text-stone-200 placeholder:text-stone-500"
             />
           </div>
 
@@ -138,12 +138,12 @@ export function LabelDialog({
             </div>
           </div>
 
-          <DialogFooter>
+          <DialogFooter className="border-stone-800/70 bg-stone-900/40">
             <Button
               type="button"
               variant="outline"
               onClick={() => onOpenChange(false)}
-              className="rounded-xl"
+              className="rounded-xl border-stone-700 bg-stone-950/80 text-stone-100 hover:bg-stone-800/80 hover:text-stone-50"
             >
               Cancel
             </Button>

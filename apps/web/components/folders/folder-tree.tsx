@@ -79,7 +79,7 @@ export function FolderTree({
                 <Button
                   variant="ghost"
                   size="icon-xs"
-                  className="text-stone-500 hover:text-stone-300"
+                  className="text-stone-400 hover:text-stone-300"
                 />
               }
             >
@@ -134,7 +134,7 @@ export function FolderTree({
           <Button
             variant="ghost"
             size="icon-xs"
-            className="text-stone-500 hover:text-stone-300"
+            className="text-stone-400 hover:text-stone-300"
             onClick={() => setCreateOpen(true)}
           >
             <Plus className="size-3.5" />
@@ -291,7 +291,7 @@ function FolderNode({
           type="button"
           onClick={handleToggle}
           className={cn(
-            "flex size-5 shrink-0 items-center justify-center rounded-md text-stone-500 transition-transform hover:text-stone-300",
+            "flex size-5 shrink-0 items-center justify-center rounded-md text-stone-400 transition-transform hover:text-stone-300",
             expanded && "rotate-90"
           )}
         >
@@ -332,7 +332,7 @@ function FolderNode({
               <Button
                 variant="ghost"
                 size="icon-xs"
-                className="shrink-0 text-stone-500 opacity-0 transition-opacity group-hover:opacity-100 data-popup-open:opacity-100"
+                className="shrink-0 text-stone-400 opacity-0 transition-opacity group-hover:opacity-100 data-popup-open:opacity-100"
               />
             }
             onClick={(e) => e.stopPropagation()}

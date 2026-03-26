@@ -309,7 +309,7 @@ export function EntryFiltersBar({ filters, onFiltersChange }: EntryFiltersProps)
           variant="ghost"
           size="sm"
           onClick={() => onFiltersChange({})}
-          className="gap-1 text-stone-500 hover:text-stone-300"
+          className="gap-1 text-stone-400 hover:text-stone-300"
         >
           <X className="size-3" />
           Clear

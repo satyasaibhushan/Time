@@ -195,7 +195,7 @@ export function EntryCard({ entry, folders, labels, onEdit, compact }: EntryCard
             size="icon-xs"
             onClick={handleContinue}
             disabled={continuing || isRunning}
-            className="text-stone-500 hover:text-amber-300"
+            className="text-stone-400 hover:text-amber-300"
             title="Continue entry"
           >
             <Play className="size-3" />
@@ -204,7 +204,7 @@ export function EntryCard({ entry, folders, labels, onEdit, compact }: EntryCard
             variant="ghost"
             size="icon-xs"
             onClick={() => onEdit?.(entry)}
-            className="text-stone-500 hover:text-stone-200"
+            className="text-stone-400 hover:text-stone-200"
             title="Edit entry"
           >
             <Pencil className="size-3" />
@@ -213,7 +213,7 @@ export function EntryCard({ entry, folders, labels, onEdit, compact }: EntryCard
             variant="ghost"
             size="icon-xs"
             onClick={() => setDeleteOpen(true)}
-            className="text-stone-500 hover:text-red-400"
+            className="text-stone-400 hover:text-red-400"
             title="Delete entry"
           >
             <Trash2 className="size-3" />

@@ -77,7 +77,7 @@ export function LabelList() {
                 size="icon-xs"
                 aria-label={`Edit ${label.name}`}
                 onClick={() => setEditLabel(label as LabelDoc)}
-                className="text-stone-500 hover:text-stone-200"
+                className="text-stone-400 hover:text-stone-200"
               >
                 <Pencil className="size-3.5" />
               </Button>
@@ -86,7 +86,7 @@ export function LabelList() {
                 size="icon-xs"
                 aria-label={`Delete ${label.name}`}
                 onClick={() => setDeleteLabel(label as LabelDoc)}
-                className="text-stone-500 hover:text-red-400"
+                className="text-stone-400 hover:text-red-400"
               >
                 <Trash2 className="size-3.5" />
               </Button>

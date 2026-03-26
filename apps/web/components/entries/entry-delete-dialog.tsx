@@ -63,7 +63,7 @@ export function EntryDeleteDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="rounded-[1.8rem] border-stone-800/70 bg-stone-950 sm:max-w-sm">
+      <DialogContent className="rounded-[1.8rem] border-stone-800/70 bg-stone-950 text-stone-100 sm:max-w-sm">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-red-300">
             <AlertTriangle className="size-4" />
@@ -83,12 +83,12 @@ export function EntryDeleteDialog({
           </span>
         </div>
 
-        <DialogFooter>
+        <DialogFooter className="border-stone-800/70 bg-stone-900/40">
           <Button
             type="button"
             variant="outline"
             onClick={() => onOpenChange(false)}
-            className="rounded-xl"
+            className="rounded-xl border-stone-700 bg-stone-950/80 text-stone-100 hover:bg-stone-800/80 hover:text-stone-50"
           >
             Cancel
           </Button>
@@ -97,7 +97,7 @@ export function EntryDeleteDialog({
             variant="destructive"
             disabled={deleting}
             onClick={handleDelete}
-            className="rounded-xl"
+            className="rounded-xl border border-red-500/35 bg-red-950/45 text-red-100 hover:bg-red-950/65 hover:text-red-50"
           >
             {deleting ? "Deleting..." : "Delete entry"}
           </Button>

@@ -211,7 +211,7 @@ export function TimerWidget({ className }: { className?: string }) {
             variant="ghost"
             size="icon-lg"
             onClick={handleDiscard}
-            className="rounded-xl text-stone-500 hover:text-red-400"
+            className="rounded-xl text-stone-400 hover:text-red-400"
           >
             <Trash2 className="size-4" />
           </Button>

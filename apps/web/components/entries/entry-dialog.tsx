@@ -227,7 +227,7 @@ export function EntryDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="rounded-[1.8rem] border-stone-800/70 bg-stone-950 sm:max-w-md">
+      <DialogContent className="rounded-[1.8rem] border-stone-800/70 bg-stone-950 text-stone-100 sm:max-w-md">
         <DialogHeader>
           <DialogTitle>
             {mode === "create" ? "New time entry" : "Edit time entry"}
@@ -464,12 +464,12 @@ export function EntryDialog({
             <p className="text-sm text-red-400">{error}</p>
           )}
 
-          <DialogFooter>
+          <DialogFooter className="border-stone-800/70 bg-stone-900/40">
             <Button
               type="button"
               variant="outline"
               onClick={() => onOpenChange(false)}
-              className="rounded-xl"
+              className="rounded-xl border-stone-700 bg-stone-950/80 text-stone-100 hover:bg-stone-800/80 hover:text-stone-50"
             >
               Cancel
             </Button>
