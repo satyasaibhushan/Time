@@ -111,25 +111,25 @@
 - [x] `[Easy]` Add mutation to delete label
 
 ### 1.9 Timer Engine
-- [ ] `[Hard]` Add query to fetch the current active timer
-- [ ] `[Hard]` Add mutation to start a timer
+- [x] `[Hard]` Add query to fetch the current active timer
+- [x] `[Hard]` Add mutation to start a timer
   - Enforce one active timer per user
   - Create the first time segment
   - Default to `Inbox` when no folder is selected
   - Accept title, notes, folder, and labels
   - Apply inherited folder labels automatically
-- [ ] `[Hard]` Add mutation to pause a timer
+- [x] `[Hard]` Add mutation to pause a timer
   - Close the current segment
   - Mark entry as `paused`
-- [ ] `[Hard]` Add mutation to resume a timer
+- [x] `[Hard]` Add mutation to resume a timer
   - Open a new segment
   - Mark entry as `running`
-- [ ] `[Hard]` Add mutation to stop a timer
+- [x] `[Hard]` Add mutation to stop a timer
   - Close the current segment
   - Mark entry as `completed`
   - Compute `durationSeconds`
-- [ ] `[Medium]` Add mutation to discard an active timer
-- [ ] `[Medium]` Add mutation to continue a previous entry as a new running timer
+- [x] `[Medium]` Add mutation to discard an active timer
+- [x] `[Medium]` Add mutation to continue a previous entry as a new running timer
 
 ### 1.10 Manual Entries and Entry CRUD
 - [ ] `[Medium]` Add query to list entries by date range
@@ -310,4 +310,4 @@
 ---
 
 **Last Updated**: March 27, 2026
-**Status**: Phase 1 In Progress - Sections 1.1–1.8 complete, starting 1.9 Timer Engine
+**Status**: Phase 1 In Progress - Sections 1.1–1.9 complete, next is 1.10 Manual Entries
