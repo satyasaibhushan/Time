@@ -143,7 +143,7 @@
 - [x] `[Easy]` Add mutation to delete an entry
 
 ### 1.11 Web UI Foundation
-- [ ] `[Easy]` Add core shadcn/ui components
+- [x] `[Easy]` Add core shadcn/ui components
   - Button
   - Input
   - Dialog
@@ -155,7 +155,7 @@
   - Calendar
   - Command
 - [x] `[Medium]` Define a consistent app layout and navigation model
-- [ ] `[Medium]` Add reusable empty, loading, and error states
+- [x] `[Medium]` Add reusable empty, loading, and error states
 
 ### 1.12 Web Pages
 - [x] `[Medium]` Create dashboard page
@@ -310,4 +310,4 @@
 ---
 
 **Last Updated**: March 27, 2026
-**Status**: Phase 1 In Progress - Sections 1.1–1.10 complete (all backend done), next is 1.11 Web UI Foundation
+**Status**: Phase 1 In Progress - Sections 1.1–1.11 complete, next is 1.12+ (page UIs)
