@@ -53,8 +53,7 @@ export default defineSchema({
   // Inbox. Only manual labels are stored here; inherited labels are resolved
   // from the current folder ancestry at query time.
   //
-  // One active timer per user is a product invariant enforced in mutations,
-  // not by schema shape alone.
+  // A user may have several active timers (running or paused) at once.
   timeEntries: defineTable({
     userId: v.id("users"),
     folderId: v.optional(v.id("folders")),

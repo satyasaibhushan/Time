@@ -79,12 +79,12 @@ export function LabelDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="rounded-[1.8rem] border-stone-800/70 bg-stone-950 text-stone-100 sm:max-w-md">
+      <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>
             {mode === "create" ? "Create label" : "Edit label"}
           </DialogTitle>
-          <DialogDescription className="text-stone-400">
+          <DialogDescription>
             {mode === "create"
               ? "Add a new label to your library."
               : "Update this label's name or color."}
@@ -96,7 +96,7 @@ export function LabelDialog({
           <div className="grid gap-2">
             <label
               htmlFor="label-name"
-              className="text-[11px] uppercase tracking-[0.28em] text-stone-500"
+              className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--terra-sage)]"
             >
               Name
             </label>
@@ -106,13 +106,13 @@ export function LabelDialog({
               value={name}
               onChange={(e) => setName(e.target.value)}
               autoFocus
-              className="rounded-xl border-stone-800 bg-stone-900/60 text-stone-200 placeholder:text-stone-500"
+              className="rounded-2xl border-transparent bg-[var(--muted)] placeholder:text-[var(--terra-sage)] focus-visible:border-[var(--terra-moss)] focus-visible:ring-0"
             />
           </div>
 
           {/* Color picker */}
           <div className="grid gap-2">
-            <span className="text-[11px] uppercase tracking-[0.28em] text-stone-500">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--terra-sage)]">
               Color
             </span>
             <div className="flex flex-wrap gap-2">
@@ -125,32 +125,31 @@ export function LabelDialog({
                   className={cn(
                     "relative flex size-8 items-center justify-center rounded-full transition-all",
                     color === token.value
-                      ? "ring-2 ring-stone-400 ring-offset-2 ring-offset-stone-950"
-                      : "hover:ring-1 hover:ring-stone-600 hover:ring-offset-1 hover:ring-offset-stone-950"
+                      ? "ring-2 ring-[var(--terra-moss)] ring-offset-2 ring-offset-[var(--card)]"
+                      : "hover:ring-1 hover:ring-[var(--border)] hover:ring-offset-1 hover:ring-offset-[var(--card)]"
                   )}
                   style={{ backgroundColor: token.value }}
                 >
                   {color === token.value && (
-                    <Check className="size-4 text-stone-950" strokeWidth={3} />
+                    <Check className="size-4 text-[var(--terra-pine)]" strokeWidth={3} />
                   )}
                 </button>
               ))}
             </div>
           </div>
 
-          <DialogFooter className="border-stone-800/70 bg-stone-900/40">
+          <DialogFooter>
             <Button
               type="button"
               variant="outline"
               onClick={() => onOpenChange(false)}
-              className="rounded-xl border-stone-700 bg-stone-950/80 text-stone-100 hover:bg-stone-800/80 hover:text-stone-50"
             >
               Cancel
             </Button>
             <Button
               type="submit"
               disabled={!isValid || saving}
-              className="rounded-xl bg-amber-300 text-stone-950 hover:bg-amber-200"
+              className="signal-button"
             >
               {saving
                 ? "Saving..."

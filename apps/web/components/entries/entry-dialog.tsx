@@ -4,9 +4,7 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@convex/_generated/api";
 import type { Id } from "@convex/_generated/dataModel";
-import { format } from "date-fns";
 import {
-  FolderIcon,
   InboxIcon,
   TagIcon,
   ChevronDown,
@@ -227,12 +225,12 @@ export function EntryDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="rounded-[1.8rem] border-stone-800/70 bg-stone-950 text-stone-100 sm:max-w-md">
+      <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>
             {mode === "create" ? "New time entry" : "Edit time entry"}
           </DialogTitle>
-          <DialogDescription className="text-stone-400">
+          <DialogDescription>
             {mode === "create"
               ? "Add a manual time entry with start and end times."
               : "Update this time entry's details."}
@@ -244,7 +242,7 @@ export function EntryDialog({
           <div className="flex flex-col gap-1.5">
             <label
               htmlFor="entry-title"
-              className="text-[11px] uppercase tracking-[0.28em] text-stone-500"
+              className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--terra-sage)]"
             >
               Title
             </label>
@@ -253,7 +251,7 @@ export function EntryDialog({
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="What were you working on?"
-              className="rounded-xl border-stone-800/70 bg-stone-900/60 text-stone-200 placeholder:text-stone-600"
+              className="rounded-2xl border-transparent bg-[var(--muted)] placeholder:text-[var(--terra-sage)] focus-visible:border-[var(--terra-moss)] focus-visible:ring-0"
             />
           </div>
 
@@ -261,7 +259,7 @@ export function EntryDialog({
           <div className="flex flex-col gap-1.5">
             <label
               htmlFor="entry-notes"
-              className="text-[11px] uppercase tracking-[0.28em] text-stone-500"
+              className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--terra-sage)]"
             >
               Notes
             </label>
@@ -271,7 +269,7 @@ export function EntryDialog({
               onChange={(e) => setNotes(e.target.value)}
               placeholder="Optional notes..."
               rows={2}
-              className="rounded-xl border-stone-800/70 bg-stone-900/60 text-stone-200 placeholder:text-stone-600"
+              className="rounded-2xl border-transparent bg-[var(--muted)] placeholder:text-[var(--terra-sage)] focus-visible:border-[var(--terra-moss)] focus-visible:ring-0"
             />
           </div>
 
@@ -279,7 +277,7 @@ export function EntryDialog({
           <div className="flex flex-wrap items-start gap-3">
             {/* Folder picker */}
             <div className="flex flex-col gap-1.5">
-              <span className="text-[11px] uppercase tracking-[0.28em] text-stone-500">
+              <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--terra-sage)]">
                 Folder
               </span>
               <Select
@@ -293,10 +291,7 @@ export function EntryDialog({
                   );
                 }}
               >
-                <SelectTrigger
-                  size="sm"
-                  className="gap-1.5 rounded-xl border-stone-800/70 bg-stone-900/60 text-stone-300 hover:border-stone-700"
-                >
+                <SelectTrigger size="sm" className="gap-1.5">
                   <SelectValue>
                     {selectedFolder ? (
                       <span className="flex items-center gap-1.5">
@@ -312,16 +307,16 @@ export function EntryDialog({
                       </span>
                     ) : (
                       <span className="flex items-center gap-1.5">
-                        <InboxIcon className="size-3.5 text-stone-500" />
+                        <InboxIcon className="size-3.5 text-[var(--terra-sage)]" />
                         Inbox
                       </span>
                     )}
                   </SelectValue>
                 </SelectTrigger>
-                <SelectContent className="rounded-xl border-stone-800/70 bg-stone-900">
+                <SelectContent>
                   <SelectItem value="__inbox__">
                     <span className="flex items-center gap-1.5">
-                      <InboxIcon className="size-3.5 text-stone-400" />
+                      <InboxIcon className="size-3.5 text-[var(--terra-sage)]" />
                       Inbox
                     </span>
                   </SelectItem>
@@ -344,22 +339,22 @@ export function EntryDialog({
 
             {/* Label multi-select */}
             <div className="flex flex-col gap-1.5">
-              <span className="text-[11px] uppercase tracking-[0.28em] text-stone-500">
+              <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--terra-sage)]">
                 Labels
               </span>
               <Popover open={labelsOpen} onOpenChange={setLabelsOpen}>
                 <PopoverTrigger
                   className={cn(
-                    "inline-flex h-7 items-center gap-1.5 rounded-xl border border-stone-800/70 bg-stone-900/60 px-2.5 text-[0.8rem] text-stone-300 transition-colors hover:border-stone-700 hover:bg-stone-800/60",
+                    "inline-flex h-7 items-center gap-1.5 rounded-full border border-[var(--border)] bg-[var(--card)] px-2.5 text-[0.8rem] text-[var(--terra-pine)] transition-colors hover:border-[var(--terra-moss)]",
                   )}
                 >
-                  <TagIcon className="size-3.5 text-stone-500" />
+                  <TagIcon className="size-3.5 text-[var(--terra-sage)]" />
                   {selectedLabels.length > 0 ? (
                     <span className="flex items-center gap-1">
                       {selectedLabels.slice(0, 2).map((l) => (
                         <span
                           key={l._id}
-                          className="inline-flex items-center gap-1 rounded-md bg-stone-800/80 px-1.5 py-0.5 text-[11px] text-stone-300"
+                          className="inline-flex items-center gap-1 rounded-full bg-[var(--muted)] px-1.5 py-0.5 text-[11px] text-[var(--muted-foreground)]"
                         >
                           <span
                             className="size-1.5 rounded-full"
@@ -371,22 +366,19 @@ export function EntryDialog({
                         </span>
                       ))}
                       {selectedLabels.length > 2 && (
-                        <span className="text-xs text-stone-500">
+                        <span className="text-xs text-[var(--terra-sage)]">
                           +{selectedLabels.length - 2}
                         </span>
                       )}
                     </span>
                   ) : (
-                    <span className="text-stone-400">Labels</span>
+                    <span className="text-[var(--muted-foreground)]">Labels</span>
                   )}
-                  <ChevronDown className="ml-1 size-3 text-stone-500" />
+                  <ChevronDown className="ml-1 size-3 text-[var(--terra-sage)]" />
                 </PopoverTrigger>
-                <PopoverContent
-                  className="w-56 rounded-xl border-stone-800/70 bg-stone-900 p-1"
-                  align="start"
-                >
+                <PopoverContent className="w-56 rounded-xl p-1" align="start">
                   {(allLabels as LabelDoc[] | undefined)?.length === 0 && (
-                    <p className="px-3 py-2 text-sm text-stone-500">
+                    <p className="px-3 py-2 text-sm text-[var(--terra-sage)]">
                       No labels available.
                     </p>
                   )}
@@ -397,17 +389,17 @@ export function EntryDialog({
                         key={label._id}
                         type="button"
                         onClick={() => toggleLabel(label._id)}
-                        className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-left text-sm text-stone-300 transition-colors hover:bg-stone-800/60"
+                        className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-left text-sm text-[var(--terra-pine)] transition-colors hover:bg-[var(--muted)]"
                       >
                         <div
                           className={cn(
-                            "flex size-4 shrink-0 items-center justify-center rounded border border-stone-700",
+                            "flex size-4 shrink-0 items-center justify-center rounded border border-[var(--input)]",
                             isSelected &&
-                              "border-amber-300/50 bg-amber-300/10",
+                              "border-[var(--terra-moss)] bg-[var(--terra-moss)]/15",
                           )}
                         >
                           {isSelected && (
-                            <Check className="size-3 text-amber-300" />
+                            <Check className="size-3 text-[var(--terra-moss)]" />
                           )}
                         </div>
                         <span
@@ -430,7 +422,7 @@ export function EntryDialog({
             <div className="flex flex-col gap-1.5">
               <label
                 htmlFor="entry-start"
-                className="text-[11px] uppercase tracking-[0.28em] text-stone-500"
+                className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--terra-sage)]"
               >
                 Start
               </label>
@@ -439,13 +431,13 @@ export function EntryDialog({
                 type="datetime-local"
                 value={startTime}
                 onChange={(e) => setStartTime(e.target.value)}
-                className="h-8 w-full rounded-xl border border-stone-800/70 bg-stone-900/60 px-2.5 text-sm text-stone-200 outline-none transition-colors focus:border-stone-600 focus:ring-1 focus:ring-stone-600/50 [color-scheme:dark]"
+                className="h-8 w-full rounded-2xl border border-transparent bg-[var(--muted)] px-2.5 text-sm text-[var(--terra-pine)] outline-none transition-colors focus:border-[var(--terra-moss)]"
               />
             </div>
             <div className="flex flex-col gap-1.5">
               <label
                 htmlFor="entry-end"
-                className="text-[11px] uppercase tracking-[0.28em] text-stone-500"
+                className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--terra-sage)]"
               >
                 End
               </label>
@@ -454,29 +446,28 @@ export function EntryDialog({
                 type="datetime-local"
                 value={endTime}
                 onChange={(e) => setEndTime(e.target.value)}
-                className="h-8 w-full rounded-xl border border-stone-800/70 bg-stone-900/60 px-2.5 text-sm text-stone-200 outline-none transition-colors focus:border-stone-600 focus:ring-1 focus:ring-stone-600/50 [color-scheme:dark]"
+                className="h-8 w-full rounded-2xl border border-transparent bg-[var(--muted)] px-2.5 text-sm text-[var(--terra-pine)] outline-none transition-colors focus:border-[var(--terra-moss)]"
               />
             </div>
           </div>
 
           {/* Validation / error message */}
           {error && (
-            <p className="text-sm text-red-400">{error}</p>
+            <p className="text-sm text-[var(--destructive)]">{error}</p>
           )}
 
-          <DialogFooter className="border-stone-800/70 bg-stone-900/40">
+          <DialogFooter>
             <Button
               type="button"
               variant="outline"
               onClick={() => onOpenChange(false)}
-              className="rounded-xl border-stone-700 bg-stone-950/80 text-stone-100 hover:bg-stone-800/80 hover:text-stone-50"
             >
               Cancel
             </Button>
             <Button
               type="submit"
               disabled={saving || !isValid}
-              className="rounded-xl bg-amber-300 text-stone-950 hover:bg-amber-200"
+              className="signal-button"
             >
               {saving
                 ? mode === "create"

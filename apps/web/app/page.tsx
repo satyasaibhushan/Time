@@ -1,67 +1,96 @@
 import { redirect } from "next/navigation";
+import { ArrowUpRight, Radio, ShieldCheck, TimerReset } from "lucide-react";
+
 import { auth0 } from "@/lib/auth0";
 
 export default async function Home() {
   const session = await auth0.getSession();
 
-  if (session) {
-    redirect("/dashboard");
-  }
+  if (session) redirect("/dashboard");
 
   return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(210,166,95,0.18),_transparent_26%),radial-gradient(circle_at_bottom_right,_rgba(122,161,255,0.12),_transparent_24%),linear-gradient(180deg,_#17120d_0%,_#0e0b08_100%)] px-4 py-6 text-stone-100 md:px-6 lg:px-8">
-      <div className="mx-auto flex min-h-[calc(100vh-3rem)] w-full max-w-6xl flex-col justify-between rounded-[2.5rem] border border-stone-800/80 bg-stone-950/72 p-6 shadow-[0_30px_90px_rgba(0,0,0,0.45)] backdrop-blur md:p-8">
-        <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-16">
-          <section className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-amber-400/20 bg-amber-300/10 px-3 py-1 text-[11px] uppercase tracking-[0.28em] text-amber-200/80">
-              Authentication Foundation
+    <main className="min-h-screen bg-[var(--background)] px-4 py-4 text-[var(--terra-pine)] md:px-7 md:py-7">
+      <div className="surface-panel mx-auto flex min-h-[calc(100vh-2rem)] max-w-[1500px] flex-col md:min-h-[calc(100vh-3.5rem)]">
+        <header className="flex items-center justify-between border-b border-[var(--border)] px-5 py-4 md:px-8">
+          <div className="flex items-center gap-3">
+            <span className="grid size-10 place-items-center rounded-xl bg-[var(--terra-clay)] text-[#2b160e]">
+              <TimerReset className="size-5" />
+            </span>
+            <div>
+              <div className="text-lg font-bold tracking-[-0.02em]">
+                TIME<span className="text-[var(--terra-clay)]">/01</span>
+              </div>
+              <div className="text-[9px] font-semibold uppercase tracking-[0.1em] text-[var(--terra-sage)]">
+                Personal chronograph
+              </div>
             </div>
-            <h1 className="mt-6 max-w-2xl font-serif text-5xl tracking-tight text-stone-50 md:text-6xl">
-              Sign in once, then keep the timer flow scoped to your own data.
-            </h1>
-            <p className="mt-6 max-w-2xl text-base leading-8 text-stone-400">
-              This app is personal, but it still needs a real identity layer.
-              Auth0 now owns login, logout, callback handling, and route
-              protection for the web app.
-            </p>
+          </div>
+          <div className="flex items-center gap-2 text-[9px] font-semibold uppercase tracking-[0.1em] text-[var(--terra-sage)]">
+            <span className="size-1.5 rounded-full bg-[var(--terra-moss)]" />
+            System ready
+          </div>
+        </header>
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <a
-                href="/auth/login"
-                className="inline-flex items-center justify-center rounded-2xl bg-stone-100 px-5 py-3 text-sm font-medium text-stone-950 transition hover:bg-stone-200"
-              >
-                Log in
-              </a>
-              <a
-                href="/auth/login?screen_hint=signup"
-                className="inline-flex items-center justify-center rounded-2xl border border-stone-700 bg-stone-900/70 px-5 py-3 text-sm font-medium text-stone-100 transition hover:border-stone-600 hover:bg-stone-900"
-              >
-                Sign up
-              </a>
+        <div className="grid flex-1 lg:grid-cols-[minmax(0,1fr)_420px]">
+          <section className="relative flex min-h-[600px] flex-col justify-center border-b border-[var(--border)] p-6 md:p-10 lg:border-r lg:border-b-0 lg:p-14">
+            <div className="relative">
+              <p className="page-kicker">Track the work / keep the evidence</p>
+              <h1 className="mt-7 max-w-4xl font-serif text-[clamp(3rem,8vw,6rem)] font-medium leading-[0.95] tracking-[-0.02em] text-[var(--terra-pine)]">
+                Time,
+                <br />
+                made visible.
+              </h1>
+              <p className="mt-9 max-w-lg text-sm leading-7 text-[var(--terra-sage)] md:text-base">
+                A focused personal clock for honest sessions, clean history, and
+                enough structure to find the pattern later.
+              </p>
             </div>
           </section>
 
-          <aside className="grid gap-4 self-start">
-            <div className="rounded-[2rem] border border-stone-800/70 bg-[linear-gradient(145deg,rgba(38,29,23,0.96),rgba(16,13,10,0.92))] p-6">
-              <p className="text-[11px] uppercase tracking-[0.3em] text-stone-500">
-                What&apos;s live
+          <aside className="flex flex-col justify-between p-6 md:p-9">
+            <div>
+              <div className="flex items-center justify-between border-b border-[var(--border)] pb-4">
+                <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.1em] text-[var(--terra-sage)]">
+                  <Radio className="size-3.5 text-[var(--terra-moss)]" />
+                  Access panel
+                </div>
+                <span className="text-[9px] font-semibold uppercase tracking-[0.1em] text-[var(--terra-sage)]">
+                  AUTH / 01
+                </span>
+              </div>
+              <h2 className="mt-10 font-serif text-5xl leading-[0.9] tracking-[-0.02em] text-[var(--terra-pine)]">
+                Pick up where you left off.
+              </h2>
+              <p className="mt-5 text-sm leading-6 text-[var(--terra-sage)]">
+                Your timers and history stay scoped to your authenticated account.
               </p>
-              <div className="mt-4 space-y-3 text-sm text-stone-300">
-                <div className="rounded-2xl border border-stone-800 bg-stone-900/70 px-4 py-4">
-                  Auth0 session handling
-                </div>
-                <div className="rounded-2xl border border-stone-800 bg-stone-900/70 px-4 py-4">
-                  Protected app routes
-                </div>
-                <div className="rounded-2xl border border-stone-800 bg-stone-900/70 px-4 py-4">
-                  Logout flow in the shell
-                </div>
+
+              <div className="mt-9 grid gap-3">
+                <a
+                  href="/auth/login"
+                  className="signal-button flex h-14 items-center justify-between px-5 text-sm"
+                >
+                  Log in
+                  <ArrowUpRight className="size-4" />
+                </a>
+                <a
+                  href="/auth/login?screen_hint=signup"
+                  className="flex h-14 items-center justify-between rounded-full border border-[var(--border)] px-5 text-sm font-semibold text-[var(--terra-pine)] transition hover:border-[var(--terra-moss)]/40 hover:bg-[var(--secondary)]"
+                >
+                  Create account
+                  <ArrowUpRight className="size-4" />
+                </a>
               </div>
             </div>
 
-            <div className="rounded-[2rem] border border-amber-300/20 bg-amber-300/8 p-6 text-sm leading-7 text-amber-100/90">
-              Next slice: map the Auth0 identity into Convex and auto-create the
-              `users` row on first authenticated request.
+            <div className="mt-12 border-t border-[var(--border)] pt-5">
+              <div className="flex gap-3">
+                <ShieldCheck className="mt-0.5 size-4 shrink-0 text-[var(--terra-moss)]" />
+                <p className="text-[10px] leading-5 text-[var(--terra-sage)]">
+                  Auth0 identity, Convex-backed data, and concurrent timers on
+                  one shared clock. Built for personal use.
+                </p>
+              </div>
             </div>
           </aside>
         </div>

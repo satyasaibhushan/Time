@@ -78,7 +78,7 @@
   - By `startedAt`
   - By running or paused timer state
 - [x] `[Medium]` Document invariants in code comments
-  - One active timer per user
+  - Multiple active timers are allowed per user
   - No organization scope
   - `Inbox` is abstract and represented by missing `folderId`
   - Root folders use missing `parentFolderId`
@@ -111,9 +111,9 @@
 - [x] `[Easy]` Add mutation to delete label
 
 ### 1.9 Timer Engine
-- [x] `[Hard]` Add query to fetch the current active timer
+- [x] `[Hard]` Add query to fetch the current active timers
 - [x] `[Hard]` Add mutation to start a timer
-  - Enforce one active timer per user
+  - Allow independent concurrent timers
   - Create the first time segment
   - Default to `Inbox` when no folder is selected
   - Accept title, notes, folder, and labels
@@ -173,6 +173,7 @@
   - Show inherited labels from the selected folder
   - Start, pause, resume, stop, discard controls
 - [x] `[Medium]` Implement live second-by-second timer display
+  - Use one shared wall-clock tick for every active timer
 - [x] `[Medium]` Handle optimistic UI for timer actions
 - [x] `[Medium]` Reconcile timer state with server responses
 - [x] `[Medium]` Add clear error handling for invalid state transitions
@@ -196,18 +197,18 @@
 - [x] `[Medium]` Build edit entry dialog
 - [x] `[Medium]` Add filters for folder, label, and date
 - [x] `[Easy]` Add continue action on previous entries
-- [ ] `[Medium]` Add pagination or infinite scroll
+- [x] `[Medium]` Add pagination or infinite scroll
 
 ### 1.17 Basic Personal Reporting
-- [ ] `[Medium]` Add dashboard stats for today and this week
-- [ ] `[Medium]` Add this month total
-- [ ] `[Medium]` Add simple breakdown by folder
-- [ ] `[Medium]` Add simple breakdown by label
+- [x] `[Medium]` Add dashboard stats for today and this week
+- [x] `[Medium]` Add this month total
+- [x] `[Medium]` Add simple breakdown by folder
+- [x] `[Medium]` Add simple breakdown by label
 
 ### 1.18 Non-Goals for the Web MVP
-- [ ] `[Easy]` Do not build offline mode for the web app
-- [ ] `[Easy]` Do not build billing, invoicing, clients, or organization features
-- [ ] `[Easy]` Do not build team or sharing features
+- [x] `[Easy]` Do not build offline mode for the web app
+- [x] `[Easy]` Do not build billing, invoicing, clients, or organization features
+- [x] `[Easy]` Do not build team or sharing features
 
 ### 1.19 Testing and Deployment
 - [ ] `[Medium]` Test timer start, pause, resume, stop, and discard flows
@@ -219,9 +220,9 @@
 - [ ] `[Medium]` Test auth and user provisioning flow
 - [ ] `[Easy]` Test Google login end-to-end
 - [ ] `[Medium]` Test date and timezone handling
-- [ ] `[Easy]` Fix TypeScript and lint errors
+- [x] `[Easy]` Fix TypeScript and lint errors
 - [ ] `[Easy]` Test responsive layouts
-- [ ] `[Medium]` Add error boundaries
+- [x] `[Medium]` Add error boundaries
 - [ ] `[Easy]` Deploy web app and Convex backend
 
 ---
@@ -295,7 +296,7 @@
 ### Web MVP
 - [ ] Authentication works reliably
 - [ ] Google login works reliably
-- [ ] The app enforces one active timer per user
+- [x] Multiple active timers run independently on one shared second boundary
 - [ ] Timer start, pause, resume, and stop work correctly
 - [ ] Folders, sub-folders, and labels can be managed cleanly
 - [ ] Inherited folder labels are applied correctly to timers
@@ -309,5 +310,5 @@
 
 ---
 
-**Last Updated**: March 27, 2026
-**Status**: Phase 1 In Progress - Sections 1.1–1.16 complete (backend + all UI), remaining: pagination, reporting, testing, deployment
+**Last Updated**: July 11, 2026
+**Status**: Web MVP feature work complete. Remaining release gates: full browser/auth QA (including Google login and responsive layouts) and production deployment.

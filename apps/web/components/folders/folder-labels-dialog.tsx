@@ -103,17 +103,17 @@ export function FolderLabelsDialog({
           <DialogDescription>
             Labels selected here will be automatically applied to new time
             entries created in{" "}
-            <span className="font-medium text-stone-200">{folder.name}</span>.
+            <span className="font-medium text-[var(--terra-pine)]">{folder.name}</span>.
           </DialogDescription>
         </DialogHeader>
 
-        <div className="mt-3 max-h-72 overflow-y-auto rounded-2xl border border-stone-800/70 bg-stone-950/60">
+        <div className="mt-3 max-h-72 overflow-y-auto rounded-2xl border border-[var(--border)] bg-[var(--muted)]/60">
           {isLoading ? (
             <LoadingState message="Loading labels..." className="py-6" />
           ) : allLabels.length === 0 ? (
             <div className="flex flex-col items-center gap-2 py-8 text-center">
-              <Tag className="size-5 text-stone-500" />
-              <p className="text-sm text-stone-400">No labels created yet</p>
+              <Tag className="size-5 text-[var(--terra-sage)]" />
+              <p className="text-sm text-[var(--terra-sage)]">No labels created yet</p>
             </div>
           ) : (
             <div className="flex flex-col gap-0.5 p-1.5">
@@ -122,14 +122,14 @@ export function FolderLabelsDialog({
                 inheritedLabelDocs.map((label) => (
                   <div
                     key={`inherited-${label._id}`}
-                    className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm text-stone-500"
+                    className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm text-[var(--terra-sage)]"
                   >
                     <span
                       className="size-2.5 shrink-0 rounded-full opacity-60"
                       style={{ backgroundColor: label.color }}
                     />
                     <span className="flex-1 truncate">{label.name}</span>
-                    <span className="shrink-0 rounded-md bg-stone-800/60 px-1.5 py-0.5 text-[10px] uppercase tracking-wider text-stone-500">
+                    <span className="shrink-0 rounded-md bg-[var(--card)] px-1.5 py-0.5 text-[10px] uppercase tracking-wider text-[var(--terra-sage)]">
                       Inherited
                     </span>
                   </div>
@@ -137,7 +137,7 @@ export function FolderLabelsDialog({
 
               {/* Separator if inherited labels exist */}
               {inheritedLabelDocs.length > 0 && (
-                <div className="mx-2 my-1 h-px bg-stone-800/50" />
+                <div className="mx-2 my-1 h-px bg-[var(--border)]" />
               )}
 
               {/* All labels (checkable, excluding inherited) */}
@@ -153,8 +153,8 @@ export function FolderLabelsDialog({
                       className={cn(
                         "flex items-center gap-2.5 rounded-xl px-3 py-2 text-left text-sm transition-colors",
                         isChecked
-                          ? "bg-stone-800/60 text-stone-100"
-                          : "text-stone-400 hover:bg-stone-900/60 hover:text-stone-200"
+                          ? "bg-[var(--card)] text-[var(--terra-pine)]"
+                          : "text-[var(--terra-sage)] hover:bg-[var(--card)]/60 hover:text-[var(--terra-pine)]"
                       )}
                     >
                       {/* Checkbox */}
@@ -162,12 +162,12 @@ export function FolderLabelsDialog({
                         className={cn(
                           "flex size-4 shrink-0 items-center justify-center rounded border transition-colors",
                           isChecked
-                            ? "border-amber-300/60 bg-amber-300/15"
-                            : "border-stone-700 bg-stone-900/60"
+                            ? "border-[var(--terra-moss)]/60 bg-[var(--terra-moss)]/15"
+                            : "border-[var(--input)] bg-[var(--card)]/60"
                         )}
                       >
                         {isChecked && (
-                          <Check className="size-2.5 text-amber-300" />
+                          <Check className="size-2.5 text-[var(--terra-moss)]" />
                         )}
                       </div>
 

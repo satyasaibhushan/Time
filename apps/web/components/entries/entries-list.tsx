@@ -100,21 +100,21 @@ export function EntriesList({
   }
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-8">
       {groups.map((group) => (
         <div key={group.date.toISOString()} className="flex flex-col gap-2">
           {/* Day header */}
-          <div className="flex items-center justify-between px-1">
-            <span className="text-[11px] uppercase tracking-[0.28em] text-stone-500">
+          <div className="flex items-baseline justify-between px-1">
+            <span className="text-xs font-bold uppercase tracking-[0.1em] text-[var(--terra-sage)]">
               {group.label}
             </span>
-            <span className="text-[11px] tabular-nums uppercase tracking-[0.28em] text-stone-500">
+            <span className="text-xs font-bold tabular-nums text-[var(--terra-sage)]">
               {formatDurationClock(group.totalSeconds)}
             </span>
           </div>
 
           {/* Entry cards */}
-          <div className="flex flex-col gap-1.5">
+          <div className="surface-panel flex flex-col px-1">
             {group.entries.map((entry) => (
               <EntryCard
                 key={entry._id}

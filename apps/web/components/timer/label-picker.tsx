@@ -76,11 +76,11 @@ export function LabelPicker({
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger
         className={cn(
-          "inline-flex items-center gap-2 rounded-xl border border-stone-800/70 bg-stone-900/60 px-3 py-1.5 text-sm text-stone-300 transition-colors hover:border-stone-700 hover:bg-stone-800/60",
+          "inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--card)] px-3 py-1.5 text-sm font-medium text-[var(--terra-pine)] transition-colors hover:border-[var(--terra-moss)]",
           className,
         )}
       >
-        <TagIcon className="size-3.5 text-stone-500" />
+        <TagIcon className="size-3.5 text-[var(--terra-sage)]" />
 
         {totalCount > 0 ? (
           <span className="flex items-center gap-1.5">
@@ -89,7 +89,7 @@ export function LabelPicker({
                 {selectedLabels.slice(0, 2).map((label) => (
                   <span
                     key={label._id}
-                    className="inline-flex items-center gap-1 rounded-md bg-stone-800/80 px-1.5 py-0.5 text-xs text-stone-300"
+                    className="inline-flex items-center gap-1 rounded-full bg-[var(--muted)] px-1.5 py-0.5 text-xs text-[var(--muted-foreground)]"
                   >
                     <span
                       className="size-1.5 rounded-full"
@@ -99,29 +99,26 @@ export function LabelPicker({
                   </span>
                 ))}
                 {totalCount > 2 && (
-                  <span className="text-xs text-stone-500">
+                  <span className="text-xs text-[var(--terra-sage)]">
                     +{totalCount - 2}
                   </span>
                 )}
               </span>
             )}
             {selectedLabels.length === 0 && totalCount > 0 && (
-              <span className="text-xs text-stone-400">
+              <span className="text-xs text-[var(--muted-foreground)]">
                 {totalCount} inherited
               </span>
             )}
           </span>
         ) : (
-          <span className="text-stone-400">Labels</span>
+          <span className="text-[var(--muted-foreground)]">Labels</span>
         )}
 
-        <ChevronDown className="ml-auto size-3.5 text-stone-500" />
+        <ChevronDown className="ml-auto size-3.5 text-[var(--terra-sage)]" />
       </PopoverTrigger>
 
-      <PopoverContent
-        className="w-64 rounded-xl border-stone-800/70 bg-stone-900 p-0"
-        align="start"
-      >
+      <PopoverContent className="w-64 rounded-xl p-0" align="start">
         <Command>
           <CommandInput placeholder="Search labels..." />
           <CommandList>
@@ -142,13 +139,13 @@ export function LabelPicker({
                   >
                     <div
                       className={cn(
-                        "flex size-4 shrink-0 items-center justify-center rounded border border-stone-700",
+                        "flex size-4 shrink-0 items-center justify-center rounded border border-[var(--input)]",
                         (isSelected || isInherited) &&
-                          "border-amber-300/50 bg-amber-300/10",
+                          "border-[var(--terra-moss)] bg-[var(--terra-moss)]/15",
                       )}
                     >
                       {(isSelected || isInherited) && (
-                        <Check className="size-3 text-amber-300" />
+                        <Check className="size-3 text-[var(--terra-moss)]" />
                       )}
                     </div>
                     <span
@@ -158,13 +155,13 @@ export function LabelPicker({
                     <span
                       className={cn(
                         "truncate",
-                        isInherited && "text-stone-500",
+                        isInherited && "text-[var(--terra-sage)]",
                       )}
                     >
                       {label.name}
                     </span>
                     {isInherited && (
-                      <span className="ml-auto text-[10px] text-stone-600">
+                      <span className="ml-auto text-[10px] text-[var(--terra-sage)]">
                         inherited
                       </span>
                     )}

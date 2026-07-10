@@ -148,7 +148,7 @@ export function FolderDialog({
             <div className="flex flex-col gap-1.5">
               <label
                 htmlFor="folder-name"
-                className="text-[11px] uppercase tracking-[0.28em] text-stone-500"
+                className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--terra-sage)]"
               >
                 Name
               </label>
@@ -164,7 +164,7 @@ export function FolderDialog({
 
             {/* Color picker */}
             <div className="flex flex-col gap-1.5">
-              <span className="text-[11px] uppercase tracking-[0.28em] text-stone-500">
+              <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--terra-sage)]">
                 Color
               </span>
               <div className="flex flex-wrap gap-2">
@@ -176,8 +176,8 @@ export function FolderDialog({
                     className={cn(
                       "flex size-7 items-center justify-center rounded-full border-2 transition-all",
                       selectedColor === token.value
-                        ? "border-stone-300 scale-110"
-                        : "border-transparent hover:border-stone-600"
+                        ? "border-[var(--terra-moss)] scale-110"
+                        : "border-transparent hover:border-[var(--border)]"
                     )}
                     title={token.label}
                   >
@@ -186,7 +186,7 @@ export function FolderDialog({
                       style={{ backgroundColor: token.value }}
                     />
                     {selectedColor === token.value && (
-                      <Check className="absolute size-2.5 text-stone-950" />
+                      <Check className="absolute size-2.5 text-[var(--terra-pine)]" />
                     )}
                   </button>
                 ))}
@@ -196,7 +196,7 @@ export function FolderDialog({
             {/* Parent folder select (create mode only) */}
             {isCreate && (
               <div className="flex flex-col gap-1.5">
-                <label className="text-[11px] uppercase tracking-[0.28em] text-stone-500">
+                <label className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--terra-sage)]">
                   Parent folder
                 </label>
                 <Select
