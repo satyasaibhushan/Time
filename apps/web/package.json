@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev --port 3003",
     "build": "next build",
+    "vercel-build": "pnpm --dir ../.. exec convex deploy --cmd-url-env-var-name NEXT_PUBLIC_CONVEX_URL --cmd 'pnpm --filter @time/web build'",
     "start": "next start --port 3003",
     "lint": "eslint .",
     "test:mvp": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --test lib/*.test.ts",
