@@ -355,12 +355,11 @@ A personal-use time tracking application with a web-first MVP and a backend desi
 ---
 
 ## Next Steps
-1. Complete browser QA across desktop and mobile layouts
-2. Verify Auth0 provisioning and Google login end-to-end
-3. Deploy the web app and Convex backend
-4. Begin the native Apple app foundation after the web release is stable
+1. Deploy the web app and Convex backend
+2. Run a production smoke test for authentication, timers, and reporting
+3. Begin the native iOS app foundation in `apps/apple`
 
 ---
 
 **Last Updated**: July 11, 2026
-**Status**: Web MVP feature complete; release QA and deployment remain
+**Status**: Web MVP accepted; production deployment is next, followed by iOS development

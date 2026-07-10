@@ -211,17 +211,17 @@
 - [x] `[Easy]` Do not build team or sharing features
 
 ### 1.19 Testing and Deployment
-- [ ] `[Medium]` Test timer start, pause, resume, stop, and discard flows
+- [x] `[Medium]` Test timer start, pause, resume, stop, and discard flows
 - [ ] `[Medium]` Test hierarchy edge cases
   - Nested folder creation
   - Moving folders
   - Deleting folders and moving contents to `Inbox`
   - Applying inherited folder labels from ancestors
-- [ ] `[Medium]` Test auth and user provisioning flow
-- [ ] `[Easy]` Test Google login end-to-end
+- [x] `[Medium]` Test auth and user provisioning flow
+- [x] `[Easy]` Test Google login end-to-end
 - [ ] `[Medium]` Test date and timezone handling
 - [x] `[Easy]` Fix TypeScript and lint errors
-- [ ] `[Easy]` Test responsive layouts
+- [x] `[Easy]` Test responsive layouts
 - [x] `[Medium]` Add error boundaries
 - [ ] `[Easy]` Deploy web app and Convex backend
 
@@ -294,21 +294,21 @@
 ## Success Checklist
 
 ### Web MVP
-- [ ] Authentication works reliably
-- [ ] Google login works reliably
+- [x] Authentication works reliably
+- [x] Google login works reliably
 - [x] Multiple active timers run independently on one shared second boundary
-- [ ] Timer start, pause, resume, and stop work correctly
-- [ ] Folders, sub-folders, and labels can be managed cleanly
-- [ ] Inherited folder labels are applied correctly to timers
-- [ ] Entries can be created manually and edited later
-- [ ] The app is good enough for daily personal use
+- [x] Timer start, pause, resume, and stop work correctly
+- [x] Folders, sub-folders, and labels can be managed cleanly
+- [x] Inherited folder labels are applied correctly to timers
+- [x] Entries can be created manually and edited later
+- [x] The app is good enough for daily personal use
 
 ### Foundation
-- [ ] No organization model exists anywhere in the schema or UI
-- [ ] The backend schema can be reused for iOS and macOS
-- [ ] The web app does not require major backend redesign before native apps begin
+- [x] No organization model exists anywhere in the schema or UI
+- [x] The backend schema can be reused for iOS and macOS
+- [x] The web app does not require major backend redesign before native apps begin
 
 ---
 
 **Last Updated**: July 11, 2026
-**Status**: Web MVP feature work complete. Remaining release gates: full browser/auth QA (including Google login and responsive layouts) and production deployment.
+**Status**: Web MVP accepted and ready to release. Next: production deployment, then Phase 2 iOS development.
