@@ -68,7 +68,7 @@ export function FolderTree({
     <div className={cn("flex flex-col gap-1", className)}>
       {/* Header row */}
       <div className="flex items-center justify-between px-2 pb-2">
-        <span className="text-[11px] uppercase tracking-[0.28em] text-stone-500">
+        <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--terra-sage)]">
           Folders
         </span>
         <div className="flex items-center gap-1">
@@ -79,7 +79,7 @@ export function FolderTree({
                 <Button
                   variant="ghost"
                   size="icon-xs"
-                  className="text-stone-400 hover:text-stone-300"
+                  className="text-[var(--terra-sage)] hover:text-[var(--terra-pine)]"
                 />
               }
             >
@@ -100,20 +100,20 @@ export function FolderTree({
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" sideOffset={4}>
               <DropdownMenuItem onClick={() => setSortBy("manual")}>
-                <span className={cn(sortBy === "manual" && "text-amber-300")}>
+                <span className={cn(sortBy === "manual" && "text-[var(--terra-moss)]")}>
                   Manual order
                 </span>
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setSortBy("createdAt")}>
                 <span
-                  className={cn(sortBy === "createdAt" && "text-amber-300")}
+                  className={cn(sortBy === "createdAt" && "text-[var(--terra-moss)]")}
                 >
                   Date created
                 </span>
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setSortBy("updatedAt")}>
                 <span
-                  className={cn(sortBy === "updatedAt" && "text-amber-300")}
+                  className={cn(sortBy === "updatedAt" && "text-[var(--terra-moss)]")}
                 >
                   Last updated
                 </span>
@@ -134,7 +134,7 @@ export function FolderTree({
           <Button
             variant="ghost"
             size="icon-xs"
-            className="text-stone-400 hover:text-stone-300"
+            className="text-[var(--terra-sage)] hover:text-[var(--terra-pine)]"
             onClick={() => setCreateOpen(true)}
           >
             <Plus className="size-3.5" />
@@ -149,16 +149,16 @@ export function FolderTree({
         className={cn(
           "group flex items-center gap-2.5 rounded-2xl border px-3 py-2.5 text-left transition-colors",
           isInboxSelected
-            ? "border-amber-300/20 bg-amber-300/[0.08] text-amber-200"
-            : "border-transparent text-stone-300 hover:bg-stone-900/60"
+            ? "border-[var(--terra-moss)]/20 bg-[var(--terra-moss)]/[0.08] text-[var(--terra-moss)]"
+            : "border-transparent text-[var(--terra-pine)] hover:bg-[var(--muted)]/60"
         )}
       >
         <div
           className={cn(
             "flex size-6 items-center justify-center rounded-lg",
             isInboxSelected
-              ? "bg-amber-300/15 text-amber-300"
-              : "bg-stone-800/60 text-stone-500"
+              ? "bg-[var(--terra-moss)]/15 text-[var(--terra-moss)]"
+              : "bg-[var(--muted)] text-[var(--terra-sage)]"
           )}
         >
           <Inbox className="size-3.5" />
@@ -281,8 +281,8 @@ function FolderNode({
         className={cn(
           "group flex items-center gap-1 rounded-2xl border px-2 py-2 text-left transition-colors",
           isSelected
-            ? "border-stone-700/60 bg-stone-900/80 text-stone-100"
-            : "border-transparent text-stone-300 hover:bg-stone-900/50"
+            ? "border-[var(--border)] bg-[var(--muted)] text-[var(--terra-pine)]"
+            : "border-transparent text-[var(--terra-pine)] hover:bg-[var(--muted)]/50"
         )}
         style={{ paddingLeft: `${depth * 20 + 8}px` }}
       >
@@ -291,7 +291,7 @@ function FolderNode({
           type="button"
           onClick={handleToggle}
           className={cn(
-            "flex size-5 shrink-0 items-center justify-center rounded-md text-stone-400 transition-transform hover:text-stone-300",
+            "flex size-5 shrink-0 items-center justify-center rounded-md text-[var(--terra-sage)] transition-transform hover:text-[var(--terra-pine)]",
             expanded && "rotate-90"
           )}
         >
@@ -302,7 +302,7 @@ function FolderNode({
         <span
           className="size-2.5 shrink-0 rounded-full"
           style={{
-            backgroundColor: folder.color ?? "#E6A23C",
+            backgroundColor: folder.color ?? "var(--terra-amber)",
           }}
         />
 
@@ -313,14 +313,14 @@ function FolderNode({
 
         {/* Archived badge */}
         {folder.archived && (
-          <span className="shrink-0 rounded-md bg-stone-800/80 px-1.5 py-0.5 text-[10px] uppercase tracking-wider text-stone-500">
+          <span className="shrink-0 rounded-md bg-[var(--muted)] px-1.5 py-0.5 text-[10px] uppercase tracking-wider text-[var(--terra-sage)]">
             Archived
           </span>
         )}
 
         {/* Child count */}
         {expanded && childCount > 0 && (
-          <span className="shrink-0 text-[11px] tabular-nums text-stone-500">
+          <span className="shrink-0 text-[11px] tabular-nums text-[var(--terra-sage)]">
             {childCount}
           </span>
         )}
@@ -332,7 +332,7 @@ function FolderNode({
               <Button
                 variant="ghost"
                 size="icon-xs"
-                className="shrink-0 text-stone-400 opacity-0 transition-opacity group-hover:opacity-100 data-popup-open:opacity-100"
+                className="shrink-0 text-[var(--terra-sage)] opacity-0 transition-opacity group-hover:opacity-100 data-popup-open:opacity-100"
               />
             }
             onClick={(e) => e.stopPropagation()}
@@ -402,7 +402,7 @@ function FolderNode({
       {/* Expanded but loading children */}
       {expanded && children === undefined && (
         <div
-          className="py-2 text-center text-xs text-stone-500"
+          className="py-2 text-center text-xs text-[var(--terra-sage)]"
           style={{ paddingLeft: `${(depth + 1) * 20 + 8}px` }}
         >
           Loading...

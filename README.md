@@ -1,6 +1,10 @@
 # Time
 
-Phase 1 starts with a `pnpm` monorepo containing:
+The Web MVP is complete and ready for production deployment. After the web
+release, development moves to the native iOS app on the same Convex backend and
+Auth0 identity model.
+
+The `pnpm` monorepo contains:
 
 - `apps/web` for the Next.js web app
 - `apps/apple` as a placeholder for future native app work
@@ -37,3 +41,25 @@ For local Auth0 setup, register these URLs in your Auth0 application:
 
 - Allowed Callback URL: `http://localhost:3003/auth/callback`
 - Allowed Logout URL: `http://localhost:3003`
+
+## Roadmap
+
+1. Deploy the Next.js web app and Convex backend.
+2. Run the production smoke test.
+3. Begin the SwiftUI iOS app in `apps/apple`.
+
+## Production Deployment
+
+The Vercel project uses `apps/web` as its Root Directory. Its committed
+`vercel-build` script deploys the Convex functions before building Next.js, so
+the frontend and backend always come from the same revision.
+
+Add a production Convex deploy key to the Vercel Production environment:
+
+```text
+CONVEX_DEPLOY_KEY=<production deploy key>
+```
+
+The key only needs the `deployment:deploy` permission. Preview deployments
+require a separate Convex preview deploy key under the same variable name in
+Vercel's Preview environment.

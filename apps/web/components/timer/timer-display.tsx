@@ -1,65 +1,32 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
 import { formatDurationClock } from "@time/shared";
 import { cn } from "@/lib/utils";
-
-interface Segment {
-  startTime: number;
-  endTime?: number;
-}
-
-function computeElapsedSeconds(segments: Segment[]): number {
-  const now = Date.now();
-  let total = 0;
-
-  for (const seg of segments) {
-    const end = seg.endTime ?? now;
-    total += Math.max(0, end - seg.startTime);
-  }
-
-  return Math.floor(total / 1000);
-}
+import { elapsedWholeSeconds, type TimerSegment } from "@/lib/timer-state";
+import { useWholeSecondClock } from "@/lib/whole-second-clock";
 
 export function TimerDisplay({
   segments,
   status,
   className,
 }: {
-  segments: Segment[];
+  segments: TimerSegment[];
   status: "running" | "paused" | "completed";
   className?: string;
 }) {
-  const [elapsed, setElapsed] = useState(() => computeElapsedSeconds(segments));
-
-  useEffect(() => {
-    setElapsed(computeElapsedSeconds(segments));
-
-    if (status !== "running") return;
-
-    const interval = setInterval(() => {
-      setElapsed(computeElapsedSeconds(segments));
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [segments, status]);
+  const clockSecond = useWholeSecondClock(status === "running");
+  const elapsed = elapsedWholeSeconds(segments, clockSecond);
 
   return (
     <div
       className={cn(
-        "relative select-none",
-        status === "running" && "animate-pulse [animation-duration:3s]",
+        "select-none font-semibold leading-none tracking-[-0.03em] tabular-nums",
         className,
       )}
+      aria-live="polite"
+      aria-atomic
     >
-      <span
-        className="text-5xl font-semibold tracking-tight text-stone-50 tabular-nums md:text-6xl"
-        aria-live="polite"
-        aria-atomic
-      >
-        {formatDurationClock(elapsed, { includeSeconds: true })}
-      </span>
+      {formatDurationClock(elapsed, { includeSeconds: true })}
     </div>
   );
 }

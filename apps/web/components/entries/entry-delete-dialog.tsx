@@ -63,32 +63,31 @@ export function EntryDeleteDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="rounded-[1.8rem] border-stone-800/70 bg-stone-950 text-stone-100 sm:max-w-sm">
+      <DialogContent className="sm:max-w-sm">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 text-red-300">
+          <DialogTitle className="flex items-center gap-2 text-[var(--destructive)]">
             <AlertTriangle className="size-4" />
             Delete time entry
           </DialogTitle>
-          <DialogDescription className="text-stone-400">
+          <DialogDescription>
             This entry will be permanently removed. This action cannot be undone.
           </DialogDescription>
         </DialogHeader>
 
-        <div className="flex items-center justify-between gap-3 rounded-2xl border border-stone-800/70 bg-stone-900/50 px-4 py-3">
-          <span className="truncate text-sm font-medium text-stone-200">
+        <div className="flex items-center justify-between gap-3 rounded-2xl border border-[var(--border)] bg-[var(--muted)] px-4 py-3">
+          <span className="truncate text-sm font-medium text-[var(--terra-pine)]">
             {entry.title || "Untitled"}
           </span>
-          <span className="shrink-0 text-sm tabular-nums text-stone-400">
+          <span className="shrink-0 text-sm tabular-nums text-[var(--terra-sage)]">
             {formatDurationClock(duration)}
           </span>
         </div>
 
-        <DialogFooter className="border-stone-800/70 bg-stone-900/40">
+        <DialogFooter>
           <Button
             type="button"
             variant="outline"
             onClick={() => onOpenChange(false)}
-            className="rounded-xl border-stone-700 bg-stone-950/80 text-stone-100 hover:bg-stone-800/80 hover:text-stone-50"
           >
             Cancel
           </Button>
@@ -97,7 +96,7 @@ export function EntryDeleteDialog({
             variant="destructive"
             disabled={deleting}
             onClick={handleDelete}
-            className="rounded-xl border border-red-500/35 bg-red-950/45 text-red-100 hover:bg-red-950/65 hover:text-red-50"
+            className="rounded-full bg-[var(--destructive)] text-white hover:bg-[var(--destructive)]/90"
           >
             {deleting ? "Deleting..." : "Delete entry"}
           </Button>

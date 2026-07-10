@@ -1,7 +1,7 @@
 import { v } from "convex/values";
+import { paginationOptsValidator } from "convex/server";
 
-import type { Doc, Id } from "./_generated/dataModel";
-import type { MutationCtx } from "./_generated/server";
+import type { Doc } from "./_generated/dataModel";
 import { mutation, query } from "./_generated/server";
 import { getCurrentUserOrThrow } from "./helpers";
 
@@ -9,27 +9,9 @@ import { getCurrentUserOrThrow } from "./helpers";
 // Internal helpers
 // ---------------------------------------------------------------------------
 
-/**
- * Find the current user's active timer (running or paused).
- * Returns null if there is no active timer.
- */
-async function findActiveTimer(
-  ctx: MutationCtx,
-  userId: Id<"users">,
-): Promise<Doc<"timeEntries"> | null> {
-  const running = await ctx.db
-    .query("timeEntries")
-    .withIndex("by_user_status", (q) => q.eq("userId", userId).eq("status", "running"))
-    .first();
-
-  if (running) return running;
-
-  const paused = await ctx.db
-    .query("timeEntries")
-    .withIndex("by_user_status", (q) => q.eq("userId", userId).eq("status", "paused"))
-    .first();
-
-  return paused;
+/** Timer lifecycle events only need whole-second precision. */
+function wholeSecondNow(): number {
+  return Math.floor(Date.now() / 1_000) * 1_000;
 }
 
 /**
@@ -54,8 +36,8 @@ function computeDurationSeconds(
 // Queries
 // ---------------------------------------------------------------------------
 
-/** Fetch the current user's active timer (running or paused). */
-export const getActiveTimer = query({
+/** List the current user's active timers (running or paused), oldest first. */
+export const listActiveTimers = query({
   args: {},
   handler: async (ctx) => {
     const user = await getCurrentUserOrThrow(ctx);
@@ -63,16 +45,14 @@ export const getActiveTimer = query({
     const running = await ctx.db
       .query("timeEntries")
       .withIndex("by_user_status", (q) => q.eq("userId", user._id).eq("status", "running"))
-      .first();
-
-    if (running) return running;
+      .collect();
 
     const paused = await ctx.db
       .query("timeEntries")
       .withIndex("by_user_status", (q) => q.eq("userId", user._id).eq("status", "paused"))
-      .first();
+      .collect();
 
-    return paused ?? null;
+    return [...running, ...paused].sort((a, b) => a.startedAt - b.startedAt);
   },
 });
 
@@ -91,7 +71,7 @@ export const listByDateRange = query({
         q
           .eq("userId", user._id)
           .gte("startedAt", args.startDate)
-          .lte("startedAt", args.endDate),
+          .lt("startedAt", args.endDate),
       )
       .collect();
   },
@@ -191,13 +171,104 @@ export const listWithFilters = query({
   },
 });
 
+/**
+ * Paginate entries with optional filters. The cursor follows the most useful
+ * available index; filters that are not represented by that index are applied
+ * to each page before it is returned.
+ */
+export const paginateWithFilters = query({
+  args: {
+    paginationOpts: paginationOptsValidator,
+    folderId: v.optional(v.id("folders")),
+    inbox: v.optional(v.boolean()),
+    labelId: v.optional(v.id("labels")),
+    startDate: v.optional(v.number()),
+    endDate: v.optional(v.number()),
+    status: v.optional(
+      v.union(v.literal("running"), v.literal("paused"), v.literal("completed")),
+    ),
+  },
+  handler: async (ctx, args) => {
+    const user = await getCurrentUserOrThrow(ctx);
+
+    const result =
+      args.folderId !== undefined
+        ? await ctx.db
+            .query("timeEntries")
+            .withIndex("by_user_folder", (q) =>
+              q.eq("userId", user._id).eq("folderId", args.folderId),
+            )
+            .order("desc")
+            .paginate(args.paginationOpts)
+        : args.inbox
+          ? await ctx.db
+              .query("timeEntries")
+              .withIndex("by_user_folder", (q) =>
+                q.eq("userId", user._id).eq("folderId", undefined),
+              )
+              .order("desc")
+              .paginate(args.paginationOpts)
+          : args.status !== undefined
+            ? await ctx.db
+                .query("timeEntries")
+                .withIndex("by_user_status", (q) =>
+                  q.eq("userId", user._id).eq("status", args.status!),
+                )
+                .order("desc")
+                .paginate(args.paginationOpts)
+            : await ctx.db
+                .query("timeEntries")
+                .withIndex("by_user_started_at", (q) => q.eq("userId", user._id))
+                .order("desc")
+                .paginate(args.paginationOpts);
+
+    let page = result.page;
+    if (args.startDate !== undefined) {
+      page = page.filter((entry) => entry.startedAt >= args.startDate!);
+    }
+    if (args.endDate !== undefined) {
+      page = page.filter((entry) => entry.startedAt <= args.endDate!);
+    }
+    if (args.status !== undefined && (args.folderId !== undefined || args.inbox)) {
+      page = page.filter((entry) => entry.status === args.status);
+    }
+    if (args.labelId !== undefined) {
+      const folders = await ctx.db
+        .query("folders")
+        .withIndex("by_user", (q) => q.eq("userId", user._id))
+        .collect();
+      const foldersById = new Map(folders.map((folder) => [folder._id, folder]));
+
+      page = page.filter((entry) => {
+        if (entry.manualLabelIds.includes(args.labelId!)) return true;
+
+        let folder = entry.folderId
+          ? foldersById.get(entry.folderId)
+          : undefined;
+        const visited = new Set<string>();
+        while (folder && !visited.has(folder._id)) {
+          visited.add(folder._id);
+          if (folder.defaultLabelIds.includes(args.labelId!)) return true;
+          folder = folder.parentFolderId
+            ? foldersById.get(folder.parentFolderId)
+            : undefined;
+        }
+        return false;
+      });
+    }
+
+    page.sort((a, b) => b.startedAt - a.startedAt);
+    return { ...result, page };
+  },
+});
+
 // ---------------------------------------------------------------------------
 // Mutations — Timer lifecycle
 // ---------------------------------------------------------------------------
 
 /**
  * Start a new timer.
- * - Enforces one active timer per user (throws if one exists)
+ * - Multiple timers may run concurrently
  * - Creates the first segment
  * - Defaults to Inbox if no folder is selected
  */
@@ -211,13 +282,6 @@ export const startTimer = mutation({
   handler: async (ctx, args) => {
     const user = await getCurrentUserOrThrow(ctx);
 
-    const existing = await findActiveTimer(ctx, user._id);
-    if (existing) {
-      throw new Error(
-        `You already have an active timer (${existing.status}). Stop or discard it first.`,
-      );
-    }
-
     if (args.folderId) {
       const folder = await ctx.db.get(args.folderId);
       if (!folder || folder.userId !== user._id) {
@@ -225,7 +289,7 @@ export const startTimer = mutation({
       }
     }
 
-    const now = Date.now();
+    const now = wholeSecondNow();
 
     return await ctx.db.insert("timeEntries", {
       userId: user._id,
@@ -259,7 +323,7 @@ export const pauseTimer = mutation({
       throw new Error(`Cannot pause a timer that is ${entry.status}`);
     }
 
-    const now = Date.now();
+    const now = wholeSecondNow();
 
     const segments = entry.segments.map((seg, i) => {
       if (i === entry.segments.length - 1 && seg.endTime === undefined) {
@@ -295,7 +359,7 @@ export const resumeTimer = mutation({
       throw new Error(`Cannot resume a timer that is ${entry.status}`);
     }
 
-    const now = Date.now();
+    const now = wholeSecondNow();
 
     await ctx.db.patch(args.entryId, {
       status: "running",
@@ -324,7 +388,7 @@ export const stopTimer = mutation({
       throw new Error("Timer is already stopped");
     }
 
-    const now = Date.now();
+    const now = wholeSecondNow();
 
     const segments = entry.segments.map((seg, i) => {
       if (i === entry.segments.length - 1 && seg.endTime === undefined) {
@@ -378,20 +442,13 @@ export const continueEntry = mutation({
   handler: async (ctx, args) => {
     const user = await getCurrentUserOrThrow(ctx);
 
-    const existing = await findActiveTimer(ctx, user._id);
-    if (existing) {
-      throw new Error(
-        `You already have an active timer (${existing.status}). Stop or discard it first.`,
-      );
-    }
-
     const source = await ctx.db.get(args.sourceEntryId);
 
     if (!source || source.userId !== user._id) {
       throw new Error("Source entry not found");
     }
 
-    const now = Date.now();
+    const now = wholeSecondNow();
 
     return await ctx.db.insert("timeEntries", {
       userId: user._id,

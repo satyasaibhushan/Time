@@ -73,7 +73,8 @@ A personal-use time tracking application with a web-first MVP and a backend desi
 
 #### Timer Tracking
 - Start, stop, pause, and resume a timer
-- Keep one active timer per user
+- Allow multiple active timers per user
+- Align every live display to the same wall-clock second boundary
 - Show live running time on the dashboard
 - Allow a timer title and optional notes
 - Continue a previous timer with the same setup
@@ -194,7 +195,8 @@ A personal-use time tracking application with a web-first MVP and a backend desi
 ```
 
 ### Timer Rules
-- Only one entry can be in `running` or `paused` state for a user at a time
+- Multiple entries can be in `running` or `paused` state for a user at a time
+- Timer lifecycle timestamps use whole-second precision
 - `segments` is the source of truth for pause and resume
 - `durationSeconds` is derived and stored when needed for fast reporting
 - Timer calculations should use server time where possible, with client-side live updates for display only
@@ -340,7 +342,7 @@ A personal-use time tracking application with a web-first MVP and a backend desi
 
 ### MVP Functionality
 - Timer start, stop, pause, and resume are reliable
-- One running timer rule is always enforced
+- Concurrent timers remain independent and tick in sync
 - Folders and labels are easy to manage
 - Entries can be added manually and edited later
 - The web app feels fast and stable for daily personal use
@@ -353,12 +355,11 @@ A personal-use time tracking application with a web-first MVP and a backend desi
 ---
 
 ## Next Steps
-1. Approve the revised scope and data model
-2. Start the monorepo and web app foundation
-3. Implement Convex schema, Auth0 + Google authentication, and core timer flows
-4. Build folders, labels, and entries UI
+1. Deploy the web app and Convex backend
+2. Run a production smoke test for authentication, timers, and reporting
+3. Begin the native iOS app foundation in `apps/apple`
 
 ---
 
-**Last Updated**: March 11, 2026
-**Status**: Planning Phase - Web MVP first
+**Last Updated**: July 11, 2026
+**Status**: Web MVP accepted; production deployment is next, followed by iOS development

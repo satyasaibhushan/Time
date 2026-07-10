@@ -141,11 +141,11 @@ export function FolderMoveDialog({
           <DialogTitle>Move folder</DialogTitle>
           <DialogDescription>
             Choose a new location for{" "}
-            <span className="font-medium text-stone-200">{folder.name}</span>.
+            <span className="font-medium text-[var(--terra-pine)]">{folder.name}</span>.
           </DialogDescription>
         </DialogHeader>
 
-        <div className="mt-3 max-h-72 overflow-y-auto rounded-2xl border border-stone-800/70 bg-stone-950/60">
+        <div className="mt-3 max-h-72 overflow-y-auto rounded-2xl border border-[var(--border)] bg-[var(--muted)]/60">
           {allFolders === undefined ? (
             <LoadingState message="Loading folders..." className="py-6" />
           ) : (
@@ -157,19 +157,19 @@ export function FolderMoveDialog({
                 className={cn(
                   "flex items-center gap-2.5 rounded-xl px-3 py-2 text-left text-sm transition-colors",
                   selected === null
-                    ? "bg-stone-800/60 text-stone-100"
-                    : "text-stone-400 hover:bg-stone-900/60 hover:text-stone-200"
+                    ? "bg-[var(--card)] text-[var(--terra-pine)]"
+                    : "text-[var(--terra-sage)] hover:bg-[var(--card)]/60 hover:text-[var(--terra-pine)]"
                 )}
               >
                 <Home className="size-3.5 shrink-0" />
                 <span className="flex-1 font-medium">Root level</span>
                 {currentParentId === null && (
-                  <span className="text-[10px] uppercase tracking-wider text-stone-500">
+                  <span className="text-[10px] uppercase tracking-wider text-[var(--terra-sage)]">
                     Current
                   </span>
                 )}
                 {selected === null && (
-                  <Check className="size-3.5 text-amber-300" />
+                  <Check className="size-3.5 text-[var(--terra-moss)]" />
                 )}
               </button>
 
@@ -186,8 +186,8 @@ export function FolderMoveDialog({
                     className={cn(
                       "flex items-center gap-2.5 rounded-xl px-3 py-2 text-left text-sm transition-colors",
                       isActive
-                        ? "bg-stone-800/60 text-stone-100"
-                        : "text-stone-400 hover:bg-stone-900/60 hover:text-stone-200"
+                        ? "bg-[var(--card)] text-[var(--terra-pine)]"
+                        : "text-[var(--terra-sage)] hover:bg-[var(--card)]/60 hover:text-[var(--terra-pine)]"
                     )}
                     style={{ paddingLeft: `${f.depth * 16 + 12}px` }}
                   >
@@ -197,15 +197,15 @@ export function FolderMoveDialog({
                         backgroundColor: f.color ?? DEFAULT_FOLDER_COLOR,
                       }}
                     />
-                    <FolderIcon className="size-3.5 shrink-0 text-stone-500" />
+                    <FolderIcon className="size-3.5 shrink-0 text-[var(--terra-sage)]" />
                     <span className="flex-1 truncate">{f.name}</span>
                     {isCurrent && (
-                      <span className="text-[10px] uppercase tracking-wider text-stone-500">
+                      <span className="text-[10px] uppercase tracking-wider text-[var(--terra-sage)]">
                         Current
                       </span>
                     )}
                     {isActive && (
-                      <Check className="size-3.5 text-amber-300" />
+                      <Check className="size-3.5 text-[var(--terra-moss)]" />
                     )}
                   </button>
                 );

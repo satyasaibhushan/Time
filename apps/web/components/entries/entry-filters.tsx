@@ -14,8 +14,6 @@ import {
 } from "date-fns";
 import {
   CalendarDays,
-  FolderIcon,
-  TagIcon,
   Inbox,
   X,
   Check,
@@ -29,6 +27,10 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
+import {
+  FolderFilterDropdown,
+  LabelFilterDropdown,
+} from "@/components/filters/entity-filter-dropdown";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -151,71 +153,46 @@ export function EntryFiltersBar({ filters, onFiltersChange }: EntryFiltersProps)
 
   return (
     <div className="flex flex-wrap items-center gap-2">
-      {/* Folder filter */}
-      <div className="relative">
-        <FolderIcon className="pointer-events-none absolute left-2.5 top-1/2 size-3.5 -translate-y-1/2 text-stone-500" />
-        <select
-          value={filters.folderId ?? "__all__"}
-          onChange={(e) => {
-            const val = e.target.value;
-            onFiltersChange({
-              ...filters,
-              folderId: val === "__all__" ? undefined : (val as Id<"folders">),
-              inbox: val === "__all__" ? filters.inbox : false,
-            });
-          }}
-          className="h-7 appearance-none rounded-xl border border-stone-800/70 bg-stone-900/60 pl-7 pr-6 text-[0.8rem] text-stone-300 transition-colors hover:border-stone-700 hover:bg-stone-800/60 focus:border-amber-300/40 focus:outline-none"
-        >
-          <option value="__all__">All Folders</option>
-          {allFolders?.map((folder) => (
-            <option key={folder._id} value={folder._id}>
-              {folder.name}
-            </option>
-          ))}
-        </select>
-      </div>
+      <FolderFilterDropdown
+        value={filters.inbox ? "inbox" : (filters.folderId ?? "all")}
+        onChange={(value) =>
+          onFiltersChange({
+            ...filters,
+            folderId:
+              value === "all" || value === "inbox" ? undefined : value,
+            inbox: value === "inbox",
+          })
+        }
+        folders={allFolders ?? []}
+      />
 
-      {/* Label filter */}
-      <div className="relative">
-        <TagIcon className="pointer-events-none absolute left-2.5 top-1/2 size-3.5 -translate-y-1/2 text-stone-500" />
-        <select
-          value={filters.labelId ?? "__all__"}
-          onChange={(e) => {
-            const val = e.target.value;
-            onFiltersChange({
-              ...filters,
-              labelId: val === "__all__" ? undefined : (val as Id<"labels">),
-            });
-          }}
-          className="h-7 appearance-none rounded-xl border border-stone-800/70 bg-stone-900/60 pl-7 pr-6 text-[0.8rem] text-stone-300 transition-colors hover:border-stone-700 hover:bg-stone-800/60 focus:border-amber-300/40 focus:outline-none"
-        >
-          <option value="__all__">All Labels</option>
-          {allLabels?.map((label) => (
-            <option key={label._id} value={label._id}>
-              {label.name}
-            </option>
-          ))}
-        </select>
-      </div>
+      <LabelFilterDropdown
+        value={filters.labelId ?? "all"}
+        onChange={(value) =>
+          onFiltersChange({
+            ...filters,
+            labelId: value === "all" ? undefined : value,
+          })
+        }
+        labels={allLabels ?? []}
+      />
 
       {/* Date range */}
       <Popover open={datePopoverOpen} onOpenChange={setDatePopoverOpen}>
         <PopoverTrigger
           className={cn(
-            "inline-flex h-7 items-center gap-1.5 rounded-xl border border-stone-800/70 bg-stone-900/60 px-2.5 text-[0.8rem] text-stone-300 transition-colors hover:border-stone-700 hover:bg-stone-800/60",
-            currentPreset !== "all" && "border-amber-300/30 text-amber-300",
+            "inline-flex h-8 items-center gap-1.5 rounded-full border border-[var(--border)] bg-[var(--card)] px-3 text-[0.8rem] font-medium text-[var(--muted-foreground)] transition-colors hover:border-[var(--terra-moss)]",
+            currentPreset !== "all" &&
+              "border-[var(--terra-moss)] bg-[var(--terra-moss)]/10 text-[var(--terra-moss)]",
           )}
         >
-          <CalendarDays className="size-3.5 text-stone-500" />
+          <CalendarDays className="size-3.5 opacity-70" />
           <span>{dateLabel}</span>
         </PopoverTrigger>
-        <PopoverContent
-          className="w-auto rounded-xl border-stone-800/70 bg-stone-900 p-0"
-          align="start"
-        >
+        <PopoverContent className="w-auto rounded-xl p-0" align="start">
           <div className="flex flex-col">
             {/* Presets */}
-            <div className="flex flex-col gap-0.5 border-b border-stone-800/70 p-2">
+            <div className="flex flex-col gap-0.5 border-b border-[var(--border)] p-2">
               {(["today", "week", "month", "all"] as DatePreset[]).map(
                 (preset) => (
                   <button
@@ -239,14 +216,14 @@ export function EntryFiltersBar({ filters, onFiltersChange }: EntryFiltersProps)
                       setDatePopoverOpen(false);
                     }}
                     className={cn(
-                      "flex items-center justify-between rounded-lg px-3 py-1.5 text-left text-sm text-stone-300 transition-colors hover:bg-stone-800/60",
+                      "flex items-center justify-between rounded-lg px-3 py-1.5 text-left text-sm text-[var(--terra-pine)] transition-colors hover:bg-[var(--muted)]",
                       currentPreset === preset &&
-                        "bg-stone-800/60 text-amber-300",
+                        "bg-[var(--muted)] font-semibold text-[var(--terra-moss)]",
                     )}
                   >
                     {getDatePresetLabel(preset)}
                     {currentPreset === preset && (
-                      <Check className="size-3.5 text-amber-300" />
+                      <Check className="size-3.5 text-[var(--terra-moss)]" />
                     )}
                   </button>
                 ),
@@ -255,7 +232,7 @@ export function EntryFiltersBar({ filters, onFiltersChange }: EntryFiltersProps)
 
             {/* Calendar for custom range */}
             <div className="p-2">
-              <p className="mb-1.5 px-1 text-[11px] uppercase tracking-[0.28em] text-stone-500">
+              <p className="mb-1.5 px-1 text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--terra-sage)]">
                 Custom Range
               </p>
               <Calendar
@@ -295,8 +272,9 @@ export function EntryFiltersBar({ filters, onFiltersChange }: EntryFiltersProps)
           })
         }
         className={cn(
-          "inline-flex h-7 items-center gap-1.5 rounded-xl border border-stone-800/70 bg-stone-900/60 px-2.5 text-[0.8rem] text-stone-300 transition-colors hover:border-stone-700 hover:bg-stone-800/60",
-          filters.inbox && "border-amber-300/30 bg-amber-300/5 text-amber-300",
+          "inline-flex h-8 items-center gap-1.5 rounded-full border border-[var(--border)] bg-[var(--card)] px-3 text-[0.8rem] font-medium text-[var(--muted-foreground)] transition-colors hover:border-[var(--terra-moss)]",
+          filters.inbox &&
+            "border-[var(--terra-moss)] bg-[var(--terra-moss)]/10 text-[var(--terra-moss)]",
         )}
       >
         <Inbox className="size-3.5" />
@@ -309,7 +287,7 @@ export function EntryFiltersBar({ filters, onFiltersChange }: EntryFiltersProps)
           variant="ghost"
           size="sm"
           onClick={() => onFiltersChange({})}
-          className="gap-1 text-stone-400 hover:text-stone-300"
+          className="gap-1 rounded-full text-[var(--terra-sage)] hover:text-[var(--terra-pine)]"
         >
           <X className="size-3" />
           Clear

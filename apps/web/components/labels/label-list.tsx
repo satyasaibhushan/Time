@@ -59,15 +59,15 @@ export function LabelList() {
           <div
             key={label._id}
             className={cn(
-              "group flex items-center gap-3 rounded-2xl border border-stone-800/70 bg-stone-900/65 px-4 py-4",
-              "transition-colors hover:border-stone-700/70 hover:bg-stone-900/80"
+              "group flex items-center gap-3 rounded-2xl border border-[var(--border)] bg-[var(--card)] px-4 py-4",
+              "transition-colors hover:border-[var(--terra-moss)]/40"
             )}
           >
             <span
               className="size-3 shrink-0 rounded-full"
               style={{ backgroundColor: label.color }}
             />
-            <span className="flex-1 truncate text-sm font-medium text-stone-200">
+            <span className="flex-1 truncate text-sm font-medium text-[var(--terra-pine)]">
               {label.name}
             </span>
 
@@ -77,7 +77,7 @@ export function LabelList() {
                 size="icon-xs"
                 aria-label={`Edit ${label.name}`}
                 onClick={() => setEditLabel(label as LabelDoc)}
-                className="text-stone-400 hover:text-stone-200"
+                className="text-[var(--terra-sage)] hover:text-[var(--terra-pine)]"
               >
                 <Pencil className="size-3.5" />
               </Button>
@@ -86,7 +86,7 @@ export function LabelList() {
                 size="icon-xs"
                 aria-label={`Delete ${label.name}`}
                 onClick={() => setDeleteLabel(label as LabelDoc)}
-                className="text-stone-400 hover:text-red-400"
+                className="text-[var(--terra-sage)] hover:text-[var(--terra-clay)]"
               >
                 <Trash2 className="size-3.5" />
               </Button>

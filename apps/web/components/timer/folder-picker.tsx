@@ -92,7 +92,7 @@ export function FolderPicker({
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger
         className={cn(
-          "inline-flex items-center gap-2 rounded-xl border border-stone-800/70 bg-stone-900/60 px-3 py-1.5 text-sm text-stone-300 transition-colors hover:border-stone-700 hover:bg-stone-800/60",
+          "inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--card)] px-3 py-1.5 text-sm font-medium text-[var(--terra-pine)] transition-colors hover:border-[var(--terra-moss)]",
           className,
         )}
       >
@@ -106,17 +106,14 @@ export function FolderPicker({
           </>
         ) : (
           <>
-            <InboxIcon className="size-3.5 text-stone-500" />
-            <span className="text-stone-400">Inbox</span>
+            <InboxIcon className="size-3.5 text-[var(--terra-sage)]" />
+            <span className="text-[var(--muted-foreground)]">Inbox</span>
           </>
         )}
-        <ChevronDown className="ml-auto size-3.5 text-stone-500" />
+        <ChevronDown className="ml-auto size-3.5 text-[var(--terra-sage)]" />
       </PopoverTrigger>
 
-      <PopoverContent
-        className="w-64 rounded-xl border-stone-800/70 bg-stone-900 p-0"
-        align="start"
-      >
+      <PopoverContent className="w-64 rounded-xl p-0" align="start">
         <Command>
           <CommandInput placeholder="Search folders..." />
           <CommandList>
@@ -130,7 +127,7 @@ export function FolderPicker({
                   setOpen(false);
                 }}
               >
-                <InboxIcon className="size-3.5 text-stone-400" />
+                <InboxIcon className="size-3.5 text-[var(--terra-sage)]" />
                 <span>Inbox</span>
               </CommandItem>
 
@@ -151,7 +148,7 @@ export function FolderPicker({
                       backgroundColor: getFolderColor(folder.color),
                     }}
                   />
-                  <FolderIcon className="size-3.5 text-stone-500" />
+                  <FolderIcon className="size-3.5 text-[var(--terra-sage)]" />
                   <span className="truncate">{folder.name}</span>
                 </CommandItem>
               ))}
