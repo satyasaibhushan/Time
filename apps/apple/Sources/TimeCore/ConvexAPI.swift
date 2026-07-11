@@ -13,16 +13,27 @@ public enum ConvexAPI {
         public static let resume = "timeEntries:resumeTimer"
         public static let stop = "timeEntries:stopTimer"
         public static let discard = "timeEntries:discardTimer"
+        public static let continueEntry = "timeEntries:continueEntry"
         public static let createManual = "timeEntries:createManualEntry"
+        public static let edit = "timeEntries:editEntry"
+        public static let delete = "timeEntries:deleteEntry"
     }
 
     public enum Folders {
         public static let listAll = "folders:listAllFolders"
         public static let create = "folders:createFolder"
+        public static let rename = "folders:renameFolder"
+        public static let move = "folders:moveFolder"
+        public static let updateDefaultLabels = "folders:updateDefaultLabels"
+        public static let archive = "folders:archiveFolder"
+        public static let unarchive = "folders:unarchiveFolder"
+        public static let delete = "folders:deleteFolder"
     }
 
     public enum Labels {
         public static let list = "labels:listLabels"
         public static let create = "labels:createLabel"
+        public static let update = "labels:updateLabel"
+        public static let delete = "labels:deleteLabel"
     }
 }

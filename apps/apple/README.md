@@ -15,6 +15,13 @@ presentation code.
 - Auth0 Universal Login with cached Keychain credentials
 - Reproducible Xcode project generated from `project.yml`
 - Native timer dashboard with multiple synchronized timers
+- Terra-styled navigation matching the web app across Now, Log, Folders,
+  Labels, and Setup
+- Full timer composer with notes, folder selection, and labels
+- Searchable entry history with Day, Week, Month, folder, and label filters
+- Manual entry creation plus edit, continue, and delete actions
+- Nested folder management with parent moves, default labels, and archiving
+- Label creation, editing, color selection, usage counts, and deletion
 - Compact current-timer widget with a system-rendered live clock
 - Configurable horizontal summary widget with Day, Week, or Month range
 - Dynamic folder and label filters backed by the shared app snapshot
@@ -34,10 +41,10 @@ xcodegen generate
 open Time.xcodeproj
 ```
 
-The app currently uses the same `silent-bat-335` Convex deployment URL as the
-web app. Active timers, recent entries, folders, and labels update through live
-subscriptions; timer lifecycle actions call the existing Convex mutations.
-Synced data is also published to the widget App Group.
+The app currently uses the configured `silent-bat-335` Convex deployment.
+Active timers, recent entries, folders, and labels update through live
+subscriptions; all native management actions call the existing Convex
+mutations. Synced data is also published to the widget App Group.
 
 ## Auth0 native application
 

@@ -9,21 +9,26 @@
 /* Begin PBXBuildFile section */
 		01B89D164169DDD21D452030 /* SummaryWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EDA7C972C87BE6E28ABE1A /* SummaryWidget.swift */; };
 		0649BDF9808BE2DB1C0C3CE1 /* TimeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481217585466C18EF6A9DA75 /* TimeApp.swift */; };
+		15A4FED366020F5F81A0D83A /* FoldersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6478BC4CE2A603D52DD90E9A /* FoldersView.swift */; };
 		1A933524034003988ADCC7E8 /* AppSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED1AF2ED47D261F837A9AE0 /* AppSession.swift */; };
 		4DA89ADC2952AA5FDF40B9AA /* ConvexAuth0 in Frameworks */ = {isa = PBXBuildFile; productRef = 8492B7210B6BC6B688661A78 /* ConvexAuth0 */; };
 		597D3973CD7EE1790820D370 /* TimeWidgetsBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F2C6CA5C8440E6C6A283CA /* TimeWidgetsBundle.swift */; };
 		690BF0FEF1CFEC85D83A79CE /* TimeCore in Frameworks */ = {isa = PBXBuildFile; productRef = F2D116BD2303873DA45BBCB3 /* TimeCore */; };
+		7E669A8D1907EA1E99DE2F87 /* EntriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3BAE54977877A74DF4280A /* EntriesView.swift */; };
 		818243CE13422869BD2D56C9 /* SummaryWidgetIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7D9AB488B707D0367857DE /* SummaryWidgetIntent.swift */; };
 		8183B46FE6346553D1D40CFC /* ConvexMobile in Frameworks */ = {isa = PBXBuildFile; productRef = 6D6A1F7B89F0323C3642B2A2 /* ConvexMobile */; };
 		96A65866302A1658E9FB5EF0 /* TimerDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD589CA54B39F87966CAE21 /* TimerDashboardView.swift */; };
 		97A6E4D2C7F65BBD4C67CB1C /* TimeCore in Frameworks */ = {isa = PBXBuildFile; productRef = DDA601EA0D8B74CFF06354A4 /* TimeCore */; };
 		985E3F3E32410A8912F7F04E /* ConvexTimerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867028771E0C1149BB22E1A4 /* ConvexTimerStore.swift */; };
+		9C0881051CB0CCE615287D42 /* LabelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6EBCD89D5DA173E00EB3E0 /* LabelsView.swift */; };
 		B2BCAC1BF7B04FF99EF484AA /* Auth0 in Frameworks */ = {isa = PBXBuildFile; productRef = DCE4BA1EF200E50EB2ACE32C /* Auth0 */; };
 		BEAF998C9EF152B9FFE6B53C /* TimeWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3BFD67883556F9E8D91E62F8 /* TimeWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C0E2A1A8C70284AB9EDDCCF8 /* WidgetSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = D25F078311C5555CA473214E /* WidgetSupport.swift */; };
 		C1909D660E1F8AB5D50C39EB /* CurrentTimerWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977BCB61E371453128B2378F /* CurrentTimerWidget.swift */; };
 		C937A7821387E97FF3582593 /* TimeTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809E7D246715AD46D2ED12B2 /* TimeTheme.swift */; };
 		CEC9C28E088BB8B4353972F0 /* ConvexConcurrency.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBA247E937897E1BF2B043E /* ConvexConcurrency.swift */; };
+		D9293B86B051390386820127 /* TerraComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF97CBEC2FC6CD5772D532C /* TerraComponents.swift */; };
+		E54E1B4FE85DC77682CDAA56 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7715A6FC135572801D176B89 /* SettingsView.swift */; };
 		FD7F09463B2361DD1DFC0112 /* Auth0.plist in Resources */ = {isa = PBXBuildFile; fileRef = 78263E0043BFF297C0599862 /* Auth0.plist */; };
 		FDEA0992B6B3059B6E414667 /* AppRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC21138584FDBECD81C70C36 /* AppRootView.swift */; };
 /* End PBXBuildFile section */
@@ -57,18 +62,23 @@
 		3BFD67883556F9E8D91E62F8 /* TimeWidgets.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = TimeWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		4618876CEFABE65207547455 /* Time.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Time.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		481217585466C18EF6A9DA75 /* TimeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeApp.swift; sourceTree = "<group>"; };
+		4B6EBCD89D5DA173E00EB3E0 /* LabelsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelsView.swift; sourceTree = "<group>"; };
+		6478BC4CE2A603D52DD90E9A /* FoldersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoldersView.swift; sourceTree = "<group>"; };
 		6DD589CA54B39F87966CAE21 /* TimerDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerDashboardView.swift; sourceTree = "<group>"; };
 		74EDA7C972C87BE6E28ABE1A /* SummaryWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryWidget.swift; sourceTree = "<group>"; };
+		7715A6FC135572801D176B89 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		78263E0043BFF297C0599862 /* Auth0.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Auth0.plist; sourceTree = "<group>"; };
 		7BFDD3CDEBFA5C08DC0E4DF0 /* apple */ = {isa = PBXFileReference; lastKnownFileType = folder; name = apple; path = .; sourceTree = SOURCE_ROOT; };
 		809E7D246715AD46D2ED12B2 /* TimeTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTheme.swift; sourceTree = "<group>"; };
 		867028771E0C1149BB22E1A4 /* ConvexTimerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvexTimerStore.swift; sourceTree = "<group>"; };
 		977BCB61E371453128B2378F /* CurrentTimerWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentTimerWidget.swift; sourceTree = "<group>"; };
+		9A3BAE54977877A74DF4280A /* EntriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesView.swift; sourceTree = "<group>"; };
 		9ED1AF2ED47D261F837A9AE0 /* AppSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSession.swift; sourceTree = "<group>"; };
 		AE7D9AB488B707D0367857DE /* SummaryWidgetIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryWidgetIntent.swift; sourceTree = "<group>"; };
 		B66D8EC514E0E497B8D3A0F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		BC21138584FDBECD81C70C36 /* AppRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRootView.swift; sourceTree = "<group>"; };
 		C6F2C6CA5C8440E6C6A283CA /* TimeWidgetsBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeWidgetsBundle.swift; sourceTree = "<group>"; };
+		CEF97CBEC2FC6CD5772D532C /* TerraComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerraComponents.swift; sourceTree = "<group>"; };
 		D25F078311C5555CA473214E /* WidgetSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetSupport.swift; sourceTree = "<group>"; };
 		D8B9FBD238427E1527478485 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		D937B11A95365CE1A26FE709 /* TimeWidgets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TimeWidgets.entitlements; sourceTree = "<group>"; };
@@ -106,7 +116,12 @@
 				78263E0043BFF297C0599862 /* Auth0.plist */,
 				EFBA247E937897E1BF2B043E /* ConvexConcurrency.swift */,
 				867028771E0C1149BB22E1A4 /* ConvexTimerStore.swift */,
+				9A3BAE54977877A74DF4280A /* EntriesView.swift */,
+				6478BC4CE2A603D52DD90E9A /* FoldersView.swift */,
 				B66D8EC514E0E497B8D3A0F7 /* Info.plist */,
+				4B6EBCD89D5DA173E00EB3E0 /* LabelsView.swift */,
+				7715A6FC135572801D176B89 /* SettingsView.swift */,
+				CEF97CBEC2FC6CD5772D532C /* TerraComponents.swift */,
 				13A1780FD6628553B0FF496A /* Time.entitlements */,
 				481217585466C18EF6A9DA75 /* TimeApp.swift */,
 				6DD589CA54B39F87966CAE21 /* TimerDashboardView.swift */,
@@ -280,6 +295,11 @@
 				1A933524034003988ADCC7E8 /* AppSession.swift in Sources */,
 				CEC9C28E088BB8B4353972F0 /* ConvexConcurrency.swift in Sources */,
 				985E3F3E32410A8912F7F04E /* ConvexTimerStore.swift in Sources */,
+				7E669A8D1907EA1E99DE2F87 /* EntriesView.swift in Sources */,
+				15A4FED366020F5F81A0D83A /* FoldersView.swift in Sources */,
+				9C0881051CB0CCE615287D42 /* LabelsView.swift in Sources */,
+				E54E1B4FE85DC77682CDAA56 /* SettingsView.swift in Sources */,
+				D9293B86B051390386820127 /* TerraComponents.swift in Sources */,
 				0649BDF9808BE2DB1C0C3CE1 /* TimeApp.swift in Sources */,
 				C937A7821387E97FF3582593 /* TimeTheme.swift in Sources */,
 				96A65866302A1658E9FB5EF0 /* TimerDashboardView.swift in Sources */,

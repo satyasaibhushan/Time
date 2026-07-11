@@ -1,5 +1,5 @@
 import Combine
-import ConvexMobile
+@preconcurrency import ConvexMobile
 import Foundation
 import Observation
 import TimeCore
@@ -9,6 +9,7 @@ import WidgetKit
 @Observable
 final class ConvexTimerStore {
     var draftTitle = ""
+    private(set) var profile: UserProfile?
     private(set) var timers: [TimeEntry] = []
     private(set) var completedEntries: [TimeEntry] = []
     private(set) var folders: [Folder] = []
@@ -34,6 +35,19 @@ final class ConvexTimerStore {
         pendingMutationCount > 0
     }
 
+    var activeFolders: [Folder] {
+        folders.filter { !$0.archived }
+    }
+
+    func folder(for id: DocumentID?) -> Folder? {
+        guard let id else { return nil }
+        return folders.first { $0.id == id }
+    }
+
+    func label(for id: DocumentID) -> TimeCore.Label? {
+        labels.first { $0.id == id }
+    }
+
     func startTimer() {
         let title = draftTitle.trimmingCharacters(in: .whitespacesAndNewlines)
         draftTitle = ""
@@ -43,6 +57,22 @@ final class ConvexTimerStore {
                 with: ["title": title]
             )
         }
+    }
+
+    func startTimer(
+        title: String,
+        notes: String,
+        folderId: DocumentID?,
+        labelIds: Set<DocumentID>
+    ) async -> Bool {
+        var args: [String: ConvexEncodable?] = [
+            "title": title.trimmingCharacters(in: .whitespacesAndNewlines),
+            "manualLabelIds": convexIds(labelIds),
+        ]
+        let cleanNotes = notes.trimmingCharacters(in: .whitespacesAndNewlines)
+        if !cleanNotes.isEmpty { args["notes"] = cleanNotes }
+        if let folderId { args["folderId"] = folderId }
+        return await performMutation(ConvexAPI.TimeEntries.start, args: consume args)
     }
 
     func toggleTimer(_ timer: TimeEntry) {
@@ -75,11 +105,174 @@ final class ConvexTimerStore {
         }
     }
 
+    func continueEntry(_ entry: TimeEntry) async -> Bool {
+        await performMutation {
+            let _: DocumentID = try await self.client.mutation(
+                ConvexAPI.TimeEntries.continueEntry,
+                with: ["sourceEntryId": entry.id]
+            )
+        }
+    }
+
+    func createManualEntry(
+        title: String,
+        notes: String,
+        folderId: DocumentID?,
+        labelIds: Set<DocumentID>,
+        start: Date,
+        end: Date
+    ) async -> Bool {
+        var args: [String: ConvexEncodable?] = [
+            "title": title.trimmingCharacters(in: .whitespacesAndNewlines),
+            "manualLabelIds": convexIds(labelIds),
+            "startTime": start.millisecondsSince1970,
+            "endTime": end.millisecondsSince1970,
+        ]
+        let cleanNotes = notes.trimmingCharacters(in: .whitespacesAndNewlines)
+        if !cleanNotes.isEmpty { args["notes"] = cleanNotes }
+        if let folderId { args["folderId"] = folderId }
+        return await performMutation(ConvexAPI.TimeEntries.createManual, args: consume args)
+    }
+
+    func editEntry(
+        _ entry: TimeEntry,
+        title: String,
+        notes: String,
+        folderId: DocumentID?,
+        labelIds: Set<DocumentID>,
+        start: Date,
+        end: Date
+    ) async -> Bool {
+        var args: [String: ConvexEncodable?] = [
+            "entryId": entry.id,
+            "title": title.trimmingCharacters(in: .whitespacesAndNewlines),
+            "notes": notes.trimmingCharacters(in: .whitespacesAndNewlines),
+            "manualLabelIds": convexIds(labelIds),
+            "startTime": start.millisecondsSince1970,
+            "endTime": end.millisecondsSince1970,
+        ]
+        if let folderId {
+            args["folderId"] = folderId
+        } else {
+            args["clearFolder"] = true
+        }
+        return await performMutation(ConvexAPI.TimeEntries.edit, args: consume args)
+    }
+
+    func deleteEntry(_ entry: TimeEntry) async -> Bool {
+        await performMutation {
+            let _: DocumentID = try await self.client.mutation(
+                ConvexAPI.TimeEntries.delete,
+                with: ["entryId": entry.id]
+            )
+        }
+    }
+
+    func createFolder(
+        name: String,
+        color: String?,
+        parentFolderId: DocumentID?,
+        defaultLabelIds: Set<DocumentID>
+    ) async -> Bool {
+        var args: [String: ConvexEncodable?] = [
+            "name": name.trimmingCharacters(in: .whitespacesAndNewlines),
+            "defaultLabelIds": convexIds(defaultLabelIds),
+        ]
+        if let color { args["color"] = color }
+        if let parentFolderId { args["parentFolderId"] = parentFolderId }
+        return await performMutation(ConvexAPI.Folders.create, args: consume args)
+    }
+
+    func updateFolder(
+        _ folder: Folder,
+        name: String,
+        parentFolderId: DocumentID?,
+        defaultLabelIds: Set<DocumentID>
+    ) async -> Bool {
+        let renamed = await performMutation {
+            let _: DocumentID = try await self.client.mutation(
+                ConvexAPI.Folders.rename,
+                with: ["folderId": folder.id, "name": name.trimmingCharacters(in: .whitespacesAndNewlines)]
+            )
+        }
+        guard renamed else { return false }
+
+        let moved = await performMutation {
+            var args: [String: ConvexEncodable?] = ["folderId": folder.id]
+            if let parentFolderId { args["newParentFolderId"] = parentFolderId }
+            let _: DocumentID = try await self.client.mutation(ConvexAPI.Folders.move, with: args)
+        }
+        guard moved else { return false }
+
+        return await performMutation {
+            let _: DocumentID = try await self.client.mutation(
+                ConvexAPI.Folders.updateDefaultLabels,
+                with: ["folderId": folder.id, "defaultLabelIds": convexIds(defaultLabelIds)]
+            )
+        }
+    }
+
+    func setFolderArchived(_ folder: Folder, archived: Bool) async -> Bool {
+        await performMutation {
+            let mutation = archived ? ConvexAPI.Folders.archive : ConvexAPI.Folders.unarchive
+            let _: DocumentID = try await self.client.mutation(mutation, with: ["folderId": folder.id])
+        }
+    }
+
+    func deleteFolder(_ folder: Folder) async -> Bool {
+        await performMutation {
+            let _: DocumentID = try await self.client.mutation(
+                ConvexAPI.Folders.delete,
+                with: ["folderId": folder.id]
+            )
+        }
+    }
+
+    func createLabel(name: String, color: String) async -> Bool {
+        await performMutation {
+            let _: DocumentID = try await self.client.mutation(
+                ConvexAPI.Labels.create,
+                with: ["name": name.trimmingCharacters(in: .whitespacesAndNewlines), "color": color]
+            )
+        }
+    }
+
+    func updateLabel(_ label: TimeCore.Label, name: String, color: String) async -> Bool {
+        await performMutation {
+            let _: DocumentID = try await self.client.mutation(
+                ConvexAPI.Labels.update,
+                with: [
+                    "labelId": label.id,
+                    "name": name.trimmingCharacters(in: .whitespacesAndNewlines),
+                    "color": color,
+                ]
+            )
+        }
+    }
+
+    func deleteLabel(_ label: TimeCore.Label) async -> Bool {
+        await performMutation {
+            let _: DocumentID = try await self.client.mutation(
+                ConvexAPI.Labels.delete,
+                with: ["labelId": label.id]
+            )
+        }
+    }
+
     func clearError() {
         errorMessage = nil
     }
 
     private func subscribeToBackend() {
+        subscribe(
+            client.subscribe(
+                to: ConvexAPI.Users.current,
+                yielding: UserProfile?.self
+            )
+        ) { store, profile in
+            store.profile = profile
+        }
+
         subscribe(
             client.subscribe(
                 to: ConvexAPI.TimeEntries.listActive,
@@ -152,6 +345,37 @@ final class ConvexTimerStore {
         }
     }
 
+    private func performMutation(_ operation: @escaping () async throws -> Void) async -> Bool {
+        pendingMutationCount += 1
+        errorMessage = nil
+        defer { pendingMutationCount -= 1 }
+
+        do {
+            try await operation()
+            return true
+        } catch {
+            errorMessage = error.localizedDescription
+            return false
+        }
+    }
+
+    private func performMutation(
+        _ name: String,
+        args: sending [String: ConvexEncodable?]
+    ) async -> Bool {
+        pendingMutationCount += 1
+        errorMessage = nil
+        defer { pendingMutationCount -= 1 }
+
+        do {
+            let _: DocumentID = try await client.mutation(name, with: consume args)
+            return true
+        } catch {
+            errorMessage = error.localizedDescription
+            return false
+        }
+    }
+
     private func publishWidgetSnapshot(now: Date = .now) {
         let nowMilliseconds = Int64((now.timeIntervalSince1970 * 1_000).rounded(.down))
         let foldersById = Dictionary(uniqueKeysWithValues: folders.map { ($0.id, $0) })
@@ -209,4 +433,9 @@ final class ConvexTimerStore {
 
         return Array(result)
     }
+}
+
+private func convexIds<S: Sequence>(_ ids: S) -> [ConvexEncodable?]
+where S.Element == DocumentID {
+    ids.map { $0 }
 }

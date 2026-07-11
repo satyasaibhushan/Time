@@ -239,10 +239,10 @@
 
 ### 2.2 iOS Core Features
 - [x] `[Hard]` Build timer screen with start, pause, resume, and stop
-- [ ] `[Medium]` Build folder browsing
-- [ ] `[Medium]` Build labels support
-- [ ] `[Medium]` Build entries list and manual entry creation
-- [ ] `[Medium]` Verify real-time sync with the web app
+- [x] `[Medium]` Build folder browsing
+- [x] `[Medium]` Build labels support
+- [x] `[Medium]` Build entries list and manual entry creation
+- [x] `[Medium]` Verify real-time sync with the web app
 
 ---
 

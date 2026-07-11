@@ -1,13 +1,32 @@
 import SwiftUI
 
 enum TimeTheme {
-    static let canvas = Color(red: 0.95, green: 0.96, blue: 0.93)
-    static let surface = Color(red: 0.99, green: 0.98, blue: 0.94)
-    static let timerSurface = Color(red: 0.08, green: 0.20, blue: 0.15)
-    static let accent = Color(red: 0.10, green: 0.30, blue: 0.22)
-    static let ink = Color(red: 0.08, green: 0.20, blue: 0.15)
-    static let mutedInk = Color(red: 0.38, green: 0.46, blue: 0.40)
-    static let softGreen = Color(red: 0.64, green: 0.73, blue: 0.64)
-    static let gold = Color(red: 0.89, green: 0.60, blue: 0.25)
-    static let line = Color(red: 0.84, green: 0.85, blue: 0.79)
+    static let canvas = Color(hex: "#edefe8")
+    static let surface = Color(hex: "#f7f8f2")
+    static let popover = Color(hex: "#fdfdf9")
+    static let timerSurface = Color(hex: "#22372b")
+    static let accent = Color(hex: "#22372b")
+    static let ink = Color(hex: "#22372b")
+    static let mutedInk = Color(hex: "#57705f")
+    static let softGreen = Color(hex: "#a9c3a3")
+    static let moss = Color(hex: "#5a7d5a")
+    static let sage = Color(hex: "#7d9184")
+    static let clay = Color(hex: "#c4704f")
+    static let gold = Color(hex: "#d8a25a")
+    static let line = Color(hex: "#dee2d3")
+    static let muted = Color(hex: "#e6e9dd")
+    static let secondary = Color(hex: "#e2e5da")
+    static let destructive = Color(hex: "#a8432c")
+}
+
+extension Color {
+    init(hex: String) {
+        let value = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+        let rgb = UInt64(value, radix: 16) ?? 0
+        self.init(
+            red: Double((rgb >> 16) & 0xff) / 255,
+            green: Double((rgb >> 8) & 0xff) / 255,
+            blue: Double(rgb & 0xff) / 255
+        )
+    }
 }

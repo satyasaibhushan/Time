@@ -3,32 +3,27 @@ import TimeCore
 
 struct TimerDashboardView: View {
     @Bindable var store: ConvexTimerStore
-    let onLogout: () -> Void
+    @State private var notes = ""
+    @State private var selectedFolderId: DocumentID?
+    @State private var selectedLabelIds: Set<DocumentID> = []
+    @State private var showingOptions = false
 
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(spacing: 24) {
-                    summary
+                VStack(spacing: 22) {
+                    header
                     startComposer
                     timerList
+                    recentEntries
                 }
-                .padding(.horizontal, 20)
-                .padding(.bottom, 32)
+                .padding(.horizontal, 18)
+                .padding(.bottom, 36)
             }
             .background(TimeTheme.canvas.ignoresSafeArea())
-            .navigationTitle("Time")
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Menu {
-                        Button("Sign Out", systemImage: "rectangle.portrait.and.arrow.right", action: onLogout)
-                    } label: {
-                        Label("Settings", systemImage: "gearshape")
-                            .labelStyle(.iconOnly)
-                            .foregroundStyle(TimeTheme.ink)
-                    }
-                }
-            }
+            .toolbarBackground(TimeTheme.canvas, for: .navigationBar)
+            .navigationTitle("Tempo")
+            .navigationBarTitleDisplayMode(.inline)
             .alert("Couldn’t update timer", isPresented: errorBinding) {
                 Button("OK") { store.clearError() }
             } message: {
@@ -44,54 +39,89 @@ struct TimerDashboardView: View {
         )
     }
 
-    private var summary: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Make the next hour count.")
-                .font(.system(.title2, design: .rounded, weight: .bold))
-                .foregroundStyle(TimeTheme.ink)
-
-            Text(summaryText)
-                .font(.subheadline)
-                .foregroundStyle(TimeTheme.mutedInk)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
+    private var header: some View {
+        TerraPageHeader(
+            kicker: Date.now.formatted(.dateTime.weekday(.wide).day().month(.wide)),
+            title: greeting,
+            subtitle: todaySeconds > 0
+                ? "\(TimeText.duration(todaySeconds)) recorded so far today."
+                : "Nothing recorded yet today — the first session sets the tone."
+        )
         .padding(.top, 8)
     }
 
-    private var summaryText: String {
-        switch store.runningCount {
-        case 0:
-            "Nothing is running. Start with one clear intention."
-        case 1:
-            "One timer is moving with you."
-        default:
-            "\(store.runningCount) timers are moving on the same second."
+    private var greeting: String {
+        let hour = Calendar.current.component(.hour, from: .now)
+        let greeting = switch hour {
+        case 0..<5: "Up late"
+        case 5..<12: "Good morning"
+        case 12..<18: "Good afternoon"
+        default: "Good evening"
         }
+        let firstName = store.profile?.name?.split(separator: " ").first.map(String.init)
+        return firstName.map { "\(greeting), \($0)." } ?? "\(greeting)."
+    }
+
+    private var todaySeconds: Int {
+        let calendar = Calendar.current
+        let completed = store.completedEntries
+            .filter { calendar.isDateInToday(Date(milliseconds: $0.startedAt)) }
+            .reduce(0) { $0 + ($1.durationSeconds ?? 0) }
+        let now = Int64((Date.now.timeIntervalSince1970 * 1_000).rounded(.down))
+        let active = store.timers
+            .filter { calendar.isDateInToday(Date(milliseconds: $0.startedAt)) }
+            .reduce(0) { $0 + TimerMath.elapsedSeconds(for: $1, at: now) }
+        return completed + active
     }
 
     private var startComposer: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("START A TIMER")
-                .font(.caption.weight(.bold))
-                .tracking(1.4)
-                .foregroundStyle(TimeTheme.mutedInk)
+            HStack {
+                Text("START A TIMER")
+                    .font(.caption.weight(.bold))
+                    .tracking(1.4)
+                    .foregroundStyle(TimeTheme.sage)
+                Spacer()
+                liveStatus
+            }
 
-            TextField("What are you working on?", text: $store.draftTitle)
-                .font(.body.weight(.medium))
+            TextField("What are you working on?", text: $store.draftTitle, axis: .vertical)
+                .font(.body.weight(.semibold))
+                .foregroundStyle(TimeTheme.ink)
                 .textInputAutocapitalization(.sentences)
                 .submitLabel(.go)
-                .onSubmit { store.startTimer() }
+                .onSubmit(start)
 
-            HStack {
-                Label("Inbox", systemImage: "tray")
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(TimeTheme.mutedInk)
+            if showingOptions {
+                TextField("Notes (optional)", text: $notes, axis: .vertical)
+                    .font(.subheadline)
+                    .lineLimit(2...4)
+
+                FolderPicker(folders: store.activeFolders, selection: $selectedFolderId)
+
+                DisclosureGroup("Labels · \(selectedLabelIds.count) selected") {
+                    VStack(spacing: 12) {
+                        LabelSelectionList(labels: store.labels, selection: $selectedLabelIds)
+                    }
+                    .padding(.top, 10)
+                }
+                .font(.subheadline.weight(.semibold))
+                .tint(TimeTheme.moss)
+            }
+
+            HStack(spacing: 10) {
+                Button {
+                    withAnimation(.easeInOut(duration: 0.2)) { showingOptions.toggle() }
+                } label: {
+                    Label(folderName, systemImage: "slider.horizontal.3")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(TimeTheme.mutedInk)
+                }
+                .buttonStyle(.plain)
 
                 Spacer()
 
-                Button {
-                    store.startTimer()
-                } label: {
+                Button(action: start) {
                     Label("Start", systemImage: "play.fill")
                         .frame(minWidth: 76)
                 }
@@ -99,32 +129,64 @@ struct TimerDashboardView: View {
                 .disabled(store.isMutating)
             }
         }
-        .padding(20)
-        .background(TimeTheme.surface, in: RoundedRectangle(cornerRadius: 24, style: .continuous))
-        .overlay {
-            RoundedRectangle(cornerRadius: 24, style: .continuous)
-                .stroke(TimeTheme.line, lineWidth: 1)
+        .terraSurface(padding: 20)
+    }
+
+    private var liveStatus: some View {
+        HStack(spacing: 6) {
+            Circle()
+                .fill(store.runningCount > 0 ? TimeTheme.gold : TimeTheme.line)
+                .frame(width: 7, height: 7)
+            Text(store.runningCount > 0 ? "\(store.runningCount) live" : "Idle")
+        }
+        .font(.caption.weight(.bold))
+        .foregroundStyle(store.runningCount > 0 ? TimeTheme.mutedInk : TimeTheme.sage)
+        .padding(.horizontal, 9)
+        .padding(.vertical, 5)
+        .background(TimeTheme.muted, in: Capsule())
+    }
+
+    private var folderName: String {
+        store.folder(for: selectedFolderId)?.name ?? "Inbox"
+    }
+
+    private func start() {
+        let title = store.draftTitle
+        store.draftTitle = ""
+        Task {
+            let success = await store.startTimer(
+                title: title,
+                notes: notes,
+                folderId: selectedFolderId,
+                labelIds: selectedLabelIds
+            )
+            if success {
+                notes = ""
+                selectedFolderId = nil
+                selectedLabelIds = []
+                showingOptions = false
+            } else {
+                store.draftTitle = title
+            }
         }
     }
 
     @ViewBuilder
     private var timerList: some View {
         if store.timers.isEmpty {
-            VStack(spacing: 12) {
-                Image(systemName: "timer")
-                    .font(.system(size: 32, weight: .light))
-                Text("Your active timers will appear here.")
-                    .font(.subheadline.weight(.medium))
-            }
-            .foregroundStyle(TimeTheme.mutedInk)
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 48)
+            TerraEmptyState(
+                icon: "timer",
+                title: "No active timers",
+                message: "Start with one clear intention. Multiple timers will stay on the same second."
+            )
+            .terraSurface()
         } else {
             TimelineView(.periodic(from: .now, by: 1)) { context in
-                LazyVStack(spacing: 16) {
+                LazyVStack(spacing: 14) {
                     ForEach(store.timers) { timer in
                         TimerCard(
                             timer: timer,
+                            folderName: store.folder(for: timer.folderId)?.name ?? "Inbox",
                             now: context.date,
                             onToggle: { store.toggleTimer(timer) },
                             onStop: { store.stopTimer(timer) },
@@ -135,69 +197,111 @@ struct TimerDashboardView: View {
             }
         }
     }
+
+    @ViewBuilder
+    private var recentEntries: some View {
+        if !store.completedEntries.isEmpty {
+            VStack(alignment: .leading, spacing: 12) {
+                Text("RECENTLY RECORDED")
+                    .font(.caption.weight(.bold))
+                    .tracking(1.3)
+                    .foregroundStyle(TimeTheme.sage)
+
+                ForEach(store.completedEntries.prefix(3)) { entry in
+                    HStack(spacing: 12) {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(entry.title.isEmpty ? "Untitled session" : entry.title)
+                                .font(.subheadline.weight(.semibold))
+                                .foregroundStyle(TimeTheme.ink)
+                                .lineLimit(1)
+                            Text(Date(milliseconds: entry.startedAt).formatted(date: .abbreviated, time: .shortened))
+                                .font(.caption)
+                                .foregroundStyle(TimeTheme.sage)
+                        }
+                        Spacer()
+                        Text(TimeText.compactDuration(entry.durationSeconds ?? 0))
+                            .font(.caption.monospacedDigit().weight(.bold))
+                            .foregroundStyle(TimeTheme.mutedInk)
+                    }
+                    if entry.id != store.completedEntries.prefix(3).last?.id {
+                        Divider().overlay(TimeTheme.line)
+                    }
+                }
+            }
+            .terraSurface()
+        }
+    }
 }
+
 private struct TimerCard: View {
     let timer: TimeEntry
+    let folderName: String
     let now: Date
     let onToggle: () -> Void
     let onStop: () -> Void
     let onDiscard: () -> Void
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 22) {
+        VStack(alignment: .leading, spacing: 20) {
             HStack(spacing: 8) {
                 Circle()
-                    .fill(timer.status == .running ? TimeTheme.gold : TimeTheme.mutedInk)
+                    .fill(timer.status == .running ? TimeTheme.gold : TimeTheme.sage)
                     .frame(width: 8, height: 8)
-
                 Text(timer.status == .running ? "TRACKING NOW" : "PAUSED")
                     .font(.caption.weight(.bold))
                     .tracking(1.2)
+                Spacer()
+                Menu {
+                    Button("Discard Timer", systemImage: "trash", role: .destructive, action: onDiscard)
+                } label: {
+                    Image(systemName: "ellipsis")
+                        .foregroundStyle(TimeTheme.softGreen)
+                        .frame(width: 32, height: 32)
+                }
             }
             .foregroundStyle(TimeTheme.softGreen)
 
-            Text(elapsed.formattedTimer)
-                .font(.system(size: 52, weight: .medium, design: .rounded))
+            Text(TimeText.duration(elapsed))
+                .font(.system(size: 50, weight: .medium, design: .rounded))
                 .monospacedDigit()
                 .contentTransition(.numericText())
 
-            Text(timer.title.isEmpty ? "Untitled session" : timer.title)
-                .font(.headline)
-                .italic(timer.title.isEmpty)
-                .foregroundStyle(timer.title.isEmpty ? TimeTheme.softGreen : Color.white.opacity(0.92))
-
-            HStack(spacing: 12) {
-                Label("Inbox", systemImage: "tray")
-                    .font(.caption.weight(.bold))
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 7)
-                    .background(TimeTheme.gold, in: Capsule())
-                    .foregroundStyle(TimeTheme.ink)
-
-                Spacer()
-
-                Button(action: onToggle) {
-                    Label(
-                        timer.status == .running ? "Pause" : "Resume",
-                        systemImage: timer.status == .running ? "pause.fill" : "play.fill"
-                    )
+            VStack(alignment: .leading, spacing: 9) {
+                Text(timer.title.isEmpty ? "Untitled session" : timer.title)
+                    .font(.headline)
+                    .italic(timer.title.isEmpty)
+                    .foregroundStyle(timer.title.isEmpty ? TimeTheme.softGreen : Color.white.opacity(0.94))
+                HStack {
+                    TerraBadge(text: folderName, color: TimeTheme.gold, icon: "folder.fill")
+                    Spacer()
+                    Button(action: onToggle) {
+                        Label(
+                            timer.status == .running ? "Pause" : "Resume",
+                            systemImage: timer.status == .running ? "pause.fill" : "play.fill"
+                        )
+                    }
+                    .buttonStyle(SecondaryCapsuleButtonStyle())
+                    Button(action: onStop) {
+                        Image(systemName: "stop.fill")
+                    }
+                    .buttonStyle(LightCircleButtonStyle())
                 }
-                .buttonStyle(SecondaryCapsuleButtonStyle())
-
-                Button(action: onStop) {
-                    Image(systemName: "stop.fill")
-                }
-                .buttonStyle(LightCircleButtonStyle())
-
-                Button(role: .destructive, action: onDiscard) {
-                    Image(systemName: "trash")
-                }
-                .foregroundStyle(TimeTheme.softGreen)
             }
         }
         .foregroundStyle(Color.white.opacity(0.94))
         .padding(22)
-        .background(TimeTheme.timerSurface, in: RoundedRectangle(cornerRadius: 28, style: .continuous))
+        .background {
+            RoundedRectangle(cornerRadius: 28, style: .continuous)
+                .fill(TimeTheme.timerSurface)
+                .overlay(alignment: .topTrailing) {
+                    Circle()
+                        .fill(TimeTheme.gold.opacity(0.18))
+                        .frame(width: 150, height: 150)
+                        .blur(radius: 26)
+                        .offset(x: 55, y: -65)
+                }
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
     }
 
     private var elapsed: Int {
@@ -206,7 +310,7 @@ private struct TimerCard: View {
     }
 }
 
-private struct PrimaryCapsuleButtonStyle: ButtonStyle {
+struct PrimaryCapsuleButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.subheadline.weight(.bold))
@@ -222,7 +326,7 @@ private struct SecondaryCapsuleButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.subheadline.weight(.bold))
-            .padding(.horizontal, 16)
+            .padding(.horizontal, 14)
             .padding(.vertical, 11)
             .foregroundStyle(Color.white)
             .background(Color.white.opacity(configuration.isPressed ? 0.12 : 0.2), in: Capsule())
@@ -235,14 +339,5 @@ private struct LightCircleButtonStyle: ButtonStyle {
             .frame(width: 42, height: 42)
             .foregroundStyle(TimeTheme.ink)
             .background(Color.white.opacity(configuration.isPressed ? 0.7 : 0.94), in: Circle())
-    }
-}
-
-private extension Int {
-    var formattedTimer: String {
-        let hours = self / 3_600
-        let minutes = self % 3_600 / 60
-        let seconds = self % 60
-        return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
     }
 }

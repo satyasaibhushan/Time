@@ -26,33 +26,48 @@ struct AppRootView: View {
 
     private func authenticatedApp(store: ConvexTimerStore) -> some View {
         TabView {
-            TimerDashboardView(
+            TimerDashboardView(store: store)
+            .tabItem {
+                Label("Now", systemImage: "gauge.with.dots.needle.50percent")
+            }
+
+            EntriesView(store: store)
+            .tabItem {
+                Label("Log", systemImage: "book.closed")
+            }
+
+            FoldersView(store: store)
+            .tabItem {
+                Label("Folders", systemImage: "folder")
+            }
+
+            LabelsView(store: store)
+            .tabItem {
+                Label("Labels", systemImage: "tag")
+            }
+
+            SettingsView(
                 store: store,
                 onLogout: { Task { await session.logout() } }
             )
             .tabItem {
-                Label("Timers", systemImage: "timer")
-            }
-
-            PlaceholderView(
-                title: "Entries",
-                message: "Your completed sessions will live here.",
-                systemImage: "list.bullet.rectangle"
-            )
-            .tabItem {
-                Label("Entries", systemImage: "list.bullet.rectangle")
-            }
-
-            PlaceholderView(
-                title: "Organize",
-                message: "Folders and labels are coming next.",
-                systemImage: "folder"
-            )
-            .tabItem {
-                Label("Organize", systemImage: "folder")
+                Label("Setup", systemImage: "gearshape")
             }
         }
         .tint(TimeTheme.accent)
+        .toolbarBackground(TimeTheme.surface, for: .tabBar)
+        .alert("Something went wrong", isPresented: errorBinding(for: store)) {
+            Button("OK") { store.clearError() }
+        } message: {
+            Text(store.errorMessage ?? "Please try again.")
+        }
+    }
+
+    private func errorBinding(for store: ConvexTimerStore) -> Binding<Bool> {
+        Binding(
+            get: { store.errorMessage != nil },
+            set: { if !$0 { store.clearError() } }
+        )
     }
 }
 
@@ -66,7 +81,7 @@ private struct LoginView: View {
                 .foregroundStyle(TimeTheme.accent)
 
             VStack(spacing: 8) {
-                Text("Time")
+                Text("Tempo")
                     .font(.system(.largeTitle, design: .rounded, weight: .bold))
                     .foregroundStyle(TimeTheme.ink)
                 Text("Sign in to sync timers across the web, iPhone, and widgets.")
@@ -95,17 +110,5 @@ private struct LoginView: View {
         .padding(32)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(TimeTheme.canvas.ignoresSafeArea())
-    }
-}
-private struct PlaceholderView: View {
-    let title: String
-    let message: String
-    let systemImage: String
-
-    var body: some View {
-        NavigationStack {
-            ContentUnavailableView(title, systemImage: systemImage, description: Text(message))
-                .navigationTitle(title)
-        }
     }
 }
