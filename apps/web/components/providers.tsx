@@ -7,8 +7,6 @@ import {
 } from "convex/react";
 import { useCallback, useMemo } from "react";
 
-import { CurrentUserBootstrap } from "@/components/current-user-bootstrap";
-
 const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL;
 
 if (!convexUrl) {
@@ -62,7 +60,7 @@ export function AppProviders({
   return (
     <Auth0Provider user={user}>
       <ConvexProviderWithAuth client={convex} useAuth={useAuthFromNextJsAuth0}>
-        <CurrentUserBootstrap>{children}</CurrentUserBootstrap>
+        {children}
       </ConvexProviderWithAuth>
     </Auth0Provider>
   );
