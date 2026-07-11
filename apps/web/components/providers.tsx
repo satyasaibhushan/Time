@@ -62,8 +62,7 @@ export function AppProviders({
   return (
     <Auth0Provider user={user}>
       <ConvexProviderWithAuth client={convex} useAuth={useAuthFromNextJsAuth0}>
-        <CurrentUserBootstrap />
-        {children}
+        <CurrentUserBootstrap>{children}</CurrentUserBootstrap>
       </ConvexProviderWithAuth>
     </Auth0Provider>
   );

@@ -1,11 +1,12 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { useEffect, useRef } from "react";
 import { useConvexAuth, useMutation, useQuery } from "convex/react";
 
 import { api } from "@convex/_generated/api";
 
-export function CurrentUserBootstrap() {
+export function CurrentUserBootstrap({ children }: { children: ReactNode }) {
   const { isAuthenticated, isLoading } = useConvexAuth();
   const currentUser = useQuery(api.users.current, isAuthenticated ? {} : "skip");
   const ensureCurrentUser = useMutation(api.users.ensureCurrentUser);
@@ -35,5 +36,9 @@ export function CurrentUserBootstrap() {
     });
   }, [currentUser, ensureCurrentUser, isAuthenticated, isLoading]);
 
-  return null;
+  if (isLoading || !isAuthenticated || currentUser === undefined || currentUser === null) {
+    return null;
+  }
+
+  return children;
 }
