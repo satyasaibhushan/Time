@@ -75,3 +75,82 @@ import Testing
     #expect(entry.creationTime == 1000.5)
     #expect(entry.status == .running)
 }
+
+@Test func widgetSummaryAppliesFolderAndLabelFilters() throws {
+    var calendar = Calendar(identifier: .gregorian)
+    calendar.timeZone = try #require(TimeZone(secondsFromGMT: 0))
+    let now = try #require(calendar.date(from: DateComponents(year: 2026, month: 7, day: 8, hour: 12)))
+    let matchingStart = try #require(calendar.date(from: DateComponents(year: 2026, month: 7, day: 8, hour: 9)))
+    let records = [
+        WidgetEntryRecord(
+            id: "matching",
+            startedAt: matchingStart,
+            durationSeconds: 3_600,
+            folderId: "work",
+            labelIds: ["focus"]
+        ),
+        WidgetEntryRecord(
+            id: "wrong-label",
+            startedAt: matchingStart,
+            durationSeconds: 7_200,
+            folderId: "work",
+            labelIds: ["admin"]
+        ),
+    ]
+
+    let summary = WidgetSummaryCalculator.summary(
+        for: records,
+        range: .week,
+        folderId: "work",
+        labelId: "focus",
+        now: now,
+        calendar: calendar
+    )
+
+    #expect(summary.totalSeconds == 3_600)
+    #expect(summary.buckets.count == 7)
+}
+
+@Test func widgetDaySummarySplitsEntriesAcrossBuckets() throws {
+    var calendar = Calendar(identifier: .gregorian)
+    calendar.timeZone = try #require(TimeZone(secondsFromGMT: 0))
+    let now = try #require(calendar.date(from: DateComponents(year: 2026, month: 7, day: 8, hour: 12)))
+    let start = try #require(calendar.date(from: DateComponents(year: 2026, month: 7, day: 8, hour: 3, minute: 30)))
+    let record = WidgetEntryRecord(id: "split", startedAt: start, durationSeconds: 3_600)
+
+    let summary = WidgetSummaryCalculator.summary(
+        for: [record],
+        range: .day,
+        now: now,
+        calendar: calendar
+    )
+
+    #expect(summary.buckets.map(\.durationSeconds) == [1_800, 1_800, 0, 0, 0, 0])
+    #expect(summary.totalSeconds == 3_600)
+}
+
+@Test func widgetSummaryTreatsMissingFolderAsInbox() throws {
+    var calendar = Calendar(identifier: .gregorian)
+    calendar.timeZone = try #require(TimeZone(secondsFromGMT: 0))
+    let now = try #require(calendar.date(from: DateComponents(year: 2026, month: 7, day: 8, hour: 12)))
+    let start = try #require(calendar.date(from: DateComponents(year: 2026, month: 7, day: 8, hour: 9)))
+    let records = [
+        WidgetEntryRecord(id: "inbox", startedAt: start, durationSeconds: 1_800),
+        WidgetEntryRecord(
+            id: "folder",
+            startedAt: start,
+            durationSeconds: 3_600,
+            folderId: "work"
+        ),
+    ]
+
+    let summary = WidgetSummaryCalculator.summary(
+        for: records,
+        range: .day,
+        folderId: WidgetSnapshotStore.inboxFilterIdentifier,
+        now: now,
+        calendar: calendar
+    )
+
+    #expect(summary.totalSeconds == 1_800)
+}

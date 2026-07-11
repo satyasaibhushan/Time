@@ -257,7 +257,10 @@
 
 ### 3.2 Automation and Widgets
 - [ ] `[Medium]` Add App Intents for start, pause, resume, and stop
-- [ ] `[Medium]` Add widgets for current timer and daily total
+- [x] `[Medium]` Add widgets for current timer and filtered time summaries
+  - Compact current running timer widget
+  - Horizontal Day, Week, or Month chart
+  - Configurable folder and label filters
 - [ ] `[Hard]` Add Focus mode integration after the base app is stable
 
 ---

@@ -24,10 +24,13 @@ targets:
     dependencies:
       - package: TimeApple
         product: TimeCore
+      - target: TimeWidgets
+        embed: true
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: fun.bhushan.time
         PRODUCT_NAME: Time
+        CODE_SIGN_ENTITLEMENTS: Sources/TimeApp/Time.entitlements
         GENERATE_INFOPLIST_FILE: true
         INFOPLIST_KEY_CFBundleDisplayName: Time
         INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.productivity
@@ -37,3 +40,21 @@ targets:
         TARGETED_DEVICE_FAMILY: "1"
     scheme:
       gatherCoverageData: false
+
+  TimeWidgets:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: Sources/TimeWidgets
+    dependencies:
+      - package: TimeApple
+        product: TimeCore
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: fun.bhushan.time.widgets
+        PRODUCT_NAME: TimeWidgets
+        INFOPLIST_FILE: Sources/TimeWidgets/Info.plist
+        GENERATE_INFOPLIST_FILE: false
+        CODE_SIGN_ENTITLEMENTS: Sources/TimeWidgets/TimeWidgets.entitlements
+        APPLICATION_EXTENSION_API_ONLY: true
+        SKIP_INSTALL: true

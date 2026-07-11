@@ -1,15 +1,19 @@
 import Foundation
 import Observation
 import TimeCore
+import WidgetKit
 
 @MainActor
 @Observable
 final class LocalTimerStore {
     var draftTitle = ""
     private(set) var timers: [TimeEntry]
+    private(set) var completedEntries: [TimeEntry]
 
-    init(timers: [TimeEntry] = []) {
+    init(timers: [TimeEntry] = [], completedEntries: [TimeEntry] = []) {
         self.timers = timers
+        self.completedEntries = completedEntries
+        publishWidgetSnapshot()
     }
 
     var runningCount: Int {
@@ -32,6 +36,7 @@ final class LocalTimerStore {
 
         timers.insert(timer, at: 0)
         draftTitle = ""
+        publishWidgetSnapshot(now: now)
     }
 
     func toggleTimer(_ timer: TimeEntry, now: Date = .now) {
@@ -79,6 +84,8 @@ final class LocalTimerStore {
         case .completed:
             break
         }
+
+        publishWidgetSnapshot(now: now)
     }
 
     func stopTimer(_ timer: TimeEntry, now: Date = .now) {
@@ -104,11 +111,15 @@ final class LocalTimerStore {
             )
         }
 
+        let stoppedTimers = timers.filter { $0.status == .completed }
+        completedEntries.insert(contentsOf: stoppedTimers, at: 0)
         timers.removeAll { $0.status == .completed }
+        publishWidgetSnapshot(now: now)
     }
 
     func discardTimer(_ timer: TimeEntry) {
         timers.removeAll { $0.id == timer.id }
+        publishWidgetSnapshot()
     }
 
     private func update(
@@ -131,6 +142,48 @@ final class LocalTimerStore {
         }
 
         return segments.dropLast() + [TimeSegment(startTime: last.startTime, endTime: timestamp)]
+    }
+
+    private func publishWidgetSnapshot(now: Date = .now) {
+        let nowMilliseconds = now.wholeSecondMilliseconds
+        let activeSnapshots = timers.map { timer in
+            WidgetTimerSnapshot(
+                id: timer.id,
+                title: timer.title,
+                folderName: timer.folderId == nil ? "Inbox" : nil,
+                status: timer.status,
+                elapsedSeconds: TimerMath.elapsedSeconds(for: timer, at: nowMilliseconds),
+                capturedAt: now
+            )
+        }
+        let records = completedEntries.compactMap { entry -> WidgetEntryRecord? in
+            guard let durationSeconds = entry.durationSeconds else {
+                return nil
+            }
+
+            return WidgetEntryRecord(
+                id: entry.id,
+                startedAt: Date(timeIntervalSince1970: TimeInterval(entry.startedAt) / 1_000),
+                durationSeconds: durationSeconds,
+                folderId: entry.folderId,
+                labelIds: entry.manualLabelIds
+            )
+        }
+        let snapshot = WidgetSnapshot(
+            capturedAt: now,
+            activeTimers: activeSnapshots,
+            entries: records,
+            folders: [
+                WidgetFilterOption(
+                    id: WidgetSnapshotStore.inboxFilterIdentifier,
+                    name: "Inbox"
+                ),
+            ]
+        )
+
+        if WidgetSnapshotStore.save(snapshot) {
+            WidgetCenter.shared.reloadAllTimelines()
+        }
     }
 }
 

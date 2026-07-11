@@ -14,6 +14,9 @@ presentation code.
 - Repository protocol for the future Convex Swift adapter
 - Reproducible Xcode project generated from `project.yml`
 - Native timer dashboard with multiple synchronized timers
+- Compact current-timer widget with a system-rendered live clock
+- Configurable horizontal summary widget with Day, Week, or Month range
+- Dynamic folder and label filters backed by the shared app snapshot
 - Unit tests for shared timer behavior
 
 Run the core tests:
@@ -33,6 +36,17 @@ open Time.xcodeproj
 The current timer actions use an in-memory store while the Convex and Auth0
 adapters are built. This makes the first native interaction testable without
 creating a second backend or changing the production schema.
+
+## Widgets
+
+The app and widget extension share data through the
+`group.fun.bhushan.time` App Group. Add that App Group capability to both the
+`Time` and `TimeWidgets` identifiers in the Apple Developer portal before a
+device or release build. Simulator SDK builds work without signing.
+
+The summary widget is configured from the Home Screen widget editor. Its
+folder and label choices come from the latest shared snapshot, so the Convex
+adapter only needs to publish the user's current entries and filter options.
 
 ## Environment rules
 
