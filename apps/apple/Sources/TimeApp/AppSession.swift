@@ -24,11 +24,23 @@ final class AppSession {
         authProvider: Auth0Provider()
     )
     @ObservationIgnored
+    private let credentialsManager = CredentialsManager(authentication: Auth0.authentication())
+    @ObservationIgnored
     private var didRestore = false
 
     func restoreIfNeeded() async {
         guard !didRestore else { return }
         didRestore = true
+
+        let credentialsManager = credentialsManager
+        let hasCachedSession = await Task.detached {
+            credentialsManager.hasValid() || credentialsManager.canRenew()
+        }.value
+
+        guard hasCachedSession else {
+            phase = .signedOut
+            return
+        }
 
         switch await client.loginFromCache() {
         case .success:
