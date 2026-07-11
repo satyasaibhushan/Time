@@ -232,8 +232,8 @@
 **Goal**: Reuse the same backend and timer model in a native iPhone app.
 
 ### 2.1 Native App Foundation
-- [ ] `[Easy]` Create the SwiftUI iOS project in `apps/apple`
-- [ ] `[Easy]` Mirror the domain vocabulary from the web app
+- [x] `[Easy]` Create the SwiftUI iOS project in `apps/apple`
+- [x] `[Easy]` Mirror the domain vocabulary from the web app
 - [ ] `[Medium]` Connect the app to Convex
 - [ ] `[Medium]` Implement the same Auth0 auth flow for iOS
 

@@ -1,0 +1,39 @@
+name: Time
+
+options:
+  createIntermediateGroups: true
+  deploymentTarget:
+    iOS: "17.0"
+
+packages:
+  TimeApple:
+    path: .
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    CURRENT_PROJECT_VERSION: 1
+    MARKETING_VERSION: 0.1.0
+
+targets:
+  Time:
+    type: application
+    platform: iOS
+    sources:
+      - path: Sources/TimeApp
+    dependencies:
+      - package: TimeApple
+        product: TimeCore
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: fun.bhushan.time
+        PRODUCT_NAME: Time
+        GENERATE_INFOPLIST_FILE: true
+        INFOPLIST_KEY_CFBundleDisplayName: Time
+        INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.productivity
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: true
+        INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: true
+        INFOPLIST_KEY_UILaunchScreen_Generation: true
+        TARGETED_DEVICE_FAMILY: "1"
+    scheme:
+      gatherCoverageData: false

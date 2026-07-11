@@ -7,7 +7,7 @@ Auth0 identity model.
 The `pnpm` monorepo contains:
 
 - `apps/web` for the Next.js web app
-- `apps/apple` as a placeholder for future native app work
+- `apps/apple` for the shared Swift core and future iOS/macOS app targets
 - `convex` for backend code
 - `packages/shared` for shared TypeScript code
 
@@ -46,7 +46,7 @@ For local Auth0 setup, register these URLs in your Auth0 application:
 
 1. Deploy the Next.js web app and Convex backend.
 2. Run the production smoke test.
-3. Begin the SwiftUI iOS app in `apps/apple`.
+3. Install full Xcode and attach the SwiftUI iOS target to `apps/apple/TimeCore`.
 
 ## Production Deployment
 

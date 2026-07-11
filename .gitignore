@@ -17,6 +17,13 @@
 # production
 /build
 
+# swift / xcode
+**/.build/
+**/.swiftpm/
+**/xcuserdata/
+DerivedData/
+*.xcuserstate
+
 # misc
 .DS_Store
 *.pem
