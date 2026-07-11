@@ -63,11 +63,13 @@ export function FolderFilterDropdown({
   onChange,
   folders,
   align = "start",
+  allLabel = "All folders",
 }: {
   value: FolderFilterValue;
   onChange: (value: FolderFilterValue) => void;
   folders: Doc<"folders">[];
   align?: "start" | "center" | "end";
+  allLabel?: string;
 }) {
   const [open, setOpen] = useState(false);
   const hierarchy = useMemo(() => folderHierarchy(folders), [folders]);
@@ -105,7 +107,7 @@ export function FolderFilterDropdown({
         )}
         <span className="max-w-36 truncate">
           {value === "all"
-            ? "All folders"
+            ? allLabel
             : value === "inbox"
               ? "Inbox"
               : selected?.name ?? "Folder"}
@@ -172,11 +174,13 @@ export function LabelFilterDropdown({
   onChange,
   labels,
   align = "start",
+  allLabel = "All labels",
 }: {
   value: LabelFilterValue;
   onChange: (value: LabelFilterValue) => void;
   labels: Doc<"labels">[];
   align?: "start" | "center" | "end";
+  allLabel?: string;
 }) {
   const [open, setOpen] = useState(false);
   const selected =
@@ -204,7 +208,7 @@ export function LabelFilterDropdown({
         ) : (
           <TagIcon className="size-3.5 opacity-70" />
         )}
-        <span className="max-w-36 truncate">{selected?.name ?? "All labels"}</span>
+        <span className="max-w-36 truncate">{selected?.name ?? allLabel}</span>
         <ChevronDown className="size-3.5 opacity-55" />
       </PopoverTrigger>
 

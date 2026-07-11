@@ -1,32 +1,17 @@
 "use client";
 
-import { useState, useMemo } from "react";
 import { useQuery } from "convex/react";
 import { api } from "@convex/_generated/api";
 import type { Id } from "@convex/_generated/dataModel";
-import {
-  startOfDay,
-  startOfWeek,
-  endOfWeek,
-  startOfMonth,
-  endOfMonth,
-  format,
-} from "date-fns";
-import {
-  CalendarDays,
-  Inbox,
-  X,
-  Check,
-} from "lucide-react";
+import { Search, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
+  getEntryDateRange,
+  type EntryDatePreset,
+} from "@/lib/entry-date-range";
 import {
   FolderFilterDropdown,
   LabelFilterDropdown,
@@ -42,6 +27,8 @@ export interface EntryFilters {
   startDate?: number;
   endDate?: number;
   inbox?: boolean;
+  searchText?: string;
+  datePreset?: EntryDatePreset;
 }
 
 interface EntryFiltersProps {
@@ -49,72 +36,23 @@ interface EntryFiltersProps {
   onFiltersChange: (filters: EntryFilters) => void;
 }
 
+const DATE_PRESETS = [
+  ["today", "Today"],
+  ["week", "Week"],
+  ["month", "Month"],
+  ["all", "All"],
+] as const satisfies readonly (readonly [EntryDatePreset, string])[];
+
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
-
-type DatePreset = "today" | "week" | "month" | "all";
-
-function getDatePresetLabel(preset: DatePreset): string {
-  switch (preset) {
-    case "today":
-      return "Today";
-    case "week":
-      return "This Week";
-    case "month":
-      return "This Month";
-    case "all":
-      return "All Time";
-  }
-}
-
-function getPresetRange(
-  preset: Exclude<DatePreset, "all">,
-): { start: number; end: number } {
-  const now = new Date();
-  switch (preset) {
-    case "today":
-      return {
-        start: startOfDay(now).getTime(),
-        end: Date.now(),
-      };
-    case "week":
-      return {
-        start: startOfWeek(now, { weekStartsOn: 1 }).getTime(),
-        end: endOfWeek(now, { weekStartsOn: 1 }).getTime(),
-      };
-    case "month":
-      return {
-        start: startOfMonth(now).getTime(),
-        end: endOfMonth(now).getTime(),
-      };
-  }
-}
-
-function detectPreset(filters: EntryFilters): DatePreset | "custom" {
-  if (!filters.startDate && !filters.endDate) return "all";
-
-  const now = new Date();
-  const todayStart = startOfDay(now).getTime();
-  const weekStart = startOfWeek(now, { weekStartsOn: 1 }).getTime();
-  const weekEnd = endOfWeek(now, { weekStartsOn: 1 }).getTime();
-  const monthStart = startOfMonth(now).getTime();
-  const monthEnd = endOfMonth(now).getTime();
-
-  if (filters.startDate === todayStart) return "today";
-  if (filters.startDate === weekStart && filters.endDate === weekEnd) return "week";
-  if (filters.startDate === monthStart && filters.endDate === monthEnd) return "month";
-
-  return "custom";
-}
 
 function hasActiveFilters(filters: EntryFilters): boolean {
   return !!(
     filters.folderId ||
     filters.labelId ||
-    filters.startDate ||
-    filters.endDate ||
-    filters.inbox
+    filters.inbox ||
+    filters.searchText?.trim()
   );
 }
 
@@ -128,171 +66,100 @@ export function EntryFiltersBar({ filters, onFiltersChange }: EntryFiltersProps)
   });
   const allLabels = useQuery(api.labels.listLabels, {});
 
-  const [datePopoverOpen, setDatePopoverOpen] = useState(false);
-
-  const currentPreset = useMemo(() => detectPreset(filters), [filters]);
-
-  const dateLabel = useMemo(() => {
-    if (currentPreset !== "custom") return getDatePresetLabel(currentPreset);
-    if (filters.startDate && filters.endDate) {
-      return `${format(new Date(filters.startDate), "MMM d")} \u2013 ${format(new Date(filters.endDate), "MMM d")}`;
-    }
-    if (filters.startDate) {
-      return format(new Date(filters.startDate), "MMM d");
-    }
-    return "All Time";
-  }, [currentPreset, filters.startDate, filters.endDate]);
-
-  const customDateRange = useMemo(() => {
-    if (!filters.startDate) return undefined;
-    return {
-      from: new Date(filters.startDate),
-      to: filters.endDate ? new Date(filters.endDate) : undefined,
-    };
-  }, [filters.startDate, filters.endDate]);
+  const currentPreset = filters.datePreset ?? "all";
 
   return (
-    <div className="flex flex-wrap items-center gap-2">
-      <FolderFilterDropdown
-        value={filters.inbox ? "inbox" : (filters.folderId ?? "all")}
-        onChange={(value) =>
-          onFiltersChange({
-            ...filters,
-            folderId:
-              value === "all" || value === "inbox" ? undefined : value,
-            inbox: value === "inbox",
-          })
-        }
-        folders={allFolders ?? []}
-      />
+    <div className="grid gap-3">
+      <div className="relative">
+        <Search className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-[var(--terra-sage)]" />
+        <Input
+          aria-label="Search entries"
+          value={filters.searchText ?? ""}
+          onChange={(event) =>
+            onFiltersChange({
+              ...filters,
+              searchText: event.target.value || undefined,
+            })
+          }
+          placeholder="Search entries"
+          className="h-11 rounded-2xl border-transparent bg-[var(--muted)] pl-10 text-sm shadow-none placeholder:text-[var(--terra-sage)] focus-visible:border-[var(--terra-moss)] focus-visible:ring-0"
+        />
+      </div>
 
-      <LabelFilterDropdown
-        value={filters.labelId ?? "all"}
-        onChange={(value) =>
-          onFiltersChange({
-            ...filters,
-            labelId: value === "all" ? undefined : value,
-          })
-        }
-        labels={allLabels ?? []}
-      />
-
-      {/* Date range */}
-      <Popover open={datePopoverOpen} onOpenChange={setDatePopoverOpen}>
-        <PopoverTrigger
-          className={cn(
-            "inline-flex h-8 items-center gap-1.5 rounded-full border border-[var(--border)] bg-[var(--card)] px-3 text-[0.8rem] font-medium text-[var(--muted-foreground)] transition-colors hover:border-[var(--terra-moss)]",
-            currentPreset !== "all" &&
-              "border-[var(--terra-moss)] bg-[var(--terra-moss)]/10 text-[var(--terra-moss)]",
-          )}
-        >
-          <CalendarDays className="size-3.5 opacity-70" />
-          <span>{dateLabel}</span>
-        </PopoverTrigger>
-        <PopoverContent className="w-auto rounded-xl p-0" align="start">
-          <div className="flex flex-col">
-            {/* Presets */}
-            <div className="flex flex-col gap-0.5 border-b border-[var(--border)] p-2">
-              {(["today", "week", "month", "all"] as DatePreset[]).map(
-                (preset) => (
-                  <button
-                    key={preset}
-                    type="button"
-                    onClick={() => {
-                      if (preset === "all") {
-                        onFiltersChange({
-                          ...filters,
-                          startDate: undefined,
-                          endDate: undefined,
-                        });
-                      } else {
-                        const range = getPresetRange(preset);
-                        onFiltersChange({
-                          ...filters,
-                          startDate: range.start,
-                          endDate: range.end,
-                        });
-                      }
-                      setDatePopoverOpen(false);
-                    }}
-                    className={cn(
-                      "flex items-center justify-between rounded-lg px-3 py-1.5 text-left text-sm text-[var(--terra-pine)] transition-colors hover:bg-[var(--muted)]",
-                      currentPreset === preset &&
-                        "bg-[var(--muted)] font-semibold text-[var(--terra-moss)]",
-                    )}
-                  >
-                    {getDatePresetLabel(preset)}
-                    {currentPreset === preset && (
-                      <Check className="size-3.5 text-[var(--terra-moss)]" />
-                    )}
-                  </button>
-                ),
-              )}
-            </div>
-
-            {/* Calendar for custom range */}
-            <div className="p-2">
-              <p className="mb-1.5 px-1 text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--terra-sage)]">
-                Custom Range
-              </p>
-              <Calendar
-                mode="range"
-                selected={customDateRange}
-                onSelect={(range) => {
-                  if (range) {
-                    onFiltersChange({
-                      ...filters,
-                      startDate: range.from
-                        ? startOfDay(range.from).getTime()
-                        : undefined,
-                      endDate: range.to
-                        ? startOfDay(range.to).getTime() + 86400000 - 1
-                        : range.from
-                          ? startOfDay(range.from).getTime() + 86400000 - 1
-                          : undefined,
-                    });
-                  }
-                }}
-                numberOfMonths={1}
-                className="rounded-lg"
-              />
-            </div>
-          </div>
-        </PopoverContent>
-      </Popover>
-
-      {/* Inbox toggle */}
-      <button
-        type="button"
-        onClick={() =>
-          onFiltersChange({
-            ...filters,
-            inbox: !filters.inbox,
-            folderId: !filters.inbox ? undefined : filters.folderId,
-          })
-        }
-        className={cn(
-          "inline-flex h-8 items-center gap-1.5 rounded-full border border-[var(--border)] bg-[var(--card)] px-3 text-[0.8rem] font-medium text-[var(--muted-foreground)] transition-colors hover:border-[var(--terra-moss)]",
-          filters.inbox &&
-            "border-[var(--terra-moss)] bg-[var(--terra-moss)]/10 text-[var(--terra-moss)]",
-        )}
+      <div
+        aria-label="Entry date range"
+        className="grid grid-cols-4 gap-1 rounded-2xl bg-[var(--muted)] p-1"
+        role="group"
       >
-        <Inbox className="size-3.5" />
-        Inbox
-      </button>
+        {DATE_PRESETS.map(([preset, label]) => (
+          <button
+            key={preset}
+            type="button"
+            aria-pressed={currentPreset === preset}
+            onClick={() => {
+              const range = getEntryDateRange(preset);
+              onFiltersChange({
+                ...filters,
+                datePreset: preset,
+                startDate: range.startDate,
+                endDate: range.endDate,
+              });
+            }}
+            className={cn(
+              "rounded-xl px-3 py-2 text-sm font-semibold text-[var(--terra-sage)] transition-all hover:text-[var(--terra-pine)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--terra-moss)]/35",
+              currentPreset === preset &&
+                "bg-[var(--card)] text-[var(--terra-pine)] shadow-[0_1px_4px_rgba(34,58,46,0.12)]",
+            )}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
 
-      {/* Clear all */}
-      {hasActiveFilters(filters) && (
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => onFiltersChange({})}
-          className="gap-1 rounded-full text-[var(--terra-sage)] hover:text-[var(--terra-pine)]"
-        >
-          <X className="size-3" />
-          Clear
-        </Button>
-      )}
+      <div className="flex flex-wrap items-center gap-2">
+        <FolderFilterDropdown
+          value={filters.inbox ? "inbox" : (filters.folderId ?? "all")}
+          onChange={(value) =>
+            onFiltersChange({
+              ...filters,
+              folderId:
+                value === "all" || value === "inbox" ? undefined : value,
+              inbox: value === "inbox",
+            })
+          }
+          folders={allFolders ?? []}
+          allLabel="Folders"
+        />
+
+        <LabelFilterDropdown
+          value={filters.labelId ?? "all"}
+          onChange={(value) =>
+            onFiltersChange({
+              ...filters,
+              labelId: value === "all" ? undefined : value,
+            })
+          }
+          labels={allLabels ?? []}
+          allLabel="Labels"
+        />
+
+        {hasActiveFilters(filters) && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() =>
+              onFiltersChange({
+                datePreset: currentPreset,
+                ...getEntryDateRange(currentPreset),
+              })
+            }
+            className="ml-auto gap-1 rounded-full text-[var(--terra-clay)] hover:text-[var(--terra-clay)]"
+          >
+            <X className="size-3" />
+            Clear
+          </Button>
+        )}
+      </div>
     </div>
   );
 }

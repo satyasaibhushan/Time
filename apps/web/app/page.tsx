@@ -17,11 +17,9 @@ export default async function Home() {
               <TimerReset className="size-5" />
             </span>
             <div>
-              <div className="text-lg font-bold tracking-[-0.02em]">
-                TIME<span className="text-[var(--terra-clay)]">/01</span>
-              </div>
+              <div className="text-lg font-bold tracking-[-0.02em]">Tempo</div>
               <div className="text-[9px] font-semibold uppercase tracking-[0.1em] text-[var(--terra-sage)]">
-                Personal chronograph
+                Personal timekeeper
               </div>
             </div>
           </div>
@@ -62,22 +60,16 @@ export default async function Home() {
                 Pick up where you left off.
               </h2>
               <p className="mt-5 text-sm leading-6 text-[var(--terra-sage)]">
-                Your timers and history stay scoped to your authenticated account.
+                Log in or create an account to keep your timers and history synced
+                across web and iPhone.
               </p>
 
-              <div className="mt-9 grid gap-3">
+              <div className="mt-9">
                 <a
                   href="/auth/login"
                   className="signal-button flex h-14 items-center justify-between px-5 text-sm"
                 >
-                  Log in
-                  <ArrowUpRight className="size-4" />
-                </a>
-                <a
-                  href="/auth/login?screen_hint=signup"
-                  className="flex h-14 items-center justify-between rounded-full border border-[var(--border)] px-5 text-sm font-semibold text-[var(--terra-pine)] transition hover:border-[var(--terra-moss)]/40 hover:bg-[var(--secondary)]"
-                >
-                  Create account
+                  Continue to Tempo
                   <ArrowUpRight className="size-4" />
                 </a>
               </div>

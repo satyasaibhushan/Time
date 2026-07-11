@@ -182,6 +182,7 @@ export const paginateWithFilters = query({
     folderId: v.optional(v.id("folders")),
     inbox: v.optional(v.boolean()),
     labelId: v.optional(v.id("labels")),
+    searchText: v.optional(v.string()),
     startDate: v.optional(v.number()),
     endDate: v.optional(v.number()),
     status: v.optional(
@@ -255,6 +256,14 @@ export const paginateWithFilters = query({
         }
         return false;
       });
+    }
+    if (args.searchText?.trim()) {
+      const searchText = args.searchText.trim().toLocaleLowerCase();
+      page = page.filter((entry) =>
+        `${entry.title} ${entry.notes ?? ""}`
+          .toLocaleLowerCase()
+          .includes(searchText),
+      );
     }
 
     page.sort((a, b) => b.startedAt - a.startedAt);

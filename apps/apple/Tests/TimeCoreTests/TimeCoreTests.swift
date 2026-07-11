@@ -7,6 +7,15 @@ import Testing
     #expect(TimerMath.wholeSecond(13_000) == 13_000)
 }
 
+@Test func timerRefreshesConvergeOnTheNextWallClockSecond() {
+    let earlyViewPhase = Date(timeIntervalSince1970: 12.125)
+    let lateViewPhase = Date(timeIntervalSince1970: 12.875)
+    let expectedBoundary = Date(timeIntervalSince1970: 13)
+
+    #expect(TimerMath.nextWholeSecondBoundary(after: earlyViewPhase) == expectedBoundary)
+    #expect(TimerMath.nextWholeSecondBoundary(after: lateViewPhase) == expectedBoundary)
+}
+
 @Test func runningSegmentsAdvanceFromTheSameSecond() {
     let now: Int64 = 25_999
     let first = [TimeSegment(startTime: 1_000)]

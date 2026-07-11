@@ -7,6 +7,7 @@ struct TimerDashboardView: View {
     @State private var selectedFolderId: DocumentID?
     @State private var selectedLabelIds: Set<DocumentID> = []
     @State private var showingOptions = false
+    @State private var timerTickAnchor = TimerMath.nextWholeSecondBoundary(after: .now)
 
     var body: some View {
         NavigationStack {
@@ -181,7 +182,7 @@ struct TimerDashboardView: View {
             )
             .terraSurface()
         } else {
-            TimelineView(.periodic(from: .now, by: 1)) { context in
+            TimelineView(.periodic(from: timerTickAnchor, by: 1)) { context in
                 LazyVStack(spacing: 14) {
                     ForEach(store.timers) { timer in
                         TimerCard(

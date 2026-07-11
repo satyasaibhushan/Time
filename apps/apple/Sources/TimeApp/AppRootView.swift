@@ -75,18 +75,22 @@ private struct LoginView: View {
     let session: AppSession
 
     var body: some View {
-        VStack(spacing: 24) {
+        VStack(spacing: 26) {
             Image(systemName: "timer")
                 .font(.system(size: 56, weight: .light))
                 .foregroundStyle(TimeTheme.accent)
 
-            VStack(spacing: 8) {
+            VStack(spacing: 10) {
                 Text("Tempo")
                     .font(.system(.largeTitle, design: .rounded, weight: .bold))
                     .foregroundStyle(TimeTheme.ink)
-                Text("Sign in to sync timers across the web, iPhone, and widgets.")
+                Text("Pick up where you left off.")
+                    .font(.system(.title2, design: .serif, weight: .semibold))
+                    .foregroundStyle(TimeTheme.ink)
+                Text("Log in or create an account to keep your timers and history synced across web and iPhone.")
                     .multilineTextAlignment(.center)
                     .foregroundStyle(TimeTheme.mutedInk)
+                    .fixedSize(horizontal: false, vertical: true)
             }
 
             if let errorMessage = session.errorMessage {
@@ -99,13 +103,15 @@ private struct LoginView: View {
             Button {
                 Task { await session.login() }
             } label: {
-                Label("Continue with Auth0", systemImage: "person.crop.circle.badge.checkmark")
-                    .font(.headline)
-                    .padding(.horizontal, 22)
-                    .padding(.vertical, 14)
+                HStack {
+                    Text("Continue to Tempo")
+                    Spacer()
+                    Image(systemName: "arrow.up.right")
+                }
+                .frame(maxWidth: .infinity)
             }
-            .buttonStyle(.borderedProminent)
-            .tint(TimeTheme.accent)
+            .buttonStyle(PrimaryCapsuleButtonStyle())
+            .frame(maxWidth: 360)
         }
         .padding(32)
         .frame(maxWidth: .infinity, maxHeight: .infinity)

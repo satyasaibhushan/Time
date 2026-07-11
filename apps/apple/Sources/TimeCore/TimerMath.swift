@@ -7,6 +7,10 @@ public enum TimerMath {
         milliseconds - milliseconds % millisecondsPerSecond
     }
 
+    public static func nextWholeSecondBoundary(after date: Date) -> Date {
+        Date(timeIntervalSince1970: date.timeIntervalSince1970.rounded(.down) + 1)
+    }
+
     public static func elapsedSeconds(
         for segments: [TimeSegment],
         at nowMilliseconds: Int64

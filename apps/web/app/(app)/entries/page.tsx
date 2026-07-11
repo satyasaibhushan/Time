@@ -12,9 +12,13 @@ import {
 import { EntryDialog } from "@/components/entries/entry-dialog";
 import { Button } from "@/components/ui/button";
 import { Loader2, Plus } from "lucide-react";
+import { getEntryDateRange } from "@/lib/entry-date-range";
 
 export default function EntriesPage() {
-  const [filters, setFilters] = useState<EntryFilters>({});
+  const [filters, setFilters] = useState<EntryFilters>(() => ({
+    datePreset: "week",
+    ...getEntryDateRange("week"),
+  }));
   const [createOpen, setCreateOpen] = useState(false);
   const [editEntry, setEditEntry] = useState<TimeEntryDoc | null>(null);
 
@@ -30,6 +34,7 @@ export default function EntriesPage() {
       startDate: filters.startDate,
       endDate: filters.endDate,
       inbox: filters.inbox,
+      searchText: filters.searchText,
       status: "completed",
     },
     { initialNumItems: 30 },

@@ -125,8 +125,8 @@ final class ConvexTimerStore {
         var args: [String: ConvexEncodable?] = [
             "title": title.trimmingCharacters(in: .whitespacesAndNewlines),
             "manualLabelIds": convexIds(labelIds),
-            "startTime": start.millisecondsSince1970,
-            "endTime": end.millisecondsSince1970,
+            "startTime": Double(start.millisecondsSince1970),
+            "endTime": Double(end.millisecondsSince1970),
         ]
         let cleanNotes = notes.trimmingCharacters(in: .whitespacesAndNewlines)
         if !cleanNotes.isEmpty { args["notes"] = cleanNotes }
@@ -148,8 +148,8 @@ final class ConvexTimerStore {
             "title": title.trimmingCharacters(in: .whitespacesAndNewlines),
             "notes": notes.trimmingCharacters(in: .whitespacesAndNewlines),
             "manualLabelIds": convexIds(labelIds),
-            "startTime": start.millisecondsSince1970,
-            "endTime": end.millisecondsSince1970,
+            "startTime": Double(start.millisecondsSince1970),
+            "endTime": Double(end.millisecondsSince1970),
         ]
         if let folderId {
             args["folderId"] = folderId
@@ -285,7 +285,7 @@ final class ConvexTimerStore {
         subscribe(
             client.subscribe(
                 to: ConvexAPI.TimeEntries.listRecent,
-                with: ["limit": 1_000],
+                with: ["limit": 1_000.0],
                 yielding: [TimeEntry].self
             )
         ) { store, entries in
