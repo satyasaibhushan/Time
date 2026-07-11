@@ -8,12 +8,22 @@ options:
 packages:
   TimeApple:
     path: .
+  ConvexMobile:
+    url: https://github.com/get-convex/convex-swift
+    exactVersion: 0.8.1
+  ConvexAuth0:
+    url: https://github.com/get-convex/convex-swift-auth0
+    exactVersion: 0.4.0
+  Auth0:
+    url: https://github.com/auth0/Auth0.swift
+    exactVersion: 2.17.0
 
 settings:
   base:
     SWIFT_VERSION: "6.0"
     CURRENT_PROJECT_VERSION: 1
     MARKETING_VERSION: 0.1.0
+    "EXCLUDED_ARCHS[sdk=iphonesimulator*]": x86_64
 
 targets:
   Time:
@@ -24,6 +34,12 @@ targets:
     dependencies:
       - package: TimeApple
         product: TimeCore
+      - package: ConvexMobile
+        product: ConvexMobile
+      - package: ConvexAuth0
+        product: ConvexAuth0
+      - package: Auth0
+        product: Auth0
       - target: TimeWidgets
         embed: true
     settings:
@@ -31,12 +47,8 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: fun.bhushan.time
         PRODUCT_NAME: Time
         CODE_SIGN_ENTITLEMENTS: Sources/TimeApp/Time.entitlements
-        GENERATE_INFOPLIST_FILE: true
-        INFOPLIST_KEY_CFBundleDisplayName: Time
-        INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.productivity
-        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: true
-        INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: true
-        INFOPLIST_KEY_UILaunchScreen_Generation: true
+        GENERATE_INFOPLIST_FILE: false
+        INFOPLIST_FILE: Sources/TimeApp/Info.plist
         TARGETED_DEVICE_FAMILY: "1"
     scheme:
       gatherCoverageData: false

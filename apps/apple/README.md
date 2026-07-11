@@ -11,7 +11,8 @@ presentation code.
 - Sendable, Codable models aligned with the Convex schema
 - Whole-second timer calculations shared across every active timer
 - Stable names for the existing Convex queries and mutations
-- Repository protocol for the future Convex Swift adapter
+- Official Convex Swift client with live query subscriptions
+- Auth0 Universal Login with cached Keychain credentials
 - Reproducible Xcode project generated from `project.yml`
 - Native timer dashboard with multiple synchronized timers
 - Compact current-timer widget with a system-rendered live clock
@@ -33,9 +34,34 @@ xcodegen generate
 open Time.xcodeproj
 ```
 
-The current timer actions use an in-memory store while the Convex and Auth0
-adapters are built. This makes the first native interaction testable without
-creating a second backend or changing the production schema.
+The app currently uses the same `silent-bat-335` Convex deployment URL as the
+web app. Active timers, recent entries, folders, and labels update through live
+subscriptions; timer lifecycle actions call the existing Convex mutations.
+Synced data is also published to the widget App Group.
+
+## Auth0 native application
+
+iOS must use a separate Auth0 **Native** application. The web application is a
+confidential client and its secret must never be embedded in the app.
+
+Configure the Native application with both of these values:
+
+```text
+Allowed Callback URLs:
+fun.bhushan.time://dev-2eahmbvpb8dc1wei.jp.auth0.com/ios/fun.bhushan.time/callback
+
+Allowed Logout URLs:
+fun.bhushan.time://dev-2eahmbvpb8dc1wei.jp.auth0.com/ios/fun.bhushan.time/callback
+```
+
+Then:
+
+1. Put its public Client ID in `Sources/TimeApp/Auth0.plist`.
+2. Add `AUTH0_NATIVE_CLIENT_ID` with the same value to every Convex environment
+   used by an Apple build, including development and production.
+3. Deploy the Convex auth configuration to each environment.
+
+No Auth0 client secret belongs in the iOS project.
 
 ## Widgets
 
@@ -51,6 +77,6 @@ adapter only needs to publish the user's current entries and filter options.
 ## Environment rules
 
 - Never commit Auth0 secrets or tokens.
-- Store the public Convex deployment URL in target build configuration.
-- Use separate development and production schemes.
+- Pin official Swift packages through `Package.resolved`.
+- Use a public Auth0 Native client ID; never use the web client secret.
 - Production points to the same Convex deployment as the released web app.

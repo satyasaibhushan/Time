@@ -234,11 +234,11 @@
 ### 2.1 Native App Foundation
 - [x] `[Easy]` Create the SwiftUI iOS project in `apps/apple`
 - [x] `[Easy]` Mirror the domain vocabulary from the web app
-- [ ] `[Medium]` Connect the app to Convex
-- [ ] `[Medium]` Implement the same Auth0 auth flow for iOS
+- [x] `[Medium]` Connect the app to Convex
+- [x] `[Medium]` Implement the same Auth0 auth flow for iOS
 
 ### 2.2 iOS Core Features
-- [ ] `[Hard]` Build timer screen with start, pause, resume, and stop
+- [x] `[Hard]` Build timer screen with start, pause, resume, and stop
 - [ ] `[Medium]` Build folder browsing
 - [ ] `[Medium]` Build labels support
 - [ ] `[Medium]` Build entries list and manual entry creation

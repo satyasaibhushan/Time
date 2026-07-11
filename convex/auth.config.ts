@@ -2,6 +2,7 @@ import type { AuthConfig } from "convex/server";
 
 const auth0Domain = process.env.AUTH0_DOMAIN;
 const auth0ClientId = process.env.AUTH0_CLIENT_ID;
+const auth0NativeClientId = process.env.AUTH0_NATIVE_CLIENT_ID;
 
 if (!auth0Domain) {
   throw new Error("Missing AUTH0_DOMAIN in Convex environment variables.");
@@ -21,5 +22,13 @@ export default {
       domain: normalizedDomain,
       applicationID: auth0ClientId,
     },
+    ...(auth0NativeClientId
+      ? [
+          {
+            domain: normalizedDomain,
+            applicationID: auth0NativeClientId,
+          },
+        ]
+      : []),
   ],
 } satisfies AuthConfig;

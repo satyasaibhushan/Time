@@ -2,7 +2,8 @@ import SwiftUI
 import TimeCore
 
 struct TimerDashboardView: View {
-    @Bindable var store: LocalTimerStore
+    @Bindable var store: ConvexTimerStore
+    let onLogout: () -> Void
 
     var body: some View {
         NavigationStack {
@@ -19,12 +20,28 @@ struct TimerDashboardView: View {
             .navigationTitle("Time")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Settings", systemImage: "gearshape") {}
-                        .labelStyle(.iconOnly)
-                        .foregroundStyle(TimeTheme.ink)
+                    Menu {
+                        Button("Sign Out", systemImage: "rectangle.portrait.and.arrow.right", action: onLogout)
+                    } label: {
+                        Label("Settings", systemImage: "gearshape")
+                            .labelStyle(.iconOnly)
+                            .foregroundStyle(TimeTheme.ink)
+                    }
                 }
             }
+            .alert("Couldn’t update timer", isPresented: errorBinding) {
+                Button("OK") { store.clearError() }
+            } message: {
+                Text(store.errorMessage ?? "Please try again.")
+            }
         }
+    }
+
+    private var errorBinding: Binding<Bool> {
+        Binding(
+            get: { store.errorMessage != nil },
+            set: { if !$0 { store.clearError() } }
+        )
     }
 
     private var summary: some View {
@@ -79,6 +96,7 @@ struct TimerDashboardView: View {
                         .frame(minWidth: 76)
                 }
                 .buttonStyle(PrimaryCapsuleButtonStyle())
+                .disabled(store.isMutating)
             }
         }
         .padding(20)

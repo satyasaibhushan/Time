@@ -9,16 +9,22 @@
 /* Begin PBXBuildFile section */
 		01B89D164169DDD21D452030 /* SummaryWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EDA7C972C87BE6E28ABE1A /* SummaryWidget.swift */; };
 		0649BDF9808BE2DB1C0C3CE1 /* TimeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481217585466C18EF6A9DA75 /* TimeApp.swift */; };
-		311DF171A26992B6AC1F9A81 /* LocalTimerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D5B4E50B1AD97BD171C973 /* LocalTimerStore.swift */; };
+		1A933524034003988ADCC7E8 /* AppSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED1AF2ED47D261F837A9AE0 /* AppSession.swift */; };
+		4DA89ADC2952AA5FDF40B9AA /* ConvexAuth0 in Frameworks */ = {isa = PBXBuildFile; productRef = 8492B7210B6BC6B688661A78 /* ConvexAuth0 */; };
 		597D3973CD7EE1790820D370 /* TimeWidgetsBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F2C6CA5C8440E6C6A283CA /* TimeWidgetsBundle.swift */; };
 		690BF0FEF1CFEC85D83A79CE /* TimeCore in Frameworks */ = {isa = PBXBuildFile; productRef = F2D116BD2303873DA45BBCB3 /* TimeCore */; };
 		818243CE13422869BD2D56C9 /* SummaryWidgetIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7D9AB488B707D0367857DE /* SummaryWidgetIntent.swift */; };
+		8183B46FE6346553D1D40CFC /* ConvexMobile in Frameworks */ = {isa = PBXBuildFile; productRef = 6D6A1F7B89F0323C3642B2A2 /* ConvexMobile */; };
 		96A65866302A1658E9FB5EF0 /* TimerDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD589CA54B39F87966CAE21 /* TimerDashboardView.swift */; };
 		97A6E4D2C7F65BBD4C67CB1C /* TimeCore in Frameworks */ = {isa = PBXBuildFile; productRef = DDA601EA0D8B74CFF06354A4 /* TimeCore */; };
+		985E3F3E32410A8912F7F04E /* ConvexTimerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867028771E0C1149BB22E1A4 /* ConvexTimerStore.swift */; };
+		B2BCAC1BF7B04FF99EF484AA /* Auth0 in Frameworks */ = {isa = PBXBuildFile; productRef = DCE4BA1EF200E50EB2ACE32C /* Auth0 */; };
 		BEAF998C9EF152B9FFE6B53C /* TimeWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3BFD67883556F9E8D91E62F8 /* TimeWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C0E2A1A8C70284AB9EDDCCF8 /* WidgetSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = D25F078311C5555CA473214E /* WidgetSupport.swift */; };
 		C1909D660E1F8AB5D50C39EB /* CurrentTimerWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977BCB61E371453128B2378F /* CurrentTimerWidget.swift */; };
 		C937A7821387E97FF3582593 /* TimeTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809E7D246715AD46D2ED12B2 /* TimeTheme.swift */; };
+		CEC9C28E088BB8B4353972F0 /* ConvexConcurrency.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBA247E937897E1BF2B043E /* ConvexConcurrency.swift */; };
+		FD7F09463B2361DD1DFC0112 /* Auth0.plist in Resources */ = {isa = PBXBuildFile; fileRef = 78263E0043BFF297C0599862 /* Auth0.plist */; };
 		FDEA0992B6B3059B6E414667 /* AppRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC21138584FDBECD81C70C36 /* AppRootView.swift */; };
 /* End PBXBuildFile section */
 
@@ -51,18 +57,22 @@
 		3BFD67883556F9E8D91E62F8 /* TimeWidgets.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = TimeWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		4618876CEFABE65207547455 /* Time.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Time.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		481217585466C18EF6A9DA75 /* TimeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeApp.swift; sourceTree = "<group>"; };
-		65D5B4E50B1AD97BD171C973 /* LocalTimerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalTimerStore.swift; sourceTree = "<group>"; };
 		6DD589CA54B39F87966CAE21 /* TimerDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerDashboardView.swift; sourceTree = "<group>"; };
 		74EDA7C972C87BE6E28ABE1A /* SummaryWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryWidget.swift; sourceTree = "<group>"; };
+		78263E0043BFF297C0599862 /* Auth0.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Auth0.plist; sourceTree = "<group>"; };
 		7BFDD3CDEBFA5C08DC0E4DF0 /* apple */ = {isa = PBXFileReference; lastKnownFileType = folder; name = apple; path = .; sourceTree = SOURCE_ROOT; };
 		809E7D246715AD46D2ED12B2 /* TimeTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTheme.swift; sourceTree = "<group>"; };
+		867028771E0C1149BB22E1A4 /* ConvexTimerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvexTimerStore.swift; sourceTree = "<group>"; };
 		977BCB61E371453128B2378F /* CurrentTimerWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentTimerWidget.swift; sourceTree = "<group>"; };
+		9ED1AF2ED47D261F837A9AE0 /* AppSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSession.swift; sourceTree = "<group>"; };
 		AE7D9AB488B707D0367857DE /* SummaryWidgetIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryWidgetIntent.swift; sourceTree = "<group>"; };
+		B66D8EC514E0E497B8D3A0F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		BC21138584FDBECD81C70C36 /* AppRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRootView.swift; sourceTree = "<group>"; };
 		C6F2C6CA5C8440E6C6A283CA /* TimeWidgetsBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeWidgetsBundle.swift; sourceTree = "<group>"; };
 		D25F078311C5555CA473214E /* WidgetSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetSupport.swift; sourceTree = "<group>"; };
 		D8B9FBD238427E1527478485 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		D937B11A95365CE1A26FE709 /* TimeWidgets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TimeWidgets.entitlements; sourceTree = "<group>"; };
+		EFBA247E937897E1BF2B043E /* ConvexConcurrency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvexConcurrency.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +89,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				97A6E4D2C7F65BBD4C67CB1C /* TimeCore in Frameworks */,
+				8183B46FE6346553D1D40CFC /* ConvexMobile in Frameworks */,
+				4DA89ADC2952AA5FDF40B9AA /* ConvexAuth0 in Frameworks */,
+				B2BCAC1BF7B04FF99EF484AA /* Auth0 in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,7 +102,11 @@
 			isa = PBXGroup;
 			children = (
 				BC21138584FDBECD81C70C36 /* AppRootView.swift */,
-				65D5B4E50B1AD97BD171C973 /* LocalTimerStore.swift */,
+				9ED1AF2ED47D261F837A9AE0 /* AppSession.swift */,
+				78263E0043BFF297C0599862 /* Auth0.plist */,
+				EFBA247E937897E1BF2B043E /* ConvexConcurrency.swift */,
+				867028771E0C1149BB22E1A4 /* ConvexTimerStore.swift */,
+				B66D8EC514E0E497B8D3A0F7 /* Info.plist */,
 				13A1780FD6628553B0FF496A /* Time.entitlements */,
 				481217585466C18EF6A9DA75 /* TimeApp.swift */,
 				6DD589CA54B39F87966CAE21 /* TimerDashboardView.swift */,
@@ -155,6 +172,7 @@
 			buildConfigurationList = 1711F6D0EB96E492420A7A07 /* Build configuration list for PBXNativeTarget "Time" */;
 			buildPhases = (
 				BB297A6BB919E9F15410701F /* Sources */,
+				C9E90E4173B885ABC8759B39 /* Resources */,
 				EFE553569DD90899CD921A41 /* Frameworks */,
 				F6DAE2EC2953251299AF7400 /* Embed Foundation Extensions */,
 			);
@@ -166,6 +184,9 @@
 			name = Time;
 			packageProductDependencies = (
 				DDA601EA0D8B74CFF06354A4 /* TimeCore */,
+				6D6A1F7B89F0323C3642B2A2 /* ConvexMobile */,
+				8492B7210B6BC6B688661A78 /* ConvexAuth0 */,
+				DCE4BA1EF200E50EB2ACE32C /* Auth0 */,
 			);
 			productName = Time;
 			productReference = 4618876CEFABE65207547455 /* Time.app */;
@@ -211,6 +232,9 @@
 			mainGroup = 8EF65172A0F433CD84E84C86;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
+				24F1A594CA8458CA96032AD8 /* XCRemoteSwiftPackageReference "Auth0.swift" */,
+				BB21FE8C39CECDBBAB669A61 /* XCRemoteSwiftPackageReference "convex-swift-auth0" */,
+				97A76EADED1BF7635ADE762E /* XCRemoteSwiftPackageReference "convex-swift" */,
 				0738FDEE787944EBC110F7D5 /* XCLocalSwiftPackageReference "." */,
 			);
 			preferredProjectObjectVersion = 77;
@@ -223,6 +247,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C9E90E4173B885ABC8759B39 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FD7F09463B2361DD1DFC0112 /* Auth0.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		0FCE5DFB0090D1D83C1FAA11 /* Sources */ = {
@@ -242,7 +277,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				FDEA0992B6B3059B6E414667 /* AppRootView.swift in Sources */,
-				311DF171A26992B6AC1F9A81 /* LocalTimerStore.swift in Sources */,
+				1A933524034003988ADCC7E8 /* AppSession.swift in Sources */,
+				CEC9C28E088BB8B4353972F0 /* ConvexConcurrency.swift in Sources */,
+				985E3F3E32410A8912F7F04E /* ConvexTimerStore.swift in Sources */,
 				0649BDF9808BE2DB1C0C3CE1 /* TimeApp.swift in Sources */,
 				C937A7821387E97FF3582593 /* TimeTheme.swift in Sources */,
 				96A65866302A1658E9FB5EF0 /* TimerDashboardView.swift in Sources */,
@@ -298,6 +335,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = x86_64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -371,12 +409,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Sources/TimeApp/Time.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = Time;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Sources/TimeApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -394,12 +428,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Sources/TimeApp/Time.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = Time;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Sources/TimeApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -449,6 +479,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = x86_64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -508,7 +539,49 @@
 		};
 /* End XCLocalSwiftPackageReference section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		24F1A594CA8458CA96032AD8 /* XCRemoteSwiftPackageReference "Auth0.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/auth0/Auth0.swift";
+			requirement = {
+				kind = exactVersion;
+				version = 2.17.0;
+			};
+		};
+		97A76EADED1BF7635ADE762E /* XCRemoteSwiftPackageReference "convex-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/get-convex/convex-swift";
+			requirement = {
+				kind = exactVersion;
+				version = 0.8.1;
+			};
+		};
+		BB21FE8C39CECDBBAB669A61 /* XCRemoteSwiftPackageReference "convex-swift-auth0" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/get-convex/convex-swift-auth0";
+			requirement = {
+				kind = exactVersion;
+				version = 0.4.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
+		6D6A1F7B89F0323C3642B2A2 /* ConvexMobile */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 97A76EADED1BF7635ADE762E /* XCRemoteSwiftPackageReference "convex-swift" */;
+			productName = ConvexMobile;
+		};
+		8492B7210B6BC6B688661A78 /* ConvexAuth0 */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BB21FE8C39CECDBBAB669A61 /* XCRemoteSwiftPackageReference "convex-swift-auth0" */;
+			productName = ConvexAuth0;
+		};
+		DCE4BA1EF200E50EB2ACE32C /* Auth0 */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 24F1A594CA8458CA96032AD8 /* XCRemoteSwiftPackageReference "Auth0.swift" */;
+			productName = Auth0;
+		};
 		DDA601EA0D8B74CFF06354A4 /* TimeCore */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = TimeCore;
