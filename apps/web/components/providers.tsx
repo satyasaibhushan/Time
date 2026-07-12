@@ -31,6 +31,11 @@ function useAuthFromNextJsAuth0() {
       cache: "no-store",
     });
 
+    if (response.status === 401) {
+      window.location.assign("/auth/login");
+      return null;
+    }
+
     if (!response.ok) {
       return null;
     }
