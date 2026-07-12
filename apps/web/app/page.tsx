@@ -1,5 +1,12 @@
 import { redirect } from "next/navigation";
-import { ArrowUpRight, Radio, ShieldCheck, TimerReset } from "lucide-react";
+import {
+  ArrowUpRight,
+  Download,
+  Github,
+  Radio,
+  ShieldCheck,
+  TimerReset,
+} from "lucide-react";
 
 import { auth0 } from "@/lib/auth0";
 
@@ -72,6 +79,28 @@ export default async function Home() {
                   Continue to Tempo
                   <ArrowUpRight className="size-4" />
                 </a>
+
+                <div className="mt-3 grid grid-cols-[minmax(0,1fr)_auto] gap-3">
+                  <a
+                    href="https://github.com/satyasaibhushan/Time/releases/latest/download/Tempo.zip"
+                    className="flex h-12 items-center justify-between rounded-xl border border-[var(--border)] bg-[var(--card)] px-4 text-xs font-semibold text-[var(--terra-pine)] transition-colors hover:bg-[var(--secondary)]"
+                  >
+                    Download for Mac
+                    <Download className="size-4" />
+                  </a>
+                  <a
+                    href="https://github.com/satyasaibhushan/Time"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="View Tempo on GitHub"
+                    className="grid size-12 place-items-center rounded-xl border border-[var(--border)] bg-[var(--card)] text-[var(--terra-pine)] transition-colors hover:bg-[var(--secondary)]"
+                  >
+                    <Github className="size-4" />
+                  </a>
+                </div>
+                <p className="mt-3 text-[9px] font-semibold uppercase tracking-[0.1em] text-[var(--terra-sage)]">
+                  Apple Silicon · Preview build
+                </p>
               </div>
             </div>
 

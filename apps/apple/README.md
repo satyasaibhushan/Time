@@ -36,6 +36,15 @@ cd apps/apple
 swift test
 ```
 
+Create the Apple Silicon release archive used by GitHub Releases:
+
+```bash
+zsh apps/apple/Scripts/package-macos.sh /tmp/Tempo.zip
+```
+
+Pushing a `v*` tag builds an ad-hoc-signed `Tempo.zip` release asset. Developer
+ID signing and notarization remain a separate distribution step.
+
 Generate and open the Apple project:
 
 ```bash
