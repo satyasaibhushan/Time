@@ -126,49 +126,50 @@ export function AppShell({
               })}
             </nav>
 
-            <div className="grid grid-cols-[minmax(0,1fr)_42px] gap-2 lg:mt-auto">
-              <a
-                href="https://github.com/satyasaibhushan/Time/releases/latest/download/Tempo.zip"
-                className="flex h-[42px] items-center justify-between rounded-xl border border-[var(--border)] bg-[var(--card)] px-3 text-xs font-semibold text-[var(--terra-pine)] transition-colors hover:bg-[var(--secondary)]"
-              >
-                Download for Mac
-                <Download className="size-4" />
-              </a>
-              <a
-                href="https://github.com/satyasaibhushan/Time"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="View Tempo on GitHub"
-                title="View Tempo on GitHub"
-                className="grid size-[42px] place-items-center rounded-xl border border-[var(--border)] bg-[var(--card)] text-[var(--terra-pine)] transition-colors hover:bg-[var(--secondary)]"
-              >
-                <Github className="size-4" />
-              </a>
-            </div>
+            <div className="lg:mt-auto lg:flex lg:flex-col lg:gap-3">
+              <div className="grid grid-cols-2 gap-1 rounded-[14px] border border-[var(--border)] bg-[var(--secondary)] p-1">
+                <a
+                  href="https://github.com/satyasaibhushan/Time/releases/latest/download/Tempo.zip"
+                  className="flex h-9 items-center justify-center gap-2 whitespace-nowrap rounded-[10px] bg-[var(--card)] text-[11px] font-semibold text-[var(--terra-pine)] transition-colors hover:bg-[var(--popover)]"
+                >
+                  <Download className="size-3.5" />
+                  Mac app
+                </a>
+                <a
+                  href="https://github.com/satyasaibhushan/Time"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex h-9 items-center justify-center gap-2 whitespace-nowrap rounded-[10px] text-[11px] font-semibold text-[var(--terra-pine)] transition-colors hover:bg-[var(--card)]"
+                >
+                  <Github className="size-3.5" />
+                  GitHub
+                </a>
+              </div>
 
-            <div className="hidden items-center gap-2.5 lg:flex">
-              {user.imageUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  alt={user.name}
-                  className="size-7 rounded-full object-cover"
-                  src={user.imageUrl}
-                />
-              ) : (
-                <span className="grid size-7 place-items-center rounded-full bg-[var(--terra-clay)] text-xs font-bold text-white">
-                  {userInitial}
+              <div className="hidden items-center gap-2.5 lg:flex">
+                {user.imageUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    alt={user.name}
+                    className="size-7 rounded-full object-cover"
+                    src={user.imageUrl}
+                  />
+                ) : (
+                  <span className="grid size-7 place-items-center rounded-full bg-[var(--terra-clay)] text-xs font-bold text-white">
+                    {userInitial}
+                  </span>
+                )}
+                <span className="min-w-0 flex-1 truncate text-xs text-[var(--terra-sage)]">
+                  {user.name} · personal
                 </span>
-              )}
-              <span className="min-w-0 flex-1 truncate text-xs text-[var(--terra-sage)]">
-                {user.name} · personal
-              </span>
-              <a
-                href="/auth/logout"
-                className="grid size-7 place-items-center rounded-lg text-[var(--terra-sage)] transition-colors hover:bg-[var(--secondary)] hover:text-[var(--terra-clay)]"
-                title="Log out"
-              >
-                <LogOut className="size-3.5" />
-              </a>
+                <a
+                  href="/auth/logout"
+                  className="grid size-7 place-items-center rounded-lg text-[var(--terra-sage)] transition-colors hover:bg-[var(--secondary)] hover:text-[var(--terra-clay)]"
+                  title="Log out"
+                >
+                  <LogOut className="size-3.5" />
+                </a>
+              </div>
             </div>
           </div>
         </aside>
