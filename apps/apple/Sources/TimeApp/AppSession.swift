@@ -1,5 +1,4 @@
 import Auth0
-import ConvexAuth0
 import ConvexMobile
 import Foundation
 import Observation
@@ -21,7 +20,7 @@ final class AppSession {
     @ObservationIgnored
     private let client = ConvexClientWithAuth<Credentials>(
         deploymentUrl: "https://silent-bat-335.eu-west-1.convex.cloud",
-        authProvider: Auth0Provider()
+        authProvider: TempoAuthProvider()
     )
     @ObservationIgnored
     private let credentialsManager = CredentialsManager(authentication: Auth0.authentication())
@@ -64,10 +63,11 @@ final class AppSession {
     }
 
     func logout() async {
-        await client.logout()
+        _ = credentialsManager.clear()
         timerStore = nil
         errorMessage = nil
         phase = .signedOut
+        await client.logout()
     }
 
     private func activateAuthenticatedSession() async {

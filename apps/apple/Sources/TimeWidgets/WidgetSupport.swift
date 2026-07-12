@@ -2,14 +2,26 @@ import SwiftUI
 import TimeCore
 
 enum WidgetPalette {
-    static let surface = Color(red: 0.96, green: 0.96, blue: 0.92)
-    static let timerSurface = Color(red: 0.08, green: 0.20, blue: 0.15)
-    static let accent = Color(red: 0.10, green: 0.30, blue: 0.22)
-    static let ink = Color(red: 0.08, green: 0.20, blue: 0.15)
-    static let mutedInk = Color(red: 0.38, green: 0.46, blue: 0.40)
-    static let softGreen = Color(red: 0.64, green: 0.73, blue: 0.64)
-    static let gold = Color(red: 0.89, green: 0.60, blue: 0.25)
-    static let line = Color(red: 0.84, green: 0.85, blue: 0.79)
+    static let surface = Color(widgetHex: 0xF7F8F2)
+    static let timerSurface = Color(widgetHex: 0x22372B)
+    static let accent = Color(widgetHex: 0x22372B)
+    static let ink = Color(widgetHex: 0x22372B)
+    static let mutedInk = Color(widgetHex: 0x57705F)
+    static let softGreen = Color(widgetHex: 0x7D9184)
+    static let gold = Color(widgetHex: 0xD8A25A)
+    static let line = Color(widgetHex: 0xDEE2D3)
+}
+
+private extension Color {
+    init(widgetHex value: UInt32) {
+        self.init(
+            .sRGB,
+            red: Double((value >> 16) & 0xFF) / 255,
+            green: Double((value >> 8) & 0xFF) / 255,
+            blue: Double(value & 0xFF) / 255,
+            opacity: 1
+        )
+    }
 }
 
 enum WidgetPreviewData {

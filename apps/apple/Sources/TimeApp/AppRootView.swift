@@ -87,7 +87,7 @@ private struct LoginView: View {
                 Text("Pick up where you left off.")
                     .font(.system(.title2, design: .serif, weight: .semibold))
                     .foregroundStyle(TimeTheme.ink)
-                Text("Log in or create an account to keep your timers and history synced across web and iPhone.")
+                Text("Log in or create an account to keep your timers and history synced across web, iPhone, and Mac.")
                     .multilineTextAlignment(.center)
                     .foregroundStyle(TimeTheme.mutedInk)
                     .fixedSize(horizontal: false, vertical: true)

@@ -4,6 +4,10 @@ import TimeCore
 struct FoldersView: View {
     @Bindable var store: ConvexTimerStore
     @State private var showingArchived = false
+    #if os(macOS)
+    @State private var macSort = MacFolderSort.manual
+    @State private var expandedFolderIds: Set<DocumentID> = []
+    #endif
     @State private var editorTarget: FolderEditorTarget?
     @State private var deletingFolder: Folder?
 
@@ -11,12 +15,11 @@ struct FoldersView: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 20) {
-                    TerraPageHeader(
-                        kicker: "Structure / folders",
-                        title: "Give time a place.",
-                        subtitle: "Folders form one hierarchy. Default labels cascade through every child."
-                    )
+                    pageHeader
 
+                    #if os(macOS)
+                    macFolderTree
+                    #else
                     archivedToggle
 
                     if visibleNodes.isEmpty {
@@ -49,16 +52,17 @@ struct FoldersView: View {
                             }
                         }
                     }
+                    #endif
                 }
                 .padding(.horizontal, 18)
                 .padding(.bottom, 36)
             }
             .background(TimeTheme.canvas.ignoresSafeArea())
             .navigationTitle("Folders")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbarBackground(TimeTheme.canvas, for: .navigationBar)
+            .timeNavigationChrome()
             .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
+                #if os(iOS)
+                ToolbarItem(placement: .primaryAction) {
                     Button {
                         editorTarget = FolderEditorTarget()
                     } label: {
@@ -68,6 +72,7 @@ struct FoldersView: View {
                     .buttonBorderShape(.capsule)
                     .tint(TimeTheme.accent)
                 }
+                #endif
             }
             .sheet(item: $editorTarget) { target in
                 FolderEditorSheet(store: store, target: target)
@@ -91,6 +96,31 @@ struct FoldersView: View {
         }
     }
 
+    @ViewBuilder
+    private var pageHeader: some View {
+        #if os(macOS)
+        HStack(alignment: .top, spacing: 20) {
+            TerraPageHeader(
+                kicker: "Structure / folders",
+                title: "Give time a place.",
+                subtitle: "One recursive hierarchy. Inbox at the root for uncategorized entries. Folders can have default labels that cascade to children."
+            )
+            Button {
+                editorTarget = FolderEditorTarget()
+            } label: {
+                Label("New Folder", systemImage: "plus")
+            }
+            .buttonStyle(PrimaryCapsuleButtonStyle())
+        }
+        #else
+        TerraPageHeader(
+            kicker: "Structure / folders",
+            title: "Give time a place.",
+            subtitle: "Folders form one hierarchy. Default labels cascade through every child."
+        )
+        #endif
+    }
+
     private var archivedToggle: some View {
         HStack {
             VStack(alignment: .leading, spacing: 3) {
@@ -111,6 +141,137 @@ struct FoldersView: View {
         }
         .terraSurface(padding: 14)
     }
+
+    #if os(macOS)
+    private var macFolderTree: some View {
+        VStack(spacing: 4) {
+            HStack {
+                Text("FOLDERS")
+                    .font(.custom("Avenir Next", size: 11).weight(.semibold))
+                    .tracking(1.1)
+                    .foregroundStyle(TimeTheme.sage)
+                Spacer()
+                Menu {
+                    ForEach(MacFolderSort.allCases) { option in
+                        Button { macSort = option } label: {
+                            Label(option.title, systemImage: macSort == option ? "checkmark" : "line.3.horizontal.decrease")
+                        }
+                    }
+                    Divider()
+                    Button {
+                        showingArchived.toggle()
+                    } label: {
+                        Label(showingArchived ? "Hide archived" : "Show archived", systemImage: "archivebox")
+                    }
+                } label: {
+                    Image(systemName: "line.3.horizontal.decrease")
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundStyle(TimeTheme.sage)
+                        .frame(width: 28, height: 28)
+                }
+                .menuStyle(.borderlessButton)
+                .fixedSize()
+
+                Button {
+                    editorTarget = FolderEditorTarget()
+                } label: {
+                    Image(systemName: "plus")
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundStyle(TimeTheme.sage)
+                        .frame(width: 28, height: 28)
+                }
+                .buttonStyle(.plain)
+                .help("New folder")
+            }
+            .padding(.horizontal, 8)
+            .padding(.bottom, 8)
+
+            HStack(spacing: 10) {
+                Image(systemName: "tray")
+                    .font(.system(size: 13, weight: .medium))
+                    .foregroundStyle(TimeTheme.sage)
+                    .frame(width: 24, height: 24)
+                    .background(TimeTheme.muted, in: RoundedRectangle(cornerRadius: 8))
+                Text("Inbox")
+                    .font(.custom("Avenir Next", size: 14).weight(.medium))
+                    .foregroundStyle(TimeTheme.ink)
+                Spacer()
+            }
+            .padding(.horizontal, 12)
+            .frame(height: 44)
+
+            if macVisibleNodes.isEmpty {
+                TerraEmptyState(
+                    icon: "folder",
+                    title: "No folders yet",
+                    message: "Create a folder to organize your time entries."
+                )
+            } else {
+                ForEach(macVisibleNodes) { node in
+                    MacFolderRow(
+                        node: node,
+                        expanded: expandedFolderIds.contains(node.folder.id),
+                        hasChildren: hasChildren(node.folder.id),
+                        onToggle: {
+                            if expandedFolderIds.contains(node.folder.id) {
+                                expandedFolderIds.remove(node.folder.id)
+                            } else {
+                                expandedFolderIds.insert(node.folder.id)
+                            }
+                        },
+                        onEdit: { editorTarget = FolderEditorTarget(folder: node.folder) },
+                        onAddChild: { editorTarget = FolderEditorTarget(parentFolderId: node.folder.id) },
+                        onArchive: {
+                            Task {
+                                _ = await store.setFolderArchived(node.folder, archived: !node.folder.archived)
+                            }
+                        },
+                        onDelete: { deletingFolder = node.folder }
+                    )
+                }
+            }
+        }
+        .terraSurface(padding: 20)
+    }
+
+    private var macVisibleNodes: [FolderNode] {
+        let folders = store.folders.filter { showingArchived || !$0.archived }
+        let ids = Set(folders.map(\.id))
+        let grouped = Dictionary(grouping: folders) { folder -> DocumentID? in
+            guard let parent = folder.parentFolderId, ids.contains(parent) else { return nil }
+            return parent
+        }
+        var result: [FolderNode] = []
+
+        func append(parent: DocumentID?, depth: Int) {
+            for folder in (grouped[parent] ?? []).sorted(by: macFolderSort) {
+                result.append(FolderNode(folder: folder, depth: depth))
+                if expandedFolderIds.contains(folder.id) {
+                    append(parent: folder.id, depth: depth + 1)
+                }
+            }
+        }
+
+        append(parent: nil, depth: 0)
+        return result
+    }
+
+    private func macFolderSort(_ lhs: Folder, _ rhs: Folder) -> Bool {
+        switch macSort {
+        case .manual:
+            if lhs.sortOrder != rhs.sortOrder { return lhs.sortOrder < rhs.sortOrder }
+        case .created:
+            if lhs.createdAt != rhs.createdAt { return lhs.createdAt < rhs.createdAt }
+        case .updated:
+            if lhs.updatedAt != rhs.updatedAt { return lhs.updatedAt > rhs.updatedAt }
+        }
+        return lhs.name.localizedCaseInsensitiveCompare(rhs.name) == .orderedAscending
+    }
+
+    private func hasChildren(_ id: DocumentID) -> Bool {
+        store.folders.contains { $0.parentFolderId == id && (showingArchived || !$0.archived) }
+    }
+    #endif
 
     private var visibleNodes: [FolderNode] {
         let folders = store.folders.filter { showingArchived || !$0.archived }
@@ -145,6 +306,98 @@ private struct FolderNode: Identifiable {
     let depth: Int
     var id: DocumentID { folder.id }
 }
+
+#if os(macOS)
+private enum MacFolderSort: String, CaseIterable, Identifiable {
+    case manual
+    case created
+    case updated
+
+    var id: Self { self }
+    var title: String {
+        switch self {
+        case .manual: "Manual order"
+        case .created: "Date created"
+        case .updated: "Last updated"
+        }
+    }
+}
+
+private struct MacFolderRow: View {
+    let node: FolderNode
+    let expanded: Bool
+    let hasChildren: Bool
+    let onToggle: () -> Void
+    let onEdit: () -> Void
+    let onAddChild: () -> Void
+    let onArchive: () -> Void
+    let onDelete: () -> Void
+    @State private var hovering = false
+
+    var body: some View {
+        HStack(spacing: 8) {
+            Button(action: onToggle) {
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 11, weight: .semibold))
+                    .foregroundStyle(TimeTheme.sage)
+                    .rotationEffect(.degrees(expanded ? 90 : 0))
+                    .frame(width: 20, height: 20)
+            }
+            .buttonStyle(.plain)
+            .disabled(!hasChildren)
+            .opacity(hasChildren ? 1 : 0.25)
+
+            Circle()
+                .fill(TimeColorToken.folder(node.folder.color))
+                .frame(width: 10, height: 10)
+
+            Text(node.folder.name)
+                .font(.custom("Avenir Next", size: 14).weight(.medium))
+                .foregroundStyle(TimeTheme.ink)
+                .lineLimit(1)
+
+            Spacer()
+
+            if node.folder.archived {
+                Text("ARCHIVED")
+                    .font(.custom("Avenir Next", size: 9).weight(.semibold))
+                    .tracking(0.8)
+                    .foregroundStyle(TimeTheme.sage)
+                    .padding(.horizontal, 7)
+                    .padding(.vertical, 3)
+                    .background(TimeTheme.muted, in: RoundedRectangle(cornerRadius: 6))
+            }
+
+            Menu {
+                Button("Edit", systemImage: "pencil", action: onEdit)
+                Button("New Subfolder", systemImage: "folder.badge.plus", action: onAddChild)
+                Button(
+                    node.folder.archived ? "Unarchive" : "Archive",
+                    systemImage: node.folder.archived ? "arrow.uturn.backward" : "archivebox",
+                    action: onArchive
+                )
+                Divider()
+                Button("Delete", systemImage: "trash", role: .destructive, action: onDelete)
+            } label: {
+                Image(systemName: "ellipsis")
+                    .font(.system(size: 12, weight: .medium))
+                    .foregroundStyle(TimeTheme.sage)
+                    .frame(width: 28, height: 28)
+            }
+            .menuStyle(.borderlessButton)
+            .fixedSize()
+            .opacity(hovering ? 1 : 0)
+        }
+        .padding(.leading, CGFloat(node.depth) * 20 + 8)
+        .padding(.trailing, 8)
+        .frame(height: 40)
+        .background(hovering ? TimeTheme.muted.opacity(0.55) : Color.clear, in: RoundedRectangle(cornerRadius: 16))
+        .contentShape(Rectangle())
+        .onHover { hovering = $0 }
+        .opacity(node.folder.archived ? 0.66 : 1)
+    }
+}
+#endif
 
 private struct FolderRow: View {
     let node: FolderNode
@@ -291,7 +544,7 @@ private struct FolderEditorSheet: View {
             .scrollContentBackground(.hidden)
             .background(TimeTheme.canvas)
             .navigationTitle(target.folder == nil ? "New Folder" : "Edit Folder")
-            .navigationBarTitleDisplayMode(.inline)
+            .timeInlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") { dismiss() }
