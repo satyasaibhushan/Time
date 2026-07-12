@@ -64,6 +64,19 @@ test("valid sessions return the Auth0 ID token for Convex", async () => {
   assert.deepEqual(await response.json(), { token: "valid-id-token" });
 });
 
+test("expired ID tokens return 401 even while the access token is valid", async () => {
+  const payload = Buffer.from(
+    JSON.stringify({ exp: Math.floor(Date.now() / 1000) - 1 }),
+  ).toString("base64url");
+  const auth = authClient({
+    idToken: `header.${payload}.signature`,
+  });
+  const response = await createConvexTokenResponse(auth);
+
+  assert.equal(response.status, 401);
+  assert.equal(auth.accessTokenCalls, 1);
+});
+
 test("unexpected token errors remain server errors", async () => {
   const failure = new Error("Auth0 configuration failed");
   const auth = authClient({ idToken: "id-token", accessTokenError: failure });

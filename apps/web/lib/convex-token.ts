@@ -23,6 +23,21 @@ function unauthorized() {
   );
 }
 
+function getTokenExpiration(token: string) {
+  const payload = token.split(".")[1];
+  if (!payload) return undefined;
+
+  try {
+    const claims = JSON.parse(
+      Buffer.from(payload, "base64url").toString("utf8"),
+    ) as { exp?: unknown };
+
+    return typeof claims.exp === "number" ? claims.exp : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 export async function createConvexTokenResponse(auth: ConvexTokenAuth) {
   const session = await auth.getSession();
 
@@ -42,8 +57,12 @@ export async function createConvexTokenResponse(auth: ConvexTokenAuth) {
 
   const refreshedSession = await auth.getSession();
   const token = refreshedSession?.tokenSet.idToken;
+  const expiresAt = token ? getTokenExpiration(token) : undefined;
 
-  if (!token) {
+  if (
+    !token ||
+    (typeof expiresAt === "number" && expiresAt <= Math.floor(Date.now() / 1000))
+  ) {
     return unauthorized();
   }
 
