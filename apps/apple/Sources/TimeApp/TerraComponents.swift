@@ -9,15 +9,17 @@ struct TerraPageHeader: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(kicker.uppercased())
-                .font(.caption2.weight(.bold))
+                .font(.custom("Avenir Next", size: 11).weight(.semibold))
                 .tracking(1.4)
                 .foregroundStyle(TimeTheme.sage)
             Text(title)
-                .font(.system(.title2, design: .rounded, weight: .bold))
+                .font(.custom("Avenir Next", size: 24).weight(.bold))
+                .tracking(-0.45)
                 .foregroundStyle(TimeTheme.ink)
             Text(subtitle)
-                .font(.subheadline)
-                .foregroundStyle(TimeTheme.mutedInk)
+                .font(.custom("Avenir Next", size: 13.5))
+                .foregroundStyle(TimeTheme.sage)
+                .lineSpacing(3)
                 .fixedSize(horizontal: false, vertical: true)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -27,7 +29,14 @@ struct TerraPageHeader: View {
 struct TerraSurfaceModifier: ViewModifier {
     var padding: CGFloat = 18
 
+    @ViewBuilder
     func body(content: Content) -> some View {
+        #if os(macOS)
+        content
+            .padding(padding)
+            .background(TimeTheme.surface, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+            .shadow(color: TimeTheme.ink.opacity(0.06), radius: 1, y: 1)
+        #else
         content
             .padding(padding)
             .background(TimeTheme.surface, in: RoundedRectangle(cornerRadius: 22, style: .continuous))
@@ -35,12 +44,87 @@ struct TerraSurfaceModifier: ViewModifier {
                 RoundedRectangle(cornerRadius: 22, style: .continuous)
                     .stroke(TimeTheme.line.opacity(0.9), lineWidth: 1)
             }
+            .shadow(color: TimeTheme.ink.opacity(0.06), radius: 2, y: 1)
+        #endif
     }
 }
 
 extension View {
     func terraSurface(padding: CGFloat = 18) -> some View {
         modifier(TerraSurfaceModifier(padding: padding))
+    }
+
+    @ViewBuilder
+    func timeNavigationChrome() -> some View {
+        #if os(iOS)
+        self
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbarBackground(TimeTheme.canvas, for: .navigationBar)
+        #else
+        self
+        #endif
+    }
+
+    @ViewBuilder
+    func timeInlineNavigationTitle() -> some View {
+        #if os(iOS)
+        self.navigationBarTitleDisplayMode(.inline)
+        #else
+        self
+        #endif
+    }
+
+    @ViewBuilder
+    func timeSentenceInput() -> some View {
+        #if os(iOS)
+        self
+            .textInputAutocapitalization(.sentences)
+            .submitLabel(.go)
+        #else
+        self
+        #endif
+    }
+
+    @ViewBuilder
+    func timeEntrySearchable(text: Binding<String>, prompt: String) -> some View {
+        #if os(iOS)
+        self.searchable(text: text, prompt: prompt)
+        #else
+        self
+        #endif
+    }
+}
+
+struct TerraSearchField: View {
+    @Binding var text: String
+    let prompt: String
+
+    var body: some View {
+        HStack(spacing: 10) {
+            Image(systemName: "magnifyingglass")
+                .font(.system(size: 14, weight: .medium))
+                .foregroundStyle(TimeTheme.sage)
+            TextField(prompt, text: $text)
+                .textFieldStyle(.plain)
+                .font(.subheadline)
+                .foregroundStyle(TimeTheme.ink)
+            if !text.isEmpty {
+                Button {
+                    text = ""
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundStyle(TimeTheme.sage)
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding(.horizontal, 14)
+        .frame(height: 44)
+        .background(TimeTheme.muted, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+        .overlay {
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .stroke(TimeTheme.line.opacity(0.5), lineWidth: 1)
+        }
     }
 }
 
@@ -122,7 +206,7 @@ struct LabelSelectionList: View {
                 } label: {
                     HStack {
                         Circle()
-                            .fill(Color(hex: label.color))
+                            .fill(TimeColorToken.label(label.color))
                             .frame(width: 10, height: 10)
                         Text(label.name)
                             .foregroundStyle(TimeTheme.ink)
@@ -164,5 +248,42 @@ extension Date {
 
     var millisecondsSince1970: Int64 {
         Int64((timeIntervalSince1970 * 1_000).rounded(.down))
+    }
+}
+
+enum TimeColorToken {
+    private static let folderColors: [String: String] = [
+        "amber": "#E6A23C",
+        "coral": "#F97360",
+        "emerald": "#34D399",
+        "sky": "#38BDF8",
+        "violet": "#A78BFA",
+        "lime": "#A3E635",
+    ]
+
+    private static let labelColors: [String: String] = [
+        "gold": "#F5BF58",
+        "rose": "#FB7185",
+        "mint": "#6EE7B7",
+        "ocean": "#60A5FA",
+        "orchid": "#C084FC",
+        "moss": "#84CC16",
+    ]
+
+    static func folder(_ value: String?) -> Color {
+        Color(hex: resolved(value, in: folderColors, fallback: "#E6A23C"))
+    }
+
+    static func label(_ value: String) -> Color {
+        Color(hex: resolved(value, in: labelColors, fallback: "#F5BF58"))
+    }
+
+    private static func resolved(
+        _ value: String?,
+        in tokens: [String: String],
+        fallback: String
+    ) -> String {
+        guard let value, !value.isEmpty else { return fallback }
+        return tokens[value] ?? value
     }
 }

@@ -48,6 +48,35 @@ final class ConvexTimerStore {
         labels.first { $0.id == id }
     }
 
+    func updateProfile(name: String, email: String) async -> Bool {
+        await performMutation {
+            let _: DocumentID = try await self.client.mutation(
+                ConvexAPI.Users.updateProfile,
+                with: [
+                    "name": name.trimmingCharacters(in: .whitespacesAndNewlines),
+                    "email": email.trimmingCharacters(in: .whitespacesAndNewlines),
+                ]
+            )
+        }
+    }
+
+    func updatePreferences(
+        timezone: String,
+        timeFormat: TimeFormat,
+        weekStart: WeekStart
+    ) async -> Bool {
+        await performMutation {
+            let _: DocumentID = try await self.client.mutation(
+                ConvexAPI.Users.updatePreferences,
+                with: [
+                    "timezone": timezone.trimmingCharacters(in: .whitespacesAndNewlines),
+                    "timeFormat": timeFormat.rawValue,
+                    "weekStart": weekStart.rawValue,
+                ]
+            )
+        }
+    }
+
     func startTimer() {
         let title = draftTitle.trimmingCharacters(in: .whitespacesAndNewlines)
         draftTitle = ""

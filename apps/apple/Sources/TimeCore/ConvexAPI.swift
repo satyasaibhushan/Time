@@ -2,6 +2,8 @@ public enum ConvexAPI {
     public enum Users {
         public static let current = "users:current"
         public static let ensureCurrent = "users:ensureCurrentUser"
+        public static let updateProfile = "users:updateProfile"
+        public static let updatePreferences = "users:updatePreferences"
     }
 
     public enum TimeEntries {

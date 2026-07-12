@@ -11,11 +11,7 @@ struct LabelsView: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 20) {
-                    TerraPageHeader(
-                        kicker: "Signal / labels",
-                        title: "Mark what matters.",
-                        subtitle: "Reusable labels can be added directly or inherited from a folder."
-                    )
+                    pageHeader
 
                     if store.labels.isEmpty {
                         TerraEmptyState(
@@ -25,6 +21,21 @@ struct LabelsView: View {
                         )
                         .terraSurface()
                     } else {
+                        #if os(macOS)
+                        LazyVGrid(
+                            columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 3),
+                            spacing: 12
+                        ) {
+                            ForEach(store.labels.sorted(by: labelSort)) { label in
+                                MacLabelTile(
+                                    label: label,
+                                    onEdit: { editingLabel = label },
+                                    onDelete: { deletingLabel = label }
+                                )
+                            }
+                        }
+                        .terraSurface(padding: 20)
+                        #else
                         LazyVStack(spacing: 10) {
                             ForEach(store.labels.sorted(by: labelSort)) { label in
                                 LabelRow(
@@ -35,6 +46,7 @@ struct LabelsView: View {
                                 )
                             }
                         }
+                        #endif
                     }
                 }
                 .padding(.horizontal, 18)
@@ -42,10 +54,10 @@ struct LabelsView: View {
             }
             .background(TimeTheme.canvas.ignoresSafeArea())
             .navigationTitle("Labels")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbarBackground(TimeTheme.canvas, for: .navigationBar)
+            .timeNavigationChrome()
             .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
+                #if os(iOS)
+                ToolbarItem(placement: .primaryAction) {
                     Button {
                         creatingLabel = true
                     } label: {
@@ -55,6 +67,7 @@ struct LabelsView: View {
                     .buttonBorderShape(.capsule)
                     .tint(TimeTheme.accent)
                 }
+                #endif
             }
             .sheet(isPresented: $creatingLabel) {
                 LabelEditorSheet(store: store, label: nil)
@@ -81,6 +94,31 @@ struct LabelsView: View {
         }
     }
 
+    @ViewBuilder
+    private var pageHeader: some View {
+        #if os(macOS)
+        HStack(alignment: .top, spacing: 20) {
+            TerraPageHeader(
+                kicker: "Signal / labels",
+                title: "Mark what matters.",
+                subtitle: "Reusable labels that can be set as folder defaults or added directly to entries. Folder defaults cascade through the hierarchy."
+            )
+            Button {
+                creatingLabel = true
+            } label: {
+                Label("New Label", systemImage: "plus")
+            }
+            .buttonStyle(PrimaryCapsuleButtonStyle())
+        }
+        #else
+        TerraPageHeader(
+            kicker: "Signal / labels",
+            title: "Mark what matters.",
+            subtitle: "Reusable labels can be added directly or inherited from a folder."
+        )
+        #endif
+    }
+
     private func labelSort(_ lhs: TimeCore.Label, _ rhs: TimeCore.Label) -> Bool {
         lhs.name.localizedCaseInsensitiveCompare(rhs.name) == .orderedAscending
     }
@@ -92,6 +130,57 @@ struct LabelsView: View {
     }
 }
 
+#if os(macOS)
+private struct MacLabelTile: View {
+    let label: TimeCore.Label
+    let onEdit: () -> Void
+    let onDelete: () -> Void
+    @State private var hovering = false
+
+    var body: some View {
+        HStack(spacing: 12) {
+            Circle()
+                .fill(TimeColorToken.label(label.color))
+                .frame(width: 12, height: 12)
+            Text(label.name)
+                .font(.custom("Avenir Next", size: 14).weight(.medium))
+                .foregroundStyle(TimeTheme.ink)
+                .lineLimit(1)
+            Spacer()
+            HStack(spacing: 2) {
+                Button(action: onEdit) {
+                    Image(systemName: "pencil")
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundStyle(TimeTheme.sage)
+                        .frame(width: 28, height: 28)
+                }
+                .buttonStyle(.plain)
+                .help("Edit \(label.name)")
+
+                Button(action: onDelete) {
+                    Image(systemName: "trash")
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundStyle(TimeTheme.clay)
+                        .frame(width: 28, height: 28)
+                }
+                .buttonStyle(.plain)
+                .help("Delete \(label.name)")
+            }
+            .opacity(hovering ? 1 : 0)
+        }
+        .padding(.horizontal, 16)
+        .frame(height: 58)
+        .background(TimeTheme.surface, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+        .overlay {
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .stroke(hovering ? TimeTheme.moss.opacity(0.4) : TimeTheme.line, lineWidth: 1)
+        }
+        .contentShape(Rectangle())
+        .onHover { hovering = $0 }
+    }
+}
+#endif
+
 private struct LabelRow: View {
     let label: TimeCore.Label
     let usageCount: Int
@@ -101,7 +190,7 @@ private struct LabelRow: View {
     var body: some View {
         HStack(spacing: 13) {
             Circle()
-                .fill(Color(hex: label.color))
+                .fill(TimeColorToken.label(label.color))
                 .frame(width: 34, height: 34)
                 .overlay {
                     Image(systemName: "tag.fill")
@@ -185,7 +274,7 @@ private struct LabelEditorSheet: View {
             .scrollContentBackground(.hidden)
             .background(TimeTheme.canvas)
             .navigationTitle(label == nil ? "New Label" : "Edit Label")
-            .navigationBarTitleDisplayMode(.inline)
+            .timeInlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") { dismiss() }

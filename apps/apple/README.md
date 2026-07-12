@@ -1,9 +1,8 @@
 # Time for Apple Platforms
 
-Native development includes a SwiftUI iPhone application and `TimeCore`, a
-Swift package that will be shared by the future macOS target. The core mirrors
-the production Convex domain model and keeps timer behavior independent from
-presentation code.
+Native development includes SwiftUI iPhone and macOS applications plus the
+shared `TimeCore` package. The core mirrors the production Convex domain model
+and keeps timer behavior independent from presentation code.
 
 ## Current foundation
 
@@ -15,6 +14,8 @@ presentation code.
 - Auth0 Universal Login with cached Keychain credentials
 - Reproducible Xcode project generated from `project.yml`
 - Native timer dashboard with multiple synchronized timers
+- Native macOS app with a desktop sidebar and the shared Now, Log, Folders,
+  Labels, and Setup workflows
 - Terra-styled navigation matching the web app across Now, Log, Folders,
   Labels, and Setup
 - Full timer composer with notes, folder selection, and labels
@@ -34,7 +35,7 @@ cd apps/apple
 swift test
 ```
 
-Generate and open the iOS project:
+Generate and open the Apple project:
 
 ```bash
 xcodegen generate
@@ -48,17 +49,19 @@ mutations. Synced data is also published to the widget App Group.
 
 ## Auth0 native application
 
-iOS must use a separate Auth0 **Native** application. The web application is a
-confidential client and its secret must never be embedded in the app.
+The Apple apps use a separate Auth0 **Native** application. The web application
+is a confidential client and its secret must never be embedded in a native app.
 
-Configure the Native application with both of these values:
+Configure the Native application with all four of these values:
 
 ```text
 Allowed Callback URLs:
 fun.bhushan.time://dev-2eahmbvpb8dc1wei.jp.auth0.com/ios/fun.bhushan.time/callback
+fun.bhushan.time://dev-2eahmbvpb8dc1wei.jp.auth0.com/macos/fun.bhushan.time/callback
 
 Allowed Logout URLs:
 fun.bhushan.time://dev-2eahmbvpb8dc1wei.jp.auth0.com/ios/fun.bhushan.time/callback
+fun.bhushan.time://dev-2eahmbvpb8dc1wei.jp.auth0.com/macos/fun.bhushan.time/callback
 ```
 
 Then:
@@ -68,7 +71,11 @@ Then:
    used by an Apple build, including development and production.
 3. Deploy the Convex auth configuration to each environment.
 
-No Auth0 client secret belongs in the iOS project.
+No Auth0 client secret belongs in either native target.
+
+Interactive native sign-in uses a private authentication session and asks which
+account to use. Choose the same Auth0 identity as the web app to see the same
+timers and entries.
 
 ## Widgets
 

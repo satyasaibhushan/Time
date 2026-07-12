@@ -61,7 +61,7 @@ export default async function Home() {
               </h2>
               <p className="mt-5 text-sm leading-6 text-[var(--terra-sage)]">
                 Log in or create an account to keep your timers and history synced
-                across web and iPhone.
+                across web, iPhone, and Mac.
               </p>
 
               <div className="mt-9">

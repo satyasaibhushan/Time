@@ -7,21 +7,37 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00EC4F190C5BBE2E7F991381 /* Auth0 in Frameworks */ = {isa = PBXBuildFile; productRef = 9B73E5E17D6280EB68A298E4 /* Auth0 */; };
 		01B89D164169DDD21D452030 /* SummaryWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EDA7C972C87BE6E28ABE1A /* SummaryWidget.swift */; };
 		0649BDF9808BE2DB1C0C3CE1 /* TimeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481217585466C18EF6A9DA75 /* TimeApp.swift */; };
+		07E9143E1ECC4B620523AC17 /* TimeCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3F98FEA27EE2740FA74B8673 /* TimeCore */; };
+		157F4F4FBFE5F6339F44CDDF /* EntriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3BAE54977877A74DF4280A /* EntriesView.swift */; };
 		15A4FED366020F5F81A0D83A /* FoldersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6478BC4CE2A603D52DD90E9A /* FoldersView.swift */; };
 		1A933524034003988ADCC7E8 /* AppSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED1AF2ED47D261F837A9AE0 /* AppSession.swift */; };
-		4DA89ADC2952AA5FDF40B9AA /* ConvexAuth0 in Frameworks */ = {isa = PBXBuildFile; productRef = 8492B7210B6BC6B688661A78 /* ConvexAuth0 */; };
+		42E31F77B2E8A7BBE28ECC4E /* ConvexMobile in Frameworks */ = {isa = PBXBuildFile; productRef = 6C03E2DA9A58EEE9957DCD73 /* ConvexMobile */; };
+		47088633616994B1867431CC /* TempoAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A58B15D02C7A75D84113F2 /* TempoAuthProvider.swift */; };
+		4BBB25039B05675279075478 /* TempoMacApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C52255D8CD8632E8732311A1 /* TempoMacApp.swift */; };
+		4C69FE9058947012437BAB11 /* Auth0.plist in Resources */ = {isa = PBXBuildFile; fileRef = 78263E0043BFF297C0599862 /* Auth0.plist */; };
+		4DA89ADC2952AA5FDF40B9AA /* Auth0 in Frameworks */ = {isa = PBXBuildFile; productRef = DCE4BA1EF200E50EB2ACE32C /* Auth0 */; };
 		597D3973CD7EE1790820D370 /* TimeWidgetsBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F2C6CA5C8440E6C6A283CA /* TimeWidgetsBundle.swift */; };
+		61C502F41558CFCA154529CD /* ConvexTimerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867028771E0C1149BB22E1A4 /* ConvexTimerStore.swift */; };
+		66AA997DB9990C22B64EBFE6 /* TimeTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809E7D246715AD46D2ED12B2 /* TimeTheme.swift */; };
 		690BF0FEF1CFEC85D83A79CE /* TimeCore in Frameworks */ = {isa = PBXBuildFile; productRef = F2D116BD2303873DA45BBCB3 /* TimeCore */; };
 		7E669A8D1907EA1E99DE2F87 /* EntriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3BAE54977877A74DF4280A /* EntriesView.swift */; };
+		808BC7F9606540B119A78B2A /* TimerDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD589CA54B39F87966CAE21 /* TimerDashboardView.swift */; };
 		818243CE13422869BD2D56C9 /* SummaryWidgetIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7D9AB488B707D0367857DE /* SummaryWidgetIntent.swift */; };
 		8183B46FE6346553D1D40CFC /* ConvexMobile in Frameworks */ = {isa = PBXBuildFile; productRef = 6D6A1F7B89F0323C3642B2A2 /* ConvexMobile */; };
+		8C13EE9CC359FE86C3B93EE4 /* TempoAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A58B15D02C7A75D84113F2 /* TempoAuthProvider.swift */; };
+		8FD6BC3E07EAE69913AE8C42 /* ConvexConcurrency.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBA247E937897E1BF2B043E /* ConvexConcurrency.swift */; };
 		96A65866302A1658E9FB5EF0 /* TimerDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD589CA54B39F87966CAE21 /* TimerDashboardView.swift */; };
 		97A6E4D2C7F65BBD4C67CB1C /* TimeCore in Frameworks */ = {isa = PBXBuildFile; productRef = DDA601EA0D8B74CFF06354A4 /* TimeCore */; };
 		985E3F3E32410A8912F7F04E /* ConvexTimerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867028771E0C1149BB22E1A4 /* ConvexTimerStore.swift */; };
+		9AC0411CA5590CAF50664AF5 /* LabelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6EBCD89D5DA173E00EB3E0 /* LabelsView.swift */; };
 		9C0881051CB0CCE615287D42 /* LabelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6EBCD89D5DA173E00EB3E0 /* LabelsView.swift */; };
-		B2BCAC1BF7B04FF99EF484AA /* Auth0 in Frameworks */ = {isa = PBXBuildFile; productRef = DCE4BA1EF200E50EB2ACE32C /* Auth0 */; };
+		9C3BA2CC479CE1D6D971BDA1 /* MacAppRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFCEB86EC87BE8FAE956E45D /* MacAppRootView.swift */; };
+		9FF98895DC47906B01017301 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7715A6FC135572801D176B89 /* SettingsView.swift */; };
+		A38B3C36FD8E0E504EC7072E /* AppSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED1AF2ED47D261F837A9AE0 /* AppSession.swift */; };
+		B24F730AADA4A2ACF22FEAC0 /* TerraComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF97CBEC2FC6CD5772D532C /* TerraComponents.swift */; };
 		BEAF998C9EF152B9FFE6B53C /* TimeWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3BFD67883556F9E8D91E62F8 /* TimeWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C0E2A1A8C70284AB9EDDCCF8 /* WidgetSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = D25F078311C5555CA473214E /* WidgetSupport.swift */; };
 		C1909D660E1F8AB5D50C39EB /* CurrentTimerWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977BCB61E371453128B2378F /* CurrentTimerWidget.swift */; };
@@ -29,6 +45,7 @@
 		CEC9C28E088BB8B4353972F0 /* ConvexConcurrency.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBA247E937897E1BF2B043E /* ConvexConcurrency.swift */; };
 		D9293B86B051390386820127 /* TerraComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF97CBEC2FC6CD5772D532C /* TerraComponents.swift */; };
 		E54E1B4FE85DC77682CDAA56 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7715A6FC135572801D176B89 /* SettingsView.swift */; };
+		EE4E0CA20CA9713BEF54455F /* FoldersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6478BC4CE2A603D52DD90E9A /* FoldersView.swift */; };
 		FD7F09463B2361DD1DFC0112 /* Auth0.plist in Resources */ = {isa = PBXBuildFile; fileRef = 78263E0043BFF297C0599862 /* Auth0.plist */; };
 		FDEA0992B6B3059B6E414667 /* AppRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC21138584FDBECD81C70C36 /* AppRootView.swift */; };
 /* End PBXBuildFile section */
@@ -71,14 +88,19 @@
 		7BFDD3CDEBFA5C08DC0E4DF0 /* apple */ = {isa = PBXFileReference; lastKnownFileType = folder; name = apple; path = .; sourceTree = SOURCE_ROOT; };
 		809E7D246715AD46D2ED12B2 /* TimeTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTheme.swift; sourceTree = "<group>"; };
 		867028771E0C1149BB22E1A4 /* ConvexTimerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvexTimerStore.swift; sourceTree = "<group>"; };
+		95A58B15D02C7A75D84113F2 /* TempoAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempoAuthProvider.swift; sourceTree = "<group>"; };
 		977BCB61E371453128B2378F /* CurrentTimerWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentTimerWidget.swift; sourceTree = "<group>"; };
 		9A3BAE54977877A74DF4280A /* EntriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesView.swift; sourceTree = "<group>"; };
 		9ED1AF2ED47D261F837A9AE0 /* AppSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSession.swift; sourceTree = "<group>"; };
+		A89FC4E359FE8AAF4BA39754 /* TempoMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TempoMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE7D9AB488B707D0367857DE /* SummaryWidgetIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryWidgetIntent.swift; sourceTree = "<group>"; };
+		B33E36F9850BD93C8A46ABA7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		B66D8EC514E0E497B8D3A0F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		BC21138584FDBECD81C70C36 /* AppRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRootView.swift; sourceTree = "<group>"; };
+		C52255D8CD8632E8732311A1 /* TempoMacApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempoMacApp.swift; sourceTree = "<group>"; };
 		C6F2C6CA5C8440E6C6A283CA /* TimeWidgetsBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeWidgetsBundle.swift; sourceTree = "<group>"; };
 		CEF97CBEC2FC6CD5772D532C /* TerraComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerraComponents.swift; sourceTree = "<group>"; };
+		CFCEB86EC87BE8FAE956E45D /* MacAppRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacAppRootView.swift; sourceTree = "<group>"; };
 		D25F078311C5555CA473214E /* WidgetSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetSupport.swift; sourceTree = "<group>"; };
 		D8B9FBD238427E1527478485 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		D937B11A95365CE1A26FE709 /* TimeWidgets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TimeWidgets.entitlements; sourceTree = "<group>"; };
@@ -94,20 +116,39 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B847F8A1E6D271F565CE8BDE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				07E9143E1ECC4B620523AC17 /* TimeCore in Frameworks */,
+				42E31F77B2E8A7BBE28ECC4E /* ConvexMobile in Frameworks */,
+				00EC4F190C5BBE2E7F991381 /* Auth0 in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EFE553569DD90899CD921A41 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				97A6E4D2C7F65BBD4C67CB1C /* TimeCore in Frameworks */,
 				8183B46FE6346553D1D40CFC /* ConvexMobile in Frameworks */,
-				4DA89ADC2952AA5FDF40B9AA /* ConvexAuth0 in Frameworks */,
-				B2BCAC1BF7B04FF99EF484AA /* Auth0 in Frameworks */,
+				4DA89ADC2952AA5FDF40B9AA /* Auth0 in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		063F1E54E7DA89DE8A5737FE /* TimeMacApp */ = {
+			isa = PBXGroup;
+			children = (
+				B33E36F9850BD93C8A46ABA7 /* Info.plist */,
+				CFCEB86EC87BE8FAE956E45D /* MacAppRootView.swift */,
+				C52255D8CD8632E8732311A1 /* TempoMacApp.swift */,
+			);
+			path = TimeMacApp;
+			sourceTree = "<group>";
+		};
 		6069FEB17A4CF31F3AEA972C /* TimeApp */ = {
 			isa = PBXGroup;
 			children = (
@@ -121,6 +162,7 @@
 				B66D8EC514E0E497B8D3A0F7 /* Info.plist */,
 				4B6EBCD89D5DA173E00EB3E0 /* LabelsView.swift */,
 				7715A6FC135572801D176B89 /* SettingsView.swift */,
+				95A58B15D02C7A75D84113F2 /* TempoAuthProvider.swift */,
 				CEF97CBEC2FC6CD5772D532C /* TerraComponents.swift */,
 				13A1780FD6628553B0FF496A /* Time.entitlements */,
 				481217585466C18EF6A9DA75 /* TimeApp.swift */,
@@ -143,6 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				6069FEB17A4CF31F3AEA972C /* TimeApp */,
+				063F1E54E7DA89DE8A5737FE /* TimeMacApp */,
 				C2A927B78B2D696E85112274 /* TimeWidgets */,
 			);
 			path = Sources;
@@ -151,6 +194,7 @@
 		B12BB9A0C412FDF7DA26F527 /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				A89FC4E359FE8AAF4BA39754 /* TempoMac.app */,
 				4618876CEFABE65207547455 /* Time.app */,
 				3BFD67883556F9E8D91E62F8 /* TimeWidgets.appex */,
 			);
@@ -200,11 +244,32 @@
 			packageProductDependencies = (
 				DDA601EA0D8B74CFF06354A4 /* TimeCore */,
 				6D6A1F7B89F0323C3642B2A2 /* ConvexMobile */,
-				8492B7210B6BC6B688661A78 /* ConvexAuth0 */,
 				DCE4BA1EF200E50EB2ACE32C /* Auth0 */,
 			);
 			productName = Time;
 			productReference = 4618876CEFABE65207547455 /* Time.app */;
+			productType = "com.apple.product-type.application";
+		};
+		22E227C3A073FB3BCA78EF07 /* TempoMac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 48DA7AA5236176DA1987C837 /* Build configuration list for PBXNativeTarget "TempoMac" */;
+			buildPhases = (
+				844001E287B42B385993F398 /* Sources */,
+				EB85FEE0A421562302317315 /* Resources */,
+				B847F8A1E6D271F565CE8BDE /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TempoMac;
+			packageProductDependencies = (
+				3F98FEA27EE2740FA74B8673 /* TimeCore */,
+				6C03E2DA9A58EEE9957DCD73 /* ConvexMobile */,
+				9B73E5E17D6280EB68A298E4 /* Auth0 */,
+			);
+			productName = TempoMac;
+			productReference = A89FC4E359FE8AAF4BA39754 /* TempoMac.app */;
 			productType = "com.apple.product-type.application";
 		};
 		9724F9EC36D359642E3E6DC1 /* TimeWidgets */ = {
@@ -248,7 +313,6 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				24F1A594CA8458CA96032AD8 /* XCRemoteSwiftPackageReference "Auth0.swift" */,
-				BB21FE8C39CECDBBAB669A61 /* XCRemoteSwiftPackageReference "convex-swift-auth0" */,
 				97A76EADED1BF7635ADE762E /* XCRemoteSwiftPackageReference "convex-swift" */,
 				0738FDEE787944EBC110F7D5 /* XCLocalSwiftPackageReference "." */,
 			);
@@ -257,6 +321,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				22E227C3A073FB3BCA78EF07 /* TempoMac */,
 				0360B6A2A34BE4FA520BF9EC /* Time */,
 				9724F9EC36D359642E3E6DC1 /* TimeWidgets */,
 			);
@@ -269,6 +334,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD7F09463B2361DD1DFC0112 /* Auth0.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EB85FEE0A421562302317315 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C69FE9058947012437BAB11 /* Auth0.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,6 +360,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		844001E287B42B385993F398 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A38B3C36FD8E0E504EC7072E /* AppSession.swift in Sources */,
+				8FD6BC3E07EAE69913AE8C42 /* ConvexConcurrency.swift in Sources */,
+				61C502F41558CFCA154529CD /* ConvexTimerStore.swift in Sources */,
+				157F4F4FBFE5F6339F44CDDF /* EntriesView.swift in Sources */,
+				EE4E0CA20CA9713BEF54455F /* FoldersView.swift in Sources */,
+				9AC0411CA5590CAF50664AF5 /* LabelsView.swift in Sources */,
+				9C3BA2CC479CE1D6D971BDA1 /* MacAppRootView.swift in Sources */,
+				9FF98895DC47906B01017301 /* SettingsView.swift in Sources */,
+				8C13EE9CC359FE86C3B93EE4 /* TempoAuthProvider.swift in Sources */,
+				4BBB25039B05675279075478 /* TempoMacApp.swift in Sources */,
+				B24F730AADA4A2ACF22FEAC0 /* TerraComponents.swift in Sources */,
+				66AA997DB9990C22B64EBFE6 /* TimeTheme.swift in Sources */,
+				808BC7F9606540B119A78B2A /* TimerDashboardView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BB297A6BB919E9F15410701F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -299,6 +392,7 @@
 				15A4FED366020F5F81A0D83A /* FoldersView.swift in Sources */,
 				9C0881051CB0CCE615287D42 /* LabelsView.swift in Sources */,
 				E54E1B4FE85DC77682CDAA56 /* SettingsView.swift in Sources */,
+				47088633616994B1867431CC /* TempoAuthProvider.swift in Sources */,
 				D9293B86B051390386820127 /* TerraComponents.swift in Sources */,
 				0649BDF9808BE2DB1C0C3CE1 /* TimeApp.swift in Sources */,
 				C937A7821387E97FF3582593 /* TimeTheme.swift in Sources */,
@@ -371,12 +465,12 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 0.1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 6.0;
@@ -461,6 +555,23 @@
 			};
 			name = Debug;
 		};
+		D6599C41BFA9F9D686CFC05F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Sources/TimeMacApp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = fun.bhushan.time;
+				PRODUCT_NAME = Tempo;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
 		D92DF630AE5DC8C22D461D8E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -509,14 +620,31 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 0.1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		F2F07CFCD51A9F80B8086E04 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Sources/TimeMacApp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = fun.bhushan.time;
+				PRODUCT_NAME = Tempo;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
@@ -528,6 +656,15 @@
 			buildConfigurations = (
 				B2105F143EAA82A4C4CB1899 /* Debug */,
 				6BC02D6A175A56E0025401B3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		48DA7AA5236176DA1987C837 /* Build configuration list for PBXNativeTarget "TempoMac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D6599C41BFA9F9D686CFC05F /* Debug */,
+				F2F07CFCD51A9F80B8086E04 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -576,26 +713,27 @@
 				version = 0.8.1;
 			};
 		};
-		BB21FE8C39CECDBBAB669A61 /* XCRemoteSwiftPackageReference "convex-swift-auth0" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/get-convex/convex-swift-auth0";
-			requirement = {
-				kind = exactVersion;
-				version = 0.4.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		3F98FEA27EE2740FA74B8673 /* TimeCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TimeCore;
+		};
+		6C03E2DA9A58EEE9957DCD73 /* ConvexMobile */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 97A76EADED1BF7635ADE762E /* XCRemoteSwiftPackageReference "convex-swift" */;
+			productName = ConvexMobile;
+		};
 		6D6A1F7B89F0323C3642B2A2 /* ConvexMobile */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 97A76EADED1BF7635ADE762E /* XCRemoteSwiftPackageReference "convex-swift" */;
 			productName = ConvexMobile;
 		};
-		8492B7210B6BC6B688661A78 /* ConvexAuth0 */ = {
+		9B73E5E17D6280EB68A298E4 /* Auth0 */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BB21FE8C39CECDBBAB669A61 /* XCRemoteSwiftPackageReference "convex-swift-auth0" */;
-			productName = ConvexAuth0;
+			package = 24F1A594CA8458CA96032AD8 /* XCRemoteSwiftPackageReference "Auth0.swift" */;
+			productName = Auth0;
 		};
 		DCE4BA1EF200E50EB2ACE32C /* Auth0 */ = {
 			isa = XCSwiftPackageProductDependency;

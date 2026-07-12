@@ -8,12 +8,12 @@ public enum TimerStatus: String, Codable, CaseIterable, Sendable {
     case completed
 }
 
-public enum WeekStart: String, Codable, Sendable {
+public enum WeekStart: String, Codable, Equatable, Sendable {
     case monday
     case sunday
 }
 
-public enum TimeFormat: String, Codable, Sendable {
+public enum TimeFormat: String, Codable, Equatable, Sendable {
     case twelveHour = "12h"
     case twentyFourHour = "24h"
 }

@@ -1,13 +1,13 @@
 # Time
 
-The Web MVP is complete and ready for production deployment. After the web
-release, development moves to the native iOS app on the same Convex backend and
-Auth0 identity model.
+The Web MVP and native iOS app share the same Convex backend and Auth0 identity
+model. Native macOS development uses the same SwiftUI feature layer and timer
+sync behavior.
 
 The `pnpm` monorepo contains:
 
 - `apps/web` for the Next.js web app
-- `apps/apple` for the shared Swift core and future iOS/macOS app targets
+- `apps/apple` for the shared Swift core plus native iOS and macOS targets
 - `convex` for backend code
 - `packages/shared` for shared TypeScript code
 
@@ -46,7 +46,7 @@ For local Auth0 setup, register these URLs in your Auth0 application:
 
 1. Deploy the Next.js web app and Convex backend.
 2. Run the production smoke test.
-3. Install full Xcode and attach the SwiftUI iOS target to `apps/apple/TimeCore`.
+3. Build and QA the native iOS and macOS targets from `apps/apple/Time.xcodeproj`.
 
 ## Production Deployment
 
