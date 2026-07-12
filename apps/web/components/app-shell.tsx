@@ -5,8 +5,10 @@ import { usePathname } from "next/navigation";
 import type { LucideIcon } from "lucide-react";
 import {
   BookOpenText,
+  Download,
   FolderTree,
   Gauge,
+  Github,
   LogOut,
   Settings,
   Tags,
@@ -124,7 +126,27 @@ export function AppShell({
               })}
             </nav>
 
-            <div className="mt-auto hidden items-center gap-2.5 lg:flex">
+            <div className="grid grid-cols-[minmax(0,1fr)_42px] gap-2 lg:mt-auto">
+              <a
+                href="https://github.com/satyasaibhushan/Time/releases/latest/download/Tempo.zip"
+                className="flex h-[42px] items-center justify-between rounded-xl border border-[var(--border)] bg-[var(--card)] px-3 text-xs font-semibold text-[var(--terra-pine)] transition-colors hover:bg-[var(--secondary)]"
+              >
+                Download for Mac
+                <Download className="size-4" />
+              </a>
+              <a
+                href="https://github.com/satyasaibhushan/Time"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="View Tempo on GitHub"
+                title="View Tempo on GitHub"
+                className="grid size-[42px] place-items-center rounded-xl border border-[var(--border)] bg-[var(--card)] text-[var(--terra-pine)] transition-colors hover:bg-[var(--secondary)]"
+              >
+                <Github className="size-4" />
+              </a>
+            </div>
+
+            <div className="hidden items-center gap-2.5 lg:flex">
               {user.imageUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
