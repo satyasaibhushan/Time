@@ -23,11 +23,14 @@
 		61C502F41558CFCA154529CD /* ConvexTimerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867028771E0C1149BB22E1A4 /* ConvexTimerStore.swift */; };
 		66AA997DB9990C22B64EBFE6 /* TimeTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809E7D246715AD46D2ED12B2 /* TimeTheme.swift */; };
 		690BF0FEF1CFEC85D83A79CE /* TimeCore in Frameworks */ = {isa = PBXBuildFile; productRef = F2D116BD2303873DA45BBCB3 /* TimeCore */; };
+		6E683C52E88142C933A7AE25 /* TimeCore in Frameworks */ = {isa = PBXBuildFile; productRef = 0489CE6582776C82910719E9 /* TimeCore */; };
 		7E669A8D1907EA1E99DE2F87 /* EntriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3BAE54977877A74DF4280A /* EntriesView.swift */; };
 		808BC7F9606540B119A78B2A /* TimerDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD589CA54B39F87966CAE21 /* TimerDashboardView.swift */; };
 		818243CE13422869BD2D56C9 /* SummaryWidgetIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7D9AB488B707D0367857DE /* SummaryWidgetIntent.swift */; };
 		8183B46FE6346553D1D40CFC /* ConvexMobile in Frameworks */ = {isa = PBXBuildFile; productRef = 6D6A1F7B89F0323C3642B2A2 /* ConvexMobile */; };
+		892117325EF4ECCEC7389A70 /* SummaryWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EDA7C972C87BE6E28ABE1A /* SummaryWidget.swift */; };
 		8C13EE9CC359FE86C3B93EE4 /* TempoAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A58B15D02C7A75D84113F2 /* TempoAuthProvider.swift */; };
+		8C7B63156046B050599B4C6C /* TimeWidgetsBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F2C6CA5C8440E6C6A283CA /* TimeWidgetsBundle.swift */; };
 		8FD6BC3E07EAE69913AE8C42 /* ConvexConcurrency.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBA247E937897E1BF2B043E /* ConvexConcurrency.swift */; };
 		96A65866302A1658E9FB5EF0 /* TimerDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD589CA54B39F87966CAE21 /* TimerDashboardView.swift */; };
 		97A6E4D2C7F65BBD4C67CB1C /* TimeCore in Frameworks */ = {isa = PBXBuildFile; productRef = DDA601EA0D8B74CFF06354A4 /* TimeCore */; };
@@ -38,6 +41,7 @@
 		9FF98895DC47906B01017301 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7715A6FC135572801D176B89 /* SettingsView.swift */; };
 		A38B3C36FD8E0E504EC7072E /* AppSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED1AF2ED47D261F837A9AE0 /* AppSession.swift */; };
 		B24F730AADA4A2ACF22FEAC0 /* TerraComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF97CBEC2FC6CD5772D532C /* TerraComponents.swift */; };
+		B85FE59BAC9C74FC63180945 /* CurrentTimerWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977BCB61E371453128B2378F /* CurrentTimerWidget.swift */; };
 		BEAF998C9EF152B9FFE6B53C /* TimeWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3BFD67883556F9E8D91E62F8 /* TimeWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C0E2A1A8C70284AB9EDDCCF8 /* WidgetSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = D25F078311C5555CA473214E /* WidgetSupport.swift */; };
 		C1909D660E1F8AB5D50C39EB /* CurrentTimerWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977BCB61E371453128B2378F /* CurrentTimerWidget.swift */; };
@@ -45,12 +49,22 @@
 		CEC9C28E088BB8B4353972F0 /* ConvexConcurrency.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBA247E937897E1BF2B043E /* ConvexConcurrency.swift */; };
 		D9293B86B051390386820127 /* TerraComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF97CBEC2FC6CD5772D532C /* TerraComponents.swift */; };
 		E54E1B4FE85DC77682CDAA56 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7715A6FC135572801D176B89 /* SettingsView.swift */; };
+		ED0F37C5B68EFD5FD053DAC8 /* WidgetSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = D25F078311C5555CA473214E /* WidgetSupport.swift */; };
 		EE4E0CA20CA9713BEF54455F /* FoldersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6478BC4CE2A603D52DD90E9A /* FoldersView.swift */; };
+		F19BC8A438422C5FF47DF099 /* SummaryWidgetIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7D9AB488B707D0367857DE /* SummaryWidgetIntent.swift */; };
+		FA6ABC4531C83AF8D9D0B528 /* TempoMacWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = E15FF1939F0466403CC8C228 /* TempoMacWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		FD7F09463B2361DD1DFC0112 /* Auth0.plist in Resources */ = {isa = PBXBuildFile; fileRef = 78263E0043BFF297C0599862 /* Auth0.plist */; };
 		FDEA0992B6B3059B6E414667 /* AppRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC21138584FDBECD81C70C36 /* AppRootView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		4836A3D84B3324AC3905ECA4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20933EE27E34F28EBCB7DB1D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B214D9E239BC16B24B2A5134;
+			remoteInfo = TempoMacWidgets;
+		};
 		B1E1A0870902AFB72ACD23CA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 20933EE27E34F28EBCB7DB1D /* Project object */;
@@ -61,6 +75,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		3E992DEE8E3373781FB34C54 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				FA6ABC4531C83AF8D9D0B528 /* TempoMacWidgets.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F6DAE2EC2953251299AF7400 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -76,6 +101,7 @@
 
 /* Begin PBXFileReference section */
 		13A1780FD6628553B0FF496A /* Time.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Time.entitlements; sourceTree = "<group>"; };
+		1D7B81AA1A0BF7060174C774 /* TempoMac.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TempoMac.entitlements; sourceTree = "<group>"; };
 		3BFD67883556F9E8D91E62F8 /* TimeWidgets.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = TimeWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		4618876CEFABE65207547455 /* Time.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Time.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		481217585466C18EF6A9DA75 /* TimeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeApp.swift; sourceTree = "<group>"; };
@@ -104,10 +130,19 @@
 		D25F078311C5555CA473214E /* WidgetSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetSupport.swift; sourceTree = "<group>"; };
 		D8B9FBD238427E1527478485 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		D937B11A95365CE1A26FE709 /* TimeWidgets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TimeWidgets.entitlements; sourceTree = "<group>"; };
+		E15FF1939F0466403CC8C228 /* TempoMacWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TempoMacWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFBA247E937897E1BF2B043E /* ConvexConcurrency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvexConcurrency.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		79A23BBF0BDDF4621999CF13 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6E683C52E88142C933A7AE25 /* TimeCore in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B0465646EA16D4456739A372 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -144,6 +179,7 @@
 			children = (
 				B33E36F9850BD93C8A46ABA7 /* Info.plist */,
 				CFCEB86EC87BE8FAE956E45D /* MacAppRootView.swift */,
+				1D7B81AA1A0BF7060174C774 /* TempoMac.entitlements */,
 				C52255D8CD8632E8732311A1 /* TempoMacApp.swift */,
 			);
 			path = TimeMacApp;
@@ -195,6 +231,7 @@
 			isa = PBXGroup;
 			children = (
 				A89FC4E359FE8AAF4BA39754 /* TempoMac.app */,
+				E15FF1939F0466403CC8C228 /* TempoMacWidgets.appex */,
 				4618876CEFABE65207547455 /* Time.app */,
 				3BFD67883556F9E8D91E62F8 /* TimeWidgets.appex */,
 			);
@@ -257,10 +294,12 @@
 				844001E287B42B385993F398 /* Sources */,
 				EB85FEE0A421562302317315 /* Resources */,
 				B847F8A1E6D271F565CE8BDE /* Frameworks */,
+				3E992DEE8E3373781FB34C54 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				D857D70F3D92F94263C0DF5F /* PBXTargetDependency */,
 			);
 			name = TempoMac;
 			packageProductDependencies = (
@@ -289,6 +328,25 @@
 			);
 			productName = TimeWidgets;
 			productReference = 3BFD67883556F9E8D91E62F8 /* TimeWidgets.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		B214D9E239BC16B24B2A5134 /* TempoMacWidgets */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 81212B6DE72134CCA257E085 /* Build configuration list for PBXNativeTarget "TempoMacWidgets" */;
+			buildPhases = (
+				13DDB9D43D56BE008C092FE1 /* Sources */,
+				79A23BBF0BDDF4621999CF13 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TempoMacWidgets;
+			packageProductDependencies = (
+				0489CE6582776C82910719E9 /* TimeCore */,
+			);
+			productName = TempoMacWidgets;
+			productReference = E15FF1939F0466403CC8C228 /* TempoMacWidgets.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
@@ -322,6 +380,7 @@
 			projectRoot = "";
 			targets = (
 				22E227C3A073FB3BCA78EF07 /* TempoMac */,
+				B214D9E239BC16B24B2A5134 /* TempoMacWidgets */,
 				0360B6A2A34BE4FA520BF9EC /* Time */,
 				9724F9EC36D359642E3E6DC1 /* TimeWidgets */,
 			);
@@ -357,6 +416,18 @@
 				818243CE13422869BD2D56C9 /* SummaryWidgetIntent.swift in Sources */,
 				597D3973CD7EE1790820D370 /* TimeWidgetsBundle.swift in Sources */,
 				C0E2A1A8C70284AB9EDDCCF8 /* WidgetSupport.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		13DDB9D43D56BE008C092FE1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B85FE59BAC9C74FC63180945 /* CurrentTimerWidget.swift in Sources */,
+				892117325EF4ECCEC7389A70 /* SummaryWidget.swift in Sources */,
+				F19BC8A438422C5FF47DF099 /* SummaryWidgetIntent.swift in Sources */,
+				8C7B63156046B050599B4C6C /* TimeWidgetsBundle.swift in Sources */,
+				ED0F37C5B68EFD5FD053DAC8 /* WidgetSupport.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -407,6 +478,11 @@
 			isa = PBXTargetDependency;
 			target = 9724F9EC36D359642E3E6DC1 /* TimeWidgets */;
 			targetProxy = B1E1A0870902AFB72ACD23CA /* PBXContainerItemProxy */;
+		};
+		D857D70F3D92F94263C0DF5F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B214D9E239BC16B24B2A5134 /* TempoMacWidgets */;
+			targetProxy = 4836A3D84B3324AC3905ECA4 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -497,6 +573,46 @@
 			};
 			name = Debug;
 		};
+		186E73CF81E3FB65D0D1C30A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = Sources/TimeMacWidgets/TempoMacWidgets.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Sources/TimeMacWidgets/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = fun.bhushan.time.macwidgets;
+				PRODUCT_NAME = TempoMacWidgets;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		1AAC1774034103427D636727 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = Sources/TimeMacWidgets/TempoMacWidgets.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Sources/TimeMacWidgets/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = fun.bhushan.time.macwidgets;
+				PRODUCT_NAME = TempoMacWidgets;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 		58074F284E178A35C8AD3A42 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -559,6 +675,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Sources/TimeMacApp/TempoMac.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Sources/TimeMacApp/Info.plist;
@@ -635,6 +752,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Sources/TimeMacApp/TempoMac.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Sources/TimeMacApp/Info.plist;
@@ -678,6 +796,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
+		81212B6DE72134CCA257E085 /* Build configuration list for PBXNativeTarget "TempoMacWidgets" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				186E73CF81E3FB65D0D1C30A /* Debug */,
+				1AAC1774034103427D636727 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		F69250FA3E1E51E9BFC1F8D2 /* Build configuration list for PBXNativeTarget "TimeWidgets" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -716,6 +843,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0489CE6582776C82910719E9 /* TimeCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TimeCore;
+		};
 		3F98FEA27EE2740FA74B8673 /* TimeCore */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = TimeCore;

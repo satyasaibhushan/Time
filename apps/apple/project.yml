@@ -85,11 +85,35 @@ targets:
         product: ConvexMobile
       - package: Auth0
         product: Auth0
+      - target: TempoMacWidgets
+        embed: true
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: fun.bhushan.time
         PRODUCT_NAME: Tempo
+        CODE_SIGN_ENTITLEMENTS: Sources/TimeMacApp/TempoMac.entitlements
         GENERATE_INFOPLIST_FILE: false
         INFOPLIST_FILE: Sources/TimeMacApp/Info.plist
     scheme:
       gatherCoverageData: false
+
+  TempoMacWidgets:
+    type: app-extension
+    platform: macOS
+    sources:
+      - path: Sources/TimeWidgets
+        excludes:
+          - Info.plist
+          - TimeWidgets.entitlements
+    dependencies:
+      - package: TimeApple
+        product: TimeCore
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: fun.bhushan.time.macwidgets
+        PRODUCT_NAME: TempoMacWidgets
+        INFOPLIST_FILE: Sources/TimeMacWidgets/Info.plist
+        GENERATE_INFOPLIST_FILE: false
+        CODE_SIGN_ENTITLEMENTS: Sources/TimeMacWidgets/TempoMacWidgets.entitlements
+        APPLICATION_EXTENSION_API_ONLY: true
+        SKIP_INSTALL: true

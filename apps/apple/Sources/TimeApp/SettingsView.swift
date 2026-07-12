@@ -33,6 +33,7 @@ struct SettingsView: View {
                     }
 
                     macAccountCard
+                    widgetCard
                     #else
                     TerraPageHeader(
                         kicker: "Account / setup",
@@ -309,7 +310,7 @@ struct SettingsView: View {
 
     private var setupSubtitle: String {
         #if os(macOS)
-        "Your account and synchronization status in one quiet place."
+        "Your account, synchronization status, and widget setup in one quiet place."
         #else
         "Your account, synchronization status, and widget setup in one quiet place."
         #endif
@@ -317,7 +318,7 @@ struct SettingsView: View {
 
     private var widgetTitle: String {
         #if os(macOS)
-        "iPhone widgets"
+        "Desktop widgets"
         #else
         "Home Screen widgets"
         #endif
@@ -325,7 +326,7 @@ struct SettingsView: View {
 
     private var widgetDescription: String {
         #if os(macOS)
-        "Tempo on iPhone includes a compact current-timer widget and a wide day, week, or month summary."
+        "Add the compact current-timer widget or a configurable day, week, or month summary to your desktop."
         #else
         "Add the compact widget for the current timer, or the wide summary widget for a filtered day, week, or month."
         #endif
@@ -333,7 +334,7 @@ struct SettingsView: View {
 
     private var widgetInstruction: String {
         #if os(macOS)
-        "On iPhone: long-press the Home Screen → Edit → Add Widget → Tempo"
+        "Control-click the desktop → Edit Widgets → Tempo"
         #else
         "Long-press the Home Screen → Edit → Add Widget → Tempo"
         #endif

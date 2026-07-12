@@ -134,6 +134,10 @@ struct CurrentTimerWidget: Widget {
         }
         .configurationDisplayName("Current timer")
         .description("See the timer that is running right now.")
+        #if os(macOS)
+        .supportedFamilies([.systemSmall])
+        #else
         .supportedFamilies([.systemSmall, .accessoryRectangular])
+        #endif
     }
 }
