@@ -24,6 +24,7 @@
 		66AA997DB9990C22B64EBFE6 /* TimeTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809E7D246715AD46D2ED12B2 /* TimeTheme.swift */; };
 		690BF0FEF1CFEC85D83A79CE /* TimeCore in Frameworks */ = {isa = PBXBuildFile; productRef = F2D116BD2303873DA45BBCB3 /* TimeCore */; };
 		6E683C52E88142C933A7AE25 /* TimeCore in Frameworks */ = {isa = PBXBuildFile; productRef = 0489CE6582776C82910719E9 /* TimeCore */; };
+		7631A19688BF29B8F219205F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FFBD00250C0CDA10549A25EE /* Assets.xcassets */; };
 		7E669A8D1907EA1E99DE2F87 /* EntriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3BAE54977877A74DF4280A /* EntriesView.swift */; };
 		808BC7F9606540B119A78B2A /* TimerDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD589CA54B39F87966CAE21 /* TimerDashboardView.swift */; };
 		818243CE13422869BD2D56C9 /* SummaryWidgetIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7D9AB488B707D0367857DE /* SummaryWidgetIntent.swift */; };
@@ -39,6 +40,7 @@
 		9C0881051CB0CCE615287D42 /* LabelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6EBCD89D5DA173E00EB3E0 /* LabelsView.swift */; };
 		9C3BA2CC479CE1D6D971BDA1 /* MacAppRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFCEB86EC87BE8FAE956E45D /* MacAppRootView.swift */; };
 		9FF98895DC47906B01017301 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7715A6FC135572801D176B89 /* SettingsView.swift */; };
+		A3271E787675E50CCEBB37C5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FFBD00250C0CDA10549A25EE /* Assets.xcassets */; };
 		A38B3C36FD8E0E504EC7072E /* AppSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED1AF2ED47D261F837A9AE0 /* AppSession.swift */; };
 		B24F730AADA4A2ACF22FEAC0 /* TerraComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF97CBEC2FC6CD5772D532C /* TerraComponents.swift */; };
 		B85FE59BAC9C74FC63180945 /* CurrentTimerWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977BCB61E371453128B2378F /* CurrentTimerWidget.swift */; };
@@ -132,6 +134,7 @@
 		D937B11A95365CE1A26FE709 /* TimeWidgets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TimeWidgets.entitlements; sourceTree = "<group>"; };
 		E15FF1939F0466403CC8C228 /* TempoMacWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TempoMacWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFBA247E937897E1BF2B043E /* ConvexConcurrency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvexConcurrency.swift; sourceTree = "<group>"; };
+		FFBD00250C0CDA10549A25EE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,9 +220,18 @@
 			);
 			sourceTree = "<group>";
 		};
+		9A5B8004A69B5DDD074637B8 /* SharedAssets */ = {
+			isa = PBXGroup;
+			children = (
+				FFBD00250C0CDA10549A25EE /* Assets.xcassets */,
+			);
+			path = SharedAssets;
+			sourceTree = "<group>";
+		};
 		9D7B33349A510206ADFDDCCD /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				9A5B8004A69B5DDD074637B8 /* SharedAssets */,
 				6069FEB17A4CF31F3AEA972C /* TimeApp */,
 				063F1E54E7DA89DE8A5737FE /* TimeMacApp */,
 				C2A927B78B2D696E85112274 /* TimeWidgets */,
@@ -392,6 +404,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A3271E787675E50CCEBB37C5 /* Assets.xcassets in Resources */,
 				FD7F09463B2361DD1DFC0112 /* Auth0.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -400,6 +413,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7631A19688BF29B8F219205F /* Assets.xcassets in Resources */,
 				4C69FE9058947012437BAB11 /* Auth0.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

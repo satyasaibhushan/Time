@@ -29,6 +29,8 @@ targets:
     platform: iOS
     sources:
       - path: Sources/TimeApp
+      - path: Sources/SharedAssets/Assets.xcassets
+        buildPhase: resources
     dependencies:
       - package: TimeApple
         product: TimeCore
@@ -78,6 +80,8 @@ targets:
           - Time.entitlements
           - TimeApp.swift
       - path: Sources/TimeMacApp
+      - path: Sources/SharedAssets/Assets.xcassets
+        buildPhase: resources
     dependencies:
       - package: TimeApple
         product: TimeCore
