@@ -39,11 +39,14 @@ swift test
 Create the Apple Silicon release archive used by GitHub Releases:
 
 ```bash
-zsh apps/apple/Scripts/package-macos.sh /tmp/Tempo.zip
+CONVEX_URL=https://your-deployment.convex.cloud \
+  zsh apps/apple/Scripts/package-macos.sh /tmp/Tempo.zip
 ```
 
 Pushing a `v*` tag builds an ad-hoc-signed `Tempo.zip` release asset. Developer
-ID signing and notarization remain a separate distribution step.
+ID signing and notarization remain a separate distribution step. The release
+workflow reads `CONVEX_URL` from the repository's GitHub Actions variables and
+fails before building when it is missing or invalid.
 
 Generate and open the Apple project:
 
@@ -52,8 +55,9 @@ xcodegen generate
 open Time.xcodeproj
 ```
 
-The app currently uses the configured `silent-bat-335` Convex deployment.
-Active timers, recent entries, folders, and labels update through live
+Set `CONVEX_URL` in the Xcode scheme's runtime environment for local runs. The
+release packaging script embeds the same environment value into both Apple app
+bundles. Active timers, recent entries, folders, and labels update through live
 subscriptions; all native management actions call the existing Convex
 mutations. Synced data is also published to the widget App Group.
 
@@ -102,6 +106,8 @@ adapter only needs to publish the user's current entries and filter options.
 ## Environment rules
 
 - Never commit Auth0 secrets or tokens.
+- Never hardcode a Convex deployment URL; provide `CONVEX_URL` through the
+  runtime or build environment.
 - Pin official Swift packages through `Package.resolved`.
 - Use a public Auth0 Native client ID; never use the web client secret.
 - Production points to the same Convex deployment as the released web app.

@@ -62,6 +62,36 @@ import Testing
     }
 }
 
+@Test func environmentUsesRuntimeValueBeforeEmbeddedBuildValue() throws {
+    let environment = try NativeEnvironment.configured(
+        environment: [
+            "CONVEX_URL": "https://runtime-deployment.convex.cloud",
+        ],
+        infoDictionary: [
+            "ConvexURL": "https://embedded-deployment.convex.cloud",
+        ]
+    )
+
+    #expect(environment.convexURL.host == "runtime-deployment.convex.cloud")
+}
+
+@Test func environmentUsesEmbeddedBuildValueWhenRuntimeValueIsMissing() throws {
+    let environment = try NativeEnvironment.configured(
+        environment: [:],
+        infoDictionary: [
+            "ConvexURL": "https://embedded-deployment.convex.cloud",
+        ]
+    )
+
+    #expect(environment.convexURL.host == "embedded-deployment.convex.cloud")
+}
+
+@Test func environmentRejectsMissingConfiguration() {
+    #expect(throws: NativeEnvironment.ConfigurationError.missingConvexURL) {
+        try NativeEnvironment.configured(environment: [:], infoDictionary: [:])
+    }
+}
+
 @Test func convexModelsDecodeDocumentMetadata() throws {
     let json = """
     {

@@ -18,16 +18,25 @@ final class AppSession {
     private(set) var errorMessage: String?
 
     @ObservationIgnored
-    private let client = ConvexClientWithAuth<Credentials>(
-        deploymentUrl: "https://silent-bat-335.eu-west-1.convex.cloud",
-        authProvider: TempoAuthProvider()
-    )
+    private let client: ConvexClientWithAuth<Credentials>
 #if !os(macOS)
     @ObservationIgnored
     private let credentialsManager = CredentialsManager(authentication: Auth0.authentication())
 #endif
     @ObservationIgnored
     private var didRestore = false
+
+    init() {
+        do {
+            let environment = try NativeEnvironment.configured()
+            client = ConvexClientWithAuth<Credentials>(
+                deploymentUrl: environment.convexURL.absoluteString,
+                authProvider: TempoAuthProvider()
+            )
+        } catch {
+            preconditionFailure("Tempo configuration error: \(error.localizedDescription)")
+        }
+    }
 
     func restoreIfNeeded() async {
         guard !didRestore else { return }

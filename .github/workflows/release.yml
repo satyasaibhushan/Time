@@ -17,6 +17,8 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build Apple Silicon app
+        env:
+          CONVEX_URL: ${{ vars.CONVEX_URL }}
         run: zsh apps/apple/Scripts/package-macos.sh "$GITHUB_WORKSPACE/Tempo.zip"
 
       - name: Publish GitHub release
