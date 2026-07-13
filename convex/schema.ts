@@ -76,14 +76,4 @@ export default defineSchema({
     .index("by_user_status", ["userId", "status"])
     .index("by_user_started_at", ["userId", "startedAt"])
     .index("by_user_folder", ["userId", "folderId"]),
-
-  // Records completed cross-deployment imports so retries never duplicate data.
-  migrationImports: defineTable({
-    userId: v.id("users"),
-    sourceUserId: v.string(),
-    folderCount: v.number(),
-    labelCount: v.number(),
-    entryCount: v.number(),
-    completedAt: v.number(),
-  }).index("by_user_source", ["userId", "sourceUserId"]),
 });
